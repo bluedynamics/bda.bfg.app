@@ -1,0 +1,8 @@
+<li>
+  <h2>Personal tools</h2>
+  <ul>
+    <li>
+      <a href="${'/'.join([request.application_url, 'logout'])}">Logout</a>
+    </li>
+  </ul>
+</li>

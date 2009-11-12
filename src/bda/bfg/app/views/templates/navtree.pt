@@ -1,0 +1,4 @@
+<li>
+  <h2>Navigation</h2>
+  <tal:tree replace="structure context.rendertree(context.navtree()['children'])" />
+</li>

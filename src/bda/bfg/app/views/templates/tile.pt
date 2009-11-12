@@ -1,0 +1,1 @@
+<tal:tile replace="structure tile(request.params.get('_n'))" />

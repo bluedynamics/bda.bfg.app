@@ -1,0 +1,49 @@
+a.logolink:click {
+    evt-click-preventdefault: True;
+    action-server: ksstile;
+    ksstile-tilename: kssroot;
+    ksstile-href: nodeAttr('href');
+}
+a.mainmenulink:click {
+    evt-click-preventdefault: True;
+    action-server: ksstile;
+    ksstile-tilename: mainmenu;
+    ksstile-href: nodeAttr('href');
+}
+li.navtreeitem a:click {
+    evt-click-preventdefault: True;
+    action-server: ksstile;
+    ksstile-tilename: navtree;
+    ksstile-href: nodeAttr('href');
+}
+#loginform input.formaction:click {
+    evt-click-preventdefault: True;
+    action-server: ksstile;
+    ksstile-tilename: loginform;
+    ksstile-path: '';
+    ksstile-formaction: nodeAttr('name');
+    ksstile-kssSubmitForm: currentForm();
+}
+
+/* example kss form */
+#testform input.formaction:click {
+    evt-click-preventdefault: True;
+    action-server: ksstile;
+    ksstile-tilename: testform;
+    ksstile-path: nodeAttr('alt');
+    ksstile-formaction: nodeAttr('name');
+    ksstile-kssSubmitForm: currentForm();
+}
+/* example kss batch */
+#testbatch .batch a:click {
+    evt-click-preventdefault: True;
+    action-server: ksstile;
+    ksstile-tilename: testbatch;
+    ksstile-href: nodeAttr('href');
+}
+#testbatch .batch img.batchlink:click {
+    evt-click-preventdefault: True;
+    action-server: ksstile;
+    ksstile-tilename: testbatch;
+    ksstile-href: nodeAttr('name');
+}
