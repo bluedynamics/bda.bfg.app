@@ -88,6 +88,10 @@ class AppStateFactory(object):
             path = request.params.get('path', None)
             if path is not None:
                 kw['path'] = [p for p in path.split('/') if p]
+        # XXX: TODO: "@mcdonc> (note that only names with dots in them are 
+        # considered allowable by wsgi this way, that's why i put foo.bar 
+        # rather than just foo)"
+        # make it "bda.appstate"
         environ['appstate'] = AppState(**kw)
         return self.application(environ, start_response)
     
