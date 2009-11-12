@@ -1,6 +1,6 @@
 from urlparse import urlsplit
 from zope.interface import implements
-from repoze.bfg.request import request_factory
+from webob import Request
 
 def appstate(request):
     """Function to query the current appstate.
@@ -72,7 +72,7 @@ class AppStateFactory(object):
     def __call__(self, environ, start_response):
         """Create the AppState object for request and set it to environ.
         """
-        request = request_factory(environ)
+        request = Request(environ)
         kw = dict()
         self.config = AppStateConfig()
         for name in self.config.state_members:
