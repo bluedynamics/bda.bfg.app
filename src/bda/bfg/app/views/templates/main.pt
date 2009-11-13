@@ -54,7 +54,7 @@ Released   : 20090622
         </div>
 
         <div id="search">
-          <form method="get" action="">
+          <form method="get" action="" tal:condition="None">
             <fieldset>
               <input type="text" name="s" id="search-text" size="15" />
               <input type="submit" id="search-submit" value="GO" />
