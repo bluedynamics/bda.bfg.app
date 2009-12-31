@@ -13,46 +13,40 @@ Application egg
 ---------------
 
 Create your application egg and make it depend on ``bda.bfg.app``. You must
-depend you application as well to your prefered ``repoze.what`` plugin, in our
-case this is ``repoze.what.plugins.ini``.
+depend your application as well to your prefered ``repoze.what`` plugin, i.e. 
+here on ``repoze.what.plugins.ini``.
 
-You have to include the package ``bda.bfg.app`` in the ``configure.zcml`` of
-your application egg to make sure everything needed to run the framework is
+Include the package ``bda.bfg.app`` in the ``configure.zcml`` of your 
+application egg to make sure everything needed to run the framework is
 available::
 
-  <configure xmlns="http://namespaces.repoze.org/bfg">
-    <include package="bda.bfg.app" />
-    ...
-  </configure>
+    <configure xmlns="http://namespaces.repoze.org/bfg">
+        <include package="bda.bfg.app" />
+        ...
+    </configure>
 
 Buildout
 --------
 
-We use Paster for WSGI deployment and buildout for the application setup,
-thus your (self contained) buildout configuration might look like this::
+Assuming ``Paster`` for WSGI deployment and buildout for the application setup,
+your (self contained) buildout configuration might look like this::
 
-  [buildout]
-  extensions = buildout.dumppickedversions
-  parts = instance omelette
-  eggs-directory = ${buildout:directory}/eggs
-  find-links = 
-      http://dist.repoze.org/bfg/1.0/
-      http://dist.repoze.org/lemonade/dev/ 
-  develop = .
+    [buildout]
+    parts = instance
+    eggs-directory = ${buildout:directory}/eggs
+    find-links = 
+        http://dist.repoze.org/bfg/1.2/
+    develop = .
         
-  [instance]
-  recipe = repoze.recipe.egg:scripts
-  eggs =
-      your.application.egg
-
-  [omelette]
-  recipe = collective.recipe.omelette
-  eggs = ${instance:eggs}
+    [instance]
+    recipe = repoze.recipe.egg:scripts
+    eggs =
+        your.application.egg
 
 Authentication and Authorization Configuration
 ----------------------------------------------
 
-You need to configure ``repoze.who`` and ``repoze.what`` by providing the
+Configure ``repoze.who`` and ``repoze.what`` by providing the
 corresponding configuration files (locate them inside your egg root).
 
 We configure ``repoze.who`` to use HTTP basic auth via a ``htaccess`` file.
@@ -97,8 +91,8 @@ This is how our ``who.ini`` looks like::
   [challengers]
   plugins = form
  
- Now we create the ``repoze.what`` configuration, which defines the plugins to
- use for recognizing permissions and groups.
+ Create ``repoze.what`` configuration, defining plugins to use recognizing 
+ permissions and groups.
  
  The file ``what.ini`` looks like this for using the ``repoze.what.plugins.ini``
  adapters::
@@ -158,64 +152,70 @@ somewhat like this::
 Provide the application model
 -----------------------------
 
-We defined the entry point yourapplication#app in our WSGI pipeline config,
-thus we have to define this entry point as well in the application egg's
-setup.py::
+Define the entry point ``yourapplication#app`` in WSGI pipeline configuration.
+Add this entry point as well in the application egg's ``setup.py``::
 
-  >>> entry_points = """\
-  ... [paste.app_factory]
-  ... app = yourapplication.run:app
-  ... """
+    setup(  
+        #...  
+        entry_points="""\
+            [paste.app_factory]
+            app = yourapplication.run:app
+        """
+        #...
+    )
 
-Now we add the file ``run.py`` and define the ``run`` function, which is
+Add a file ``run.py`` and define the ``run`` function, which is
 responsible to create the application.
+::
 
-  >>> from repoze.bfg.router import make_app
-  >>> def app(global_config, **kw):
-  ...     from yourapplication.model import get_root
-  ...     import yourapplication
-  ...     return make_app(get_root, yourapplication, options=kw)
+    from repoze.bfg.router import make_app
+    
+    def app(global_config, **kw):
+        from yourapplication.model import get_root
+        import yourapplication
+        return make_app(get_root, yourapplication, options=kw)
 
 The imported get_root function is responsible to provide the application model
 root node. Create the file ``model.py`` which looks like::
 
-  >>> from repoze.bfg.security import Everyone
-  >>> from repoze.bfg.security import Allow
-  >>> from bda.bfg.app.model import Base  
+    from repoze.bfg.security import Everyone
+    from repoze.bfg.security import Allow
+    from bda.bfg.app.model import Base  
 
-  >>> class Root(Base):
-  ...     __acl__ = [
-  ...         (Allow, Everyone, 'view'),
-  ...     ]
-  ...     factories = {}
+    class Root(Base):
+        __acl__ = [
+            (Allow, Everyone, 'view'),
+        ]
+        factories = {}
        
-  >>> root = Root()
+    root = Root()
 
-  >>> def get_root(environ):
-  ...     return root
+    def get_root(environ):
+        return root
 
 Provide a content view for your root model node
 -----------------------------------------------
 
-To get the application finally up and run, we have to provide a tile
-named ``content`` for the root node to be able to render it. Create a file
-named ``views.py`` in you application egg and define the root contant tile.
-For more information about tiles see ``bda.bfg.tile`` documentation.
+Now providing a tile is needed. Name it ``content`` and register it for the root 
+node in order to render it. 
 
-  >>> from bda.bfg.tile import registerTile
-  >>> from yourapplication.model import Root
-  >>> registerTile('content',
-                   path='yourapplication:templates/rootview.pt',
-                   interface=Root)
+Create a file named ``views.py`` in you application egg. Define the root 
+content tile. For more information about tiles see ``bda.bfg.tile`` 
+documentation.
 
-Sure you need to create the ``rootview.pt`` template at the pointed location.
-This template represents the view for the layout's content area on the
-application model root.
+    from bda.bfg.tile import registerTile
+    from yourapplication.model import Root
+    registerTile('content',
+                 path='yourapplication:templates/rootview.pt',
+                 interface=Root)
+
+Also create the ``rootview.pt`` template at the pointed location. It represents 
+the view for the content area on the application model root.
 
 Now add the following line to your applications configure.zcml to scan the
 available views::
 
-  <scan package=".views" />
+     <scan package=".views" />
 
 Test the setup
 --------------

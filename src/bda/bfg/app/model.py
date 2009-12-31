@@ -7,19 +7,27 @@ from repoze.bfg.security import Deny
 from repoze.bfg.security import ALL_PERMISSIONS
 from repoze.bfg.security import authenticated_userid
 
-class Base(Node):
+class BaseNode(Node):
     """Base application model node.
     """
+
     __acl__ = [
         (Allow, 'group:authenticated', 'view'),
+        (Allow, Everyone, 'login'),
         (Deny, Everyone, ALL_PERMISSIONS),
     ]
-    factories = {}
-    in_navtree = True
-    
-    def __init__(self):
-        Node.__init__(self)
 
+    in_navtree = True
+
+    @property
+    def title(self):
+        return self.__name__
+    
+class FactoryNode(BaseNode):
+    """Base application model node with factories.
+    """
+    factories = {}
+    
     def __iter__(self):
         keys = set()
         for key in self.factories.keys():
@@ -41,6 +49,5 @@ class Base(Node):
             self[key] = child
         return child
     
-    @property
-    def title(self):
-        return self.__name__
+# BBB
+Base = FactoryNode

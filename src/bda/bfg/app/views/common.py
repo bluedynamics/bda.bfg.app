@@ -1,8 +1,21 @@
 from repoze.bfg.security import has_permission
-from bda.bfg.tile import tile, registerTile, Tile, TileRenderer, render_template
+from bda.bfg.tile import (
+    tile, 
+    registerTile, 
+    Tile, 
+    TileRenderer, 
+    render_template
+)
 from bda.bfg.app.appstate import appstate
-from _kss import ksstile, KSSTile
-from utils import authenticated, nodepath, make_query, make_url, HTMLRenderer
+from _kss import ksstile
+from _kss import KSSTile
+from utils import (
+    authenticated, 
+    nodepath, 
+    make_query, 
+    make_url, 
+    HTMLRenderer
+)
 
 class AppStateAware(object):
     """Mixin for easy AppState access.
@@ -14,7 +27,7 @@ class AppStateAware(object):
     def appstate(self):
         return appstate(self.request)
 
-class AjaxAwareModel(AppStateAware):
+class AjaxAware(AppStateAware):
     """Mixin for AJAX handling tiles.
     
     Provide the current valid model context via 'self.curmodel'
@@ -35,7 +48,7 @@ class AjaxAwareModel(AppStateAware):
             model = self.model
         return model
 
-class PermissionAwareModel(object):
+class PermissionAware(object):
     """Mixin for checking permissions on models.
     
     Expects 'self.request' on deriving object.
@@ -44,17 +57,18 @@ class PermissionAwareModel(object):
     def checkpermission(self, permission, model):
         return has_permission(permission, model, self.request)
 
-class AuthenticationAwareTile(Tile):
-    """Tile mixin. Only rendering if user is authenticated.
-    """
-    
-    @property
-    def show(self):
-        return authenticated(self.request)
-
-class AuthenticationAwareKSSTile(KSSTile, AuthenticationAwareTile):
-    """KSS tile mixin. Only rendering if user is authenticated.
-    """
+# XXX this is superfluos since tiles can be less strict.
+#class AuthenticationAwareTile(Tile):
+#    """Tile mixin. Only rendering if user is authenticated.
+#    """
+#    
+#    @property
+#    def show(self):
+#        return authenticated(self.request)
+#
+#class AuthenticationAwareKSSTile(KSSTile, AuthenticationAwareTile):
+#    """KSS tile mixin. Only rendering if user is authenticated.
+#    """
 
 class KSSMainRenderer(KSSTile):
     """KSS renderer mixin. Rendering the application specific parts to it's
@@ -95,7 +109,7 @@ class KSSRoot(KSSMainRenderer):
         self.renderpartsformodel(self.model.root)
 
 @ksstile('content')
-class KSSContent(AuthenticationAwareKSSTile, KSSMainRenderer, AjaxAwareModel):
+class KSSContent(KSSMainRenderer, AjaxAware):
     """KSS content tile.
     
     Invoke this to render content refered by href via AJAX.
@@ -104,13 +118,13 @@ class KSSContent(AuthenticationAwareKSSTile, KSSMainRenderer, AjaxAwareModel):
     def render(self):
         self.renderpartsformodel(self.curmodel)
 
-@tile('personaltools', 'templates/personaltools.pt')
-class PersonalTools(AuthenticationAwareTile):
-    """Personal toole tile.
+@tile('personaltools', 'templates/personaltools.pt', strict=False)
+class PersonalTools(Tile):
+    """Personal tool tile.
     """
 
 @tile('mainmenu', 'templates/mainmenu.pt')
-class MainMenu(AuthenticationAwareTile, PermissionAwareModel):
+class MainMenu(Tile, PermissionAware):
     """Main Menu tile.
     """
     
@@ -132,14 +146,14 @@ class MainMenu(AuthenticationAwareTile, PermissionAwareModel):
             item = dict()
             item['title'] = key
             item['url'] = url
-            item['selected'] = curpath == key and True or False
-            item['first'] = count == 0 and True or False
+            item['selected'] = curpath == key
+            item['first'] = count == 0
             ret.append(item)
             count += 1
         return ret
 
 @ksstile('mainmenu')
-class KSSMainMenu(AuthenticationAwareKSSTile, KSSMainRenderer, AjaxAwareModel):
+class KSSMainMenu(KSSMainRenderer, AjaxAware):
     """KSS main menu tile.
     
     Rendering when a main menu link is clicked.
@@ -148,8 +162,8 @@ class KSSMainMenu(AuthenticationAwareKSSTile, KSSMainRenderer, AjaxAwareModel):
     def render(self):
         self.renderpartsformodel(self.curmodel)
 
-@tile('navtree', 'templates/navtree.pt')
-class NavTree(AuthenticationAwareTile, AjaxAwareModel, PermissionAwareModel):
+@tile('navtree', 'templates/navtree.pt', strict=False)
+class NavTree(Tile, AjaxAware, PermissionAware):
     """Navigation tree tile.
     """
     
@@ -196,7 +210,7 @@ class NavTree(AuthenticationAwareTile, AjaxAwareModel, PermissionAwareModel):
         return root
     
     def rendertree(self, children, level=1):
-        return render_template('templates/navtree_recue.pt',
+        return render_template('bda.bfg.app.views:templates/navtree_recue.pt',
                                model=self.model,
                                request=self.request,
                                context=self,
@@ -204,7 +218,7 @@ class NavTree(AuthenticationAwareTile, AjaxAwareModel, PermissionAwareModel):
                                level=level)
 
 @ksstile('navtree')
-class KSSNavTree(AuthenticationAwareKSSTile, KSSMainRenderer, AjaxAwareModel):
+class KSSNavTree(KSSMainRenderer, AjaxAware):
     """KSS navigation tree tile.
     
     Rendering when a navigation tree. link is clicked.
@@ -460,7 +474,7 @@ class Form(Tile, HTMLRenderer, AppStateAware):
                 self.form()
                 self.succeed = True
 
-class KSSForm(KSSTile, Form, AjaxAwareModel):
+class KSSForm(KSSTile, Form, AjaxAware):
     """Abstract KSS form.
     """
     

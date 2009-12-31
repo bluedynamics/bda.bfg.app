@@ -1,8 +1,17 @@
 import os
-from zope.interface import Interface, Attribute, implements
 from webob import Response
-from repoze.bfg.interfaces import IRequest, IResponseFactory
-from zope.component import queryUtility, getUtilitiesFor, getMultiAdapter
+from zope.interface import (
+    Interface, 
+    Attribute, 
+    implements
+)
+from zope.component import (
+    queryUtility, 
+    getUtilitiesFor, 
+    getMultiAdapter
+)
+from repoze.bfg.interfaces import IResponseFactory
+from repoze.bfg.interfaces import IRequest
 from repoze.bfg.path import caller_package
 from repoze.bfg.view import bfg_view
 from repoze.bfg.threadlocal import get_current_registry

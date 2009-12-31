@@ -1,7 +1,7 @@
 from repoze import formapi
 from bda.bfg.tile import tile, registerTile, Tile, TileRenderer
 from _kss import ksstile, KSSTile
-from common import AppStateAware, AjaxAwareModel, Batch, Form, KSSForm
+from common import AppStateAware, AjaxAware, Batch, Form, KSSForm
 from utils import nodepath, make_query, make_url
 
 ###############################################################################
@@ -78,20 +78,20 @@ class TestBatch(Batch, AppStateAware):
     def vocab(self):
         ret = list()
         path = nodepath(self.model)
-        current = self.appstate.b_page and self.appstate.b_page or '0'
+        current = self.appstate.b_page or '0'
         for i in range(10):
             query = make_query(b_page=str(i))
             url = make_url(self.request, path=path, query=query)
             ret.append({
                 'page': '%i' % i,
-                'current':current == str(i) and True or False,
+                'current': current == str(i),
                 'visible': True,
                 'url': url,
             })
         return ret
 
 @ksstile('testbatch')
-class KSSTestBatch(KSSTile, AjaxAwareModel):
+class KSSTestBatch(KSSTile, AjaxAware):
     
     def render(self):
         """Render 'testbatch'.

@@ -27,7 +27,7 @@ class LoginForm(formapi.Form):
     @formapi.action('login')
     def login(self, data): pass
 
-@tile('loginform', path='templates/loginform.pt')
+@tile('loginform', path='templates/loginform.pt', permission="login")
 class LoginFormTile(Form):
     
     @property

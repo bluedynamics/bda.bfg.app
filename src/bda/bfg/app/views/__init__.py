@@ -1,12 +1,8 @@
-import os
 from webob import Response
 from webob.exc import HTTPUnauthorized
 from zope.interface import Interface
 from zope.component import queryUtility, getUtilitiesFor
 from repoze.bfg.interfaces import IResponseFactory
-from repoze.bfg.security import authenticated_userid
-from repoze.bfg.chameleon_zpt import render_template
-from repoze.bfg.path import caller_package
 from repoze.bfg.view import static
 from repoze.bfg.view import bfg_view
 from bda.bfg.tile import render_template_to_response
@@ -14,8 +10,13 @@ from kss.base import load_plugins
 from utils import authenticated
 
 # KSS convenience access
-from _kss import IKSSResource, IKSSTile, KSSTile, registerKSSTile, ksstile
-
+from _kss import (
+    IKSSResource, 
+    IKSSTile, 
+    KSSTile, 
+    registerKSSTile, 
+    ksstile
+)
 # load kss core plugin
 load_plugins('kss-core')
 
@@ -54,9 +55,9 @@ def bda_bfg_app_css(model, request):
     return response
 
 # main template
-@bfg_view()
+#@bfg_view(permission='login')
 def main(model, request):
-    return render_template_to_response('templates/main.pt',
+    return render_template_to_response('bda.bfg.app.views:templates/main.pt',
                                        request=request,
                                        model=model,
                                        authenticated=authenticated(request),
