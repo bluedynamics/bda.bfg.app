@@ -70,13 +70,14 @@ Released   : 20090622
           <div id="content">
             <tal:content
               replace="structure tile('content')"
-              condition="authenticated"
-             />
-             <tal:content
-              replace="structure tile('loginform')"
-              condition="not authenticated"
              />
           </div>
+          <div id="login"               
+               condition="not authenticated">
+             <tal:content
+              replace="structure tile('loginform')"
+             />
+          </div>          
           
           <div id="sidebar">
             <ul id="navtree">

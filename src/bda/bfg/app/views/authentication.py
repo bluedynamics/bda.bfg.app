@@ -1,8 +1,12 @@
 from repoze import formapi
 from bda.bfg.tile import tile
-from _kss import ksstile
-from common import Form, KSSForm, KSSMainRenderer
-from utils import authenticated
+from bda.bfg.app.views.utils import authenticated
+from bda.bfg.app.views._kss import ksstile
+from bda.bfg.app.views.common import (
+    Form, 
+    KSSForm, 
+    KSSMainRenderer,
+)
 
 class LoginForm(formapi.Form):
     fields = {
@@ -29,6 +33,10 @@ class LoginForm(formapi.Form):
 
 @tile('loginform', path='templates/loginform.pt', permission="login")
 class LoginFormTile(Form):
+    
+    @property
+    def show(self):
+        return not authenticated(self.request)
     
     @property
     def factory(self):

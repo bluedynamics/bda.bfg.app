@@ -7,10 +7,10 @@ from repoze.bfg.view import static
 from repoze.bfg.view import bfg_view
 from bda.bfg.tile import render_template_to_response
 from kss.base import load_plugins
-from utils import authenticated
+from bda.bfg.app.views.utils import authenticated
 
 # KSS convenience access
-from _kss import (
+from bda.bfg.app.views._kss import (
     IKSSResource, 
     IKSSTile, 
     KSSTile, 

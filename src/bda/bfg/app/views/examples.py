@@ -1,8 +1,22 @@
 from repoze import formapi
-from bda.bfg.tile import tile, registerTile, Tile, TileRenderer
-from _kss import ksstile, KSSTile
-from common import AppStateAware, AjaxAware, Batch, Form, KSSForm
-from utils import nodepath, make_query, make_url
+from bda.bfg.tile import (
+    tile, 
+    Tile, 
+    TileRenderer,
+)
+from bda.bfg.app.views._kss import ksstile, KSSTile
+from bda.bfg.app.views.common import (
+    AppStateAware, 
+    AjaxAware, 
+    Batch, 
+    Form, 
+    KSSForm,
+)
+from bda.bfg.app.views.utils import (
+    nodepath, 
+    make_query, 
+    make_url,
+)
 
 ###############################################################################
 # form example

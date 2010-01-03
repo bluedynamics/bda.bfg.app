@@ -123,7 +123,7 @@ class PersonalTools(Tile):
     """Personal tool tile.
     """
 
-@tile('mainmenu', 'templates/mainmenu.pt')
+@tile('mainmenu', 'templates/mainmenu.pt', strict=False)
 class MainMenu(Tile, PermissionAware):
     """Main Menu tile.
     """
@@ -355,7 +355,7 @@ class Batch(Tile):
     def _getPositionOfCurrentInVocab(self):
         #TODO: wildcard handling
         current = self.currentpage
-        if not current:
+        if current is None:
             return -1
         pointer = 0
         for page in self.vocab:

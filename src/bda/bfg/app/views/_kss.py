@@ -167,8 +167,6 @@ class KSSTile(object):
 def registerKSSTile(name, _class, interface=Interface):
     """KSSTile registration function.
     """
-    if isinstance(interface, basestring):
-        pass # XXX: lookup
     factory = _class
     registry = get_current_registry()
     registry.registerAdapter(factory, [interface, IRequest],
