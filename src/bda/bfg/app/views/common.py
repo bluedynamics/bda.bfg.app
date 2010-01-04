@@ -83,14 +83,12 @@ class KSSMainRenderer(KSSTile):
         core.replaceInnerHTML('#menu',
                               TileRenderer(model,
                                            self.request)('mainmenu'))
-        if authenticated(self.request):
-            core.replaceInnerHTML('#content',
-                                  TileRenderer(model,
-                                               self.request)('content'))
-        else:
-            core.replaceInnerHTML('#content',
-                                  TileRenderer(model,
-                                               self.request)('loginform'))
+        core.replaceInnerHTML('#content-main',
+                              TileRenderer(model,
+                                           self.request)('content'))
+        core.replaceInnerHTML('#content-login',
+                              TileRenderer(model,
+                                           self.request)('loginform'))
         core.replaceInnerHTML('#navtree',
                               TileRenderer(model,
                                            self.request)('navtree'))

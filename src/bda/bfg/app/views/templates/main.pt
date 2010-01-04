@@ -68,16 +68,18 @@ Released   : 20090622
         <div id="page-bgtop">
           
           <div id="content">
-            <tal:content
-              replace="structure tile('content')"
-             />
+            <div id="content-main">         
+              <tal:content
+                replace="structure tile('content')"
+               />
+             </div>
+             <div id="content-login"               
+                  tal:condition="not authenticated">
+               <tal:content
+                 replace="structure tile('loginform')"
+               />
+              </div>          
           </div>
-          <div id="login"               
-               condition="not authenticated">
-             <tal:content
-              replace="structure tile('loginform')"
-             />
-          </div>          
           
           <div id="sidebar">
             <ul id="navtree">
@@ -94,7 +96,7 @@ Released   : 20090622
       
       <div id="footer">
         <p>
-          Copyright (c) 2009
+          Copyright (c) 2009-2010
           <a href="http://www.bluedynamics.eu/">BlueDynamics Alliance</a>.
           All rights reserved. Design by
           <a href="http://www.freecsstemplates.org/">Free CSS Templates</a>.
