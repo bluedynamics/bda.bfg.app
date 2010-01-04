@@ -15,7 +15,7 @@ from bda.bfg.app.views._kss import (
     IKSSTile, 
     KSSTile, 
     registerKSSTile, 
-    ksstile
+    ksstile,
 )
 # load kss core plugin
 load_plugins('kss-core')

@@ -70,31 +70,26 @@ class PermissionAware(object):
 #    """KSS tile mixin. Only rendering if user is authenticated.
 #    """
 
+global_tiles = {
+    'mainmenu': '#menu',
+    'content': '#content-main',
+    'loginform': '#content-login',
+    'navtree': '#navtree',
+    'personaltools': '#personaltools',
+}
+
 class KSSMainRenderer(KSSTile):
     """KSS renderer mixin. Rendering the application specific parts to it's
     slots.
     """
-    
+            
     def renderpartsformodel(self, model):
-        """Render 'mainmenu', 'content' and 'navtree' and 'personaltools'
-        tiles on root model.
+        """Render common parts of site
         """
         core = self.getCommandSet('core')
-        core.replaceInnerHTML('#menu',
-                              TileRenderer(model,
-                                           self.request)('mainmenu'))
-        core.replaceInnerHTML('#content-main',
-                              TileRenderer(model,
-                                           self.request)('content'))
-        core.replaceInnerHTML('#content-login',
-                              TileRenderer(model,
-                                           self.request)('loginform'))
-        core.replaceInnerHTML('#navtree',
-                              TileRenderer(model,
-                                           self.request)('navtree'))
-        core.replaceInnerHTML('#personaltools',
-                              TileRenderer(model,
-                                           self.request)('personaltools'))
+        for tilename in global_tiles:
+            rendered = TileRenderer(model, self.request)(tilename)
+            core.replaceInnerHTML(global_tiles[tilename], rendered)
 
 @ksstile('kssroot')
 class KSSRoot(KSSMainRenderer):
