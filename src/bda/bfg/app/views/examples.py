@@ -2,9 +2,9 @@ from repoze import formapi
 from bda.bfg.tile import (
     tile, 
     Tile, 
-    TileRenderer,
+    render_tile,
 )
-from bda.bfg.app.views._kss import ksstile, KSSTile
+from bda.bfg.app.views import ksstile, KSSTile
 from bda.bfg.app.views.common import (
     AppStateAware, 
     AjaxAware, 
@@ -110,7 +110,6 @@ class KSSTestBatch(KSSTile, AjaxAware):
     def render(self):
         """Render 'testbatch'.
         """
+        tile = render_tile(self.curmodel, self.request, 'testbatch')
         core = self.getCommandSet('core')
-        core.replaceInnerHTML('#testbatch',
-                              TileRenderer(self.curmodel,
-                                           self.request)('testbatch'))
+        core.replaceInnerHTML('#testbatch', tile)

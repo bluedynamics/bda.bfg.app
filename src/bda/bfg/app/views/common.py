@@ -3,7 +3,7 @@ from bda.bfg.tile import (
     tile, 
     registerTile, 
     Tile, 
-    TileRenderer, 
+    render_tile, 
     render_template
 )
 from bda.bfg.app.appstate import appstate
@@ -88,8 +88,8 @@ class KSSMainRenderer(KSSTile):
         """
         core = self.getCommandSet('core')
         for tilename in global_tiles:
-            rendered = TileRenderer(model, self.request)(tilename)
-            core.replaceInnerHTML(global_tiles[tilename], rendered)
+            core.replaceInnerHTML(global_tiles[tilename], 
+                                  render_tile(model, self.request, tilename))
 
 @ksstile('kssroot')
 class KSSRoot(KSSMainRenderer):
@@ -477,8 +477,8 @@ class KSSForm(KSSTile, Form, AjaxAware):
     def render(self):
         core = self.getCommandSet('core')
         core.replaceHTML('#%s' % self.formname,
-                         TileRenderer(self.curmodel,
-                                      self.request)(self.formtile))
+                         render_tile(self.curmodel, self.request, 
+                                     self.formtile))
 
 class ContentReplacingKSSForm(KSSForm):
     """A KSS Form replacing the entire content area instead of the form markup.
@@ -487,8 +487,8 @@ class ContentReplacingKSSForm(KSSForm):
     nexttile = u'content'
     
     def render(self):
-        tile = TileRenderer(self.curmodel, self.request)(self.formtile)
+        tile = render_tile(self.curmodel, self.request, self.formtile)
         if tile is True:
-            tile = TileRenderer(self.curmodel, self.request)(self.nexttile)
+            tile = render_tile(self.curmodel, self.request, self.nexttile)
         core = self.getCommandSet('core')
-        core.replaceInnerHTML('#content', tile)
+        core.replaceInnerHTML('#content-main', tile)

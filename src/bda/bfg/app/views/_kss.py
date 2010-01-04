@@ -15,7 +15,6 @@ from repoze.bfg.interfaces import IRequest
 from repoze.bfg.path import caller_package
 from repoze.bfg.view import bfg_view
 from repoze.bfg.threadlocal import get_current_registry
-from bda.bfg.tile import TileRenderer
 from kss.base import KSSCommands
 from kss.base.registry import command_set_registry
 from bda.bfg.app.appstate import appstate
