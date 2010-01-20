@@ -1,14 +1,18 @@
 <form id="${context.formname}"
       action="${context.formaction}"
       method="post">
-
-  <h1>Log In</h1>
-  <label for="login">Username:</label>
-  <tal:input replace="structure context.textinput('login')" />
-  <br />
-  <label for="password">Password:</label>
-  <tal:input replace="structure context.passwordinput('password')" />
   <tal:input replace="structure context.hiddeninput('__do_login', 'true')" />
-  <tal:action replace="structure context.renderedaction('login')" />
+  <h1>Log In</h1>
+  <div class="field">
+    <label for="login">Username:</label>
+    <tal:input replace="structure context.textinput('login')" />
+  </div>
+  <div class="field">
+    <label for="password">Password:</label>
+    <tal:input replace="structure context.passwordinput('password')" />
+  </div>
+  <div class="field">
+    <tal:action replace="structure context.renderedaction('login')" />
+  </div>
 
 </form>
