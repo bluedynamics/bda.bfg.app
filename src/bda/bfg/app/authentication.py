@@ -47,8 +47,12 @@ def make_plugin(login_form_qs='__do_login', rememberer_name=None, form=None):
 ###############################################################################
 
 def groupcallback(userid, request):
-    groups = request.environ['repoze.what.adapters']['groups']['ini_group'].info
-    return ['group:%s' % g for g, users in groups.items() if userid in users]
+    #import pdb; pdb.set_trace()
+    #groups = request.environ['repoze.what.adapters']['groups']['ini_group'].info
+    auth_md = request.environ['repoze.who.plugins']['authorization_md']
+    groups = auth_md.group_adapters['ini_group']
+    #return ['group:%s' % g for g, users in groups.items() if userid in users]
+    return ['group:%s' % g for g, users in groups.info.items() if userid in users]
 
 ###############################################################################
 # borrowed from ``repoze.what.plugins.config`` until package is sane again.
