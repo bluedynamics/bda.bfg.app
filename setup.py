@@ -32,6 +32,7 @@ setup(name='bda.bfg.app',
           'repoze.bfg',
           'repoze.bfg.xmlrpc',
           'repoze.what',
+          'repoze.what.plugins.config',          
           'repoze.formapi',
           'kss.base',
           'bda.bfg.tile',
@@ -47,7 +48,6 @@ setup(name='bda.bfg.app',
       test_suite = "bda.bfg.app.tests.test_suite",
       entry_points = """\
       [paste.filter_app_factory]
-      whatconfig = bda.bfg.app.authentication:make_mw_with_what_config
       appstate = bda.bfg.app.appstate:make_appstate
       """
       )
