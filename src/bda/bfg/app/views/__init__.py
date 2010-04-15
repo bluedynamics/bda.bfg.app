@@ -32,6 +32,13 @@ class ICSSResource(Interface):
         """Return CSS rules. The output is appended to ``bda.bfg.app.css``.
         """
 
+def render_default_main_template(model, request):
+    return render_template_to_response('bda.bfg.app.views:templates/main.pt',
+                                       request=request,
+                                       model=model,
+                                       authenticated=authenticated(request),
+                                       project='BDA DB Backend')
+
 @bfg_view(name='bda.bfg.app.css')
 def bda_bfg_app_css(model, request):
     """Render custom CSS rules.
@@ -53,15 +60,6 @@ def bda_bfg_app_css(model, request):
     response = response_factory(css)
     response.content_type = 'text/css';
     return response
-
-# main template
-#@bfg_view(permission='login')
-def main(model, request):
-    return render_template_to_response('bda.bfg.app.views:templates/main.pt',
-                                       request=request,
-                                       model=model,
-                                       authenticated=authenticated(request),
-                                       project='BDA DB Backend')
 
 @bfg_view('logout')
 def logout(context, request):
