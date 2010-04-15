@@ -110,7 +110,8 @@ def ajaxksstile(model, request):
     """AJAX view for KSS Tiles.
     """
     name = appstate(request).tilename
-    renderer = getMultiAdapter((model, request), IKSSTile, name=name)
+    renderer = request.registry.getMultiAdapter((model, request),
+                                                IKSSTile, name=name)
     return renderer()
 
 class IKSSTile(Interface):
@@ -162,23 +163,3 @@ class KSSTile(object):
     
     def getCommandSet(self, name):
         return command_set_registry.get(name)(self.commands)
-
-def registerKSSTile(name, _class, interface=Interface):
-    """KSSTile registration function.
-    """
-    factory = _class
-    registry = get_current_registry()
-    registry.registerAdapter(factory, [interface, IRequest],
-                             IKSSTile, name, event=False)
-
-class ksstile(object):
-    """KSSTile registration decorator.
-    """
-    
-    def __init__(self, name, interface=Interface):
-        self.name = name        
-        self.interface = interface
-
-    def __call__(self, ob):
-        registerKSSTile(self.name, ob, interface=self.interface)
-        return ob

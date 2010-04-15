@@ -10,15 +10,14 @@ from kss.base import load_plugins
 from bda.bfg.app.views.utils import authenticated
 
 # KSS convenience access
-from bda.bfg.app.views._kss import (
-    IKSSResource, 
-    IKSSTile, 
-    KSSTile, 
-    registerKSSTile, 
-    ksstile,
-)
+#from bda.bfg.app.views._kss import (
+#    IKSSResource,
+#    IKSSTile,
+#    KSSTile,
+#)
+
 # load kss core plugin
-load_plugins('kss-core')
+#load_plugins('kss-core')
 
 # static resources
 static_view = static('static')

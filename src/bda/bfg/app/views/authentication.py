@@ -1,11 +1,11 @@
 from repoze import formapi
 from bda.bfg.tile import tile
 from bda.bfg.app.views.utils import authenticated
-from bda.bfg.app.views._kss import ksstile
+#from bda.bfg.app.views import IKSSTile
 from bda.bfg.app.views.common import (
     Form, 
-    KSSForm, 
-    KSSMainRenderer,
+    #KSSForm, 
+    #KSSMainRenderer,
 )
 
 class LoginForm(formapi.Form):
@@ -52,14 +52,14 @@ class LoginFormTile(Form):
             'login': u'Login',
         }
 
-@ksstile('loginform')
-class KSSLoginForm(KSSForm, KSSMainRenderer):
-    
-    formtile = 'loginform'
-    formname = 'loginform'
-    
-    def render(self):
-        if not authenticated(self.request):
-            KSSForm.render(self)
-            return
-        self.renderpartsformodel(self.model.root)
+#@tile('loginform', tile_interface=IKSSTile, permission="login")
+#class KSSLoginForm(KSSForm, KSSMainRenderer):
+#    
+#    formtile = 'loginform'
+#    formname = 'loginform'
+#    
+#    def render(self):
+#        if not authenticated(self.request):
+#            KSSForm.render(self)
+#            return
+#        self.renderpartsformodel(self.model.root)

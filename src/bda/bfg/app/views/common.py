@@ -7,8 +7,7 @@ from bda.bfg.tile import (
     render_template
 )
 from bda.bfg.app.appstate import appstate
-from bda.bfg.app.views._kss import ksstile
-from bda.bfg.app.views._kss import KSSTile
+#from bda.bfg.app.views._kss import KSSTile, IKSSTile
 from bda.bfg.app.views.utils import (
     authenticated, 
     nodepath, 
@@ -52,64 +51,53 @@ class PermissionAware(object):
     """Mixin for checking permissions on models.
     
     Expects 'self.request' on deriving object.
+    
+    XXX: remove
     """
     
     def checkpermission(self, permission, model):
         return has_permission(permission, model, self.request)
 
-# XXX this is superfluos since tiles can be less strict.
-#class AuthenticationAwareTile(Tile):
-#    """Tile mixin. Only rendering if user is authenticated.
+#global_tiles = {
+#    'mainmenu': '#menu',
+#    'content': '#content-main',
+#    'loginform': '#content-login',
+#    'navtree': '#navtree',
+#    'personaltools': '#personaltools',
+#}
+
+#class KSSMainRenderer(KSSTile):
+#    """KSS renderer mixin. Rendering the application specific parts to it's
+#    slots.
+#    """
+#            
+#    def renderpartsformodel(self, model):
+#        """Render common parts of site
+#        """
+#        core = self.getCommandSet('core')
+#        for tilename in global_tiles:
+#            core.replaceInnerHTML(global_tiles[tilename], 
+#                                  render_tile(model, self.request, tilename))
+
+#@tile('kssroot', tile_interface=IKSSTile, strict=False)
+#class KSSRoot(KSSMainRenderer):
+#    """KSS root tile.
+#    
+#    Invoked at logo click (at least).
 #    """
 #    
-#    @property
-#    def show(self):
-#        return authenticated(self.request)
-#
-#class AuthenticationAwareKSSTile(KSSTile, AuthenticationAwareTile):
-#    """KSS tile mixin. Only rendering if user is authenticated.
+#    def render(self):
+#        self.renderpartsformodel(self.model.root)
+
+#@tile('content', tile_interface=IKSSTile, strict=False)
+#class KSSContent(KSSMainRenderer, AjaxAware):
+#    """KSS content tile.
+#    
+#    Invoke this to render content refered by href via AJAX.
 #    """
-
-global_tiles = {
-    'mainmenu': '#menu',
-    'content': '#content-main',
-    'loginform': '#content-login',
-    'navtree': '#navtree',
-    'personaltools': '#personaltools',
-}
-
-class KSSMainRenderer(KSSTile):
-    """KSS renderer mixin. Rendering the application specific parts to it's
-    slots.
-    """
-            
-    def renderpartsformodel(self, model):
-        """Render common parts of site
-        """
-        core = self.getCommandSet('core')
-        for tilename in global_tiles:
-            core.replaceInnerHTML(global_tiles[tilename], 
-                                  render_tile(model, self.request, tilename))
-
-@ksstile('kssroot')
-class KSSRoot(KSSMainRenderer):
-    """KSS root tile.
-    
-    Invoked at logo click (at least).
-    """
-    
-    def render(self):
-        self.renderpartsformodel(self.model.root)
-
-@ksstile('content')
-class KSSContent(KSSMainRenderer, AjaxAware):
-    """KSS content tile.
-    
-    Invoke this to render content refered by href via AJAX.
-    """
-    
-    def render(self):
-        self.renderpartsformodel(self.curmodel)
+#    
+#    def render(self):
+#        self.renderpartsformodel(self.curmodel)
 
 @tile('personaltools', 'templates/personaltools.pt', strict=False)
 class PersonalTools(Tile):
@@ -145,15 +133,15 @@ class MainMenu(Tile, PermissionAware):
             count += 1
         return ret
 
-@ksstile('mainmenu')
-class KSSMainMenu(KSSMainRenderer, AjaxAware):
-    """KSS main menu tile.
-    
-    Rendering when a main menu link is clicked.
-    """
-    
-    def render(self):
-        self.renderpartsformodel(self.curmodel)
+#@tile('mainmenu', tile_interface=IKSSTile, strict=False)
+#class KSSMainMenu(KSSMainRenderer, AjaxAware):
+#    """KSS main menu tile.
+#    
+#    Rendering when a main menu link is clicked.
+#    """
+#    
+#    def render(self):
+#        self.renderpartsformodel(self.curmodel)
 
 @tile('navtree', 'templates/navtree.pt', strict=False)
 class NavTree(Tile, AjaxAware, PermissionAware):
@@ -210,15 +198,15 @@ class NavTree(Tile, AjaxAware, PermissionAware):
                                children=children,
                                level=level)
 
-@ksstile('navtree')
-class KSSNavTree(KSSMainRenderer, AjaxAware):
-    """KSS navigation tree tile.
-    
-    Rendering when a navigation tree. link is clicked.
-    """
-    
-    def render(self):
-        self.renderpartsformodel(self.curmodel)
+#@tile('navtree', tile_interface=IKSSTile, strict=False)
+#class KSSNavTree(KSSMainRenderer, AjaxAware):
+#    """KSS navigation tree tile.
+#    
+#    Rendering when a navigation tree. link is clicked.
+#    """
+#    
+#    def render(self):
+#        self.renderpartsformodel(self.curmodel)
 
 class Batch(Tile):
     """An abstract batch tile.
@@ -236,7 +224,8 @@ class Batch(Tile):
     ellipsis = u'...'
     
     def render(self):
-        return render_template('templates/batch.pt', request=self.request,
+        return render_template('bda.bfg.app.views:templates/batch.pt',
+                               request=self.request,
                                model=self.model, context=self)
     
     @property
@@ -467,28 +456,28 @@ class Form(Tile, HTMLRenderer, AppStateAware):
                 self.form()
                 self.succeed = True
 
-class KSSForm(KSSTile, Form, AjaxAware):
-    """Abstract KSS form.
-    """
-    
-    formtile = ''
-    formname = ''
-    
-    def render(self):
-        core = self.getCommandSet('core')
-        core.replaceHTML('#%s' % self.formname,
-                         render_tile(self.curmodel, self.request, 
-                                     self.formtile))
+#class KSSForm(KSSTile, Form, AjaxAware):
+#    """Abstract KSS form.
+#    """
+#    
+#    formtile = ''
+#    formname = ''
+#    
+#    def render(self):
+#        core = self.getCommandSet('core')
+#        core.replaceHTML('#%s' % self.formname,
+#                         render_tile(self.curmodel, self.request, 
+#                                     self.formtile))
 
-class ContentReplacingKSSForm(KSSForm):
-    """A KSS Form replacing the entire content area instead of the form markup.
-    """
-    
-    nexttile = u'content'
-    
-    def render(self):
-        tile = render_tile(self.curmodel, self.request, self.formtile)
-        if tile is True:
-            tile = render_tile(self.curmodel, self.request, self.nexttile)
-        core = self.getCommandSet('core')
-        core.replaceInnerHTML('#content-main', tile)
+#class ContentReplacingKSSForm(KSSForm):
+#    """A KSS Form replacing the entire content area instead of the form markup.
+#    """
+#    
+#    nexttile = u'content'
+#    
+#    def render(self):
+#        tile = render_tile(self.curmodel, self.request, self.formtile)
+#        if tile is True:
+#            tile = render_tile(self.curmodel, self.request, self.nexttile)
+#        core = self.getCommandSet('core')
+#        core.replaceInnerHTML('#content-main', tile)

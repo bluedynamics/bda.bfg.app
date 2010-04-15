@@ -4,13 +4,13 @@ from bda.bfg.tile import (
     Tile, 
     render_tile,
 )
-from bda.bfg.app.views import ksstile, KSSTile
+#from bda.bfg.app.views import KSSTile, IKSSTile
 from bda.bfg.app.views.common import (
     AppStateAware, 
     AjaxAware, 
     Batch, 
     Form, 
-    KSSForm,
+#    KSSForm,
 )
 from bda.bfg.app.views.utils import (
     nodepath, 
@@ -75,11 +75,11 @@ class TestFormTile(Form):
             'floatfield': 0.0,
         }
 
-@ksstile('testform')
-class KSSTestForm(KSSForm):
-    
-    formtile = 'testform'
-    formname = 'testform'
+#@tile('testform', tile_interface=IKSSTile)
+#class KSSTestForm(KSSForm):
+#    
+#    formtile = 'testform'
+#    formname = 'testform'
 
 ###############################################################################
 # batch example
@@ -104,12 +104,12 @@ class TestBatch(Batch, AppStateAware):
             })
         return ret
 
-@ksstile('testbatch')
-class KSSTestBatch(KSSTile, AjaxAware):
-    
-    def render(self):
-        """Render 'testbatch'.
-        """
-        tile = render_tile(self.curmodel, self.request, 'testbatch')
-        core = self.getCommandSet('core')
-        core.replaceInnerHTML('#testbatch', tile)
+#@tile('testbatch', tile_interface=IKSSTile)
+#class KSSTestBatch(KSSTile, AjaxAware):
+#    
+#    def render(self):
+#        """Render 'testbatch'.
+#        """
+#        tile = render_tile(self.curmodel, self.request, 'testbatch')
+#        core = self.getCommandSet('core')
+#        core.replaceInnerHTML('#testbatch', tile)
