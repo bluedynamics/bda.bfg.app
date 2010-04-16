@@ -46,15 +46,3 @@ class LoginFormTile(Form):
         return {
             'login': u'Login',
         }
-
-#@tile('loginform', tile_interface=IKSSTile, permission="login")
-#class KSSLoginForm(KSSForm, KSSMainRenderer):
-#    
-#    formtile = 'loginform'
-#    formname = 'loginform'
-#    
-#    def render(self):
-#        if not authenticated(self.request):
-#            KSSForm.render(self)
-#            return
-#        self.renderpartsformodel(self.model.root)

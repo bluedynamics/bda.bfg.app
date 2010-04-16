@@ -5,8 +5,6 @@ from bda.bfg.tile import (
     render_tile,
 )
 from bda.bfg.app.views.common import (
-    AppStateAware, 
-    AjaxAware, 
     Batch, 
     Form, 
 )
@@ -73,24 +71,18 @@ class TestFormTile(Form):
             'floatfield': 0.0,
         }
 
-#@tile('testform', tile_interface=IKSSTile)
-#class KSSTestForm(KSSForm):
-#    
-#    formtile = 'testform'
-#    formname = 'testform'
-
 ###############################################################################
 # batch example
 ###############################################################################
 
 @tile('testbatch')
-class TestBatch(Batch, AppStateAware):
+class TestBatch(Batch):
     
     @property
     def vocab(self):
         ret = list()
         path = nodepath(self.model)
-        current = self.appstate.b_page or '0'
+        current = self.request.params.get('b_page', '0')
         for i in range(10):
             query = make_query(b_page=str(i))
             url = make_url(self.request, path=path, query=query)
@@ -101,13 +93,3 @@ class TestBatch(Batch, AppStateAware):
                 'url': url,
             })
         return ret
-
-#@tile('testbatch', tile_interface=IKSSTile)
-#class KSSTestBatch(KSSTile, AjaxAware):
-#    
-#    def render(self):
-#        """Render 'testbatch'.
-#        """
-#        tile = render_tile(self.curmodel, self.request, 'testbatch')
-#        core = self.getCommandSet('core')
-#        core.replaceInnerHTML('#testbatch', tile)

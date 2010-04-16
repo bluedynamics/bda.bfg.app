@@ -1,9 +1,9 @@
 from repoze.bfg.security import has_permission
 from bda.bfg.tile import (
-    tile, 
-    registerTile, 
-    Tile, 
-    render_tile, 
+    tile,
+    registerTile,
+    Tile,
+    render_tile,
     render_template,
 )
 from bda.bfg.app.appstate import appstate
@@ -12,100 +12,23 @@ from bda.bfg.app.views.ajax import (
     registerAjaxAction,
 )
 from bda.bfg.app.views.utils import (
-    authenticated, 
-    nodepath, 
-    make_query, 
-    make_url, 
+    authenticated,
+    nodepath,
+    make_query,
+    make_url,
     HTMLRenderer,
 )
 
-class AppStateAware(object):
-    """Mixin for easy AppState access.
-    
-    Expects 'self.request' on deriving object.
-    """
-    
-    @property
-    def appstate(self):
-        return appstate(self.request)
-
-class AjaxAware(AppStateAware):
-    """Mixin for AJAX handling tiles.
-    
-    Provide the current valid model context via 'self.curmodel'
-    """
-    
-    @property
-    def curmodel(self):
-        """Expects 'self.model' on deriving object. Return model by
-        'self.appstate.path' if 'self.appstate.ajax' is set.
-        """
-        model = self.model.root
-        if self.appstate.ajax:
-            for path in self.appstate.path:
-                if not path:
-                    continue
-                model = model[path]
-        else:
-            model = self.model
-        return model
-
-class PermissionAware(object):
-    """Mixin for checking permissions on models.
-    
-    Expects 'self.request' on deriving object.
-    
-    XXX: remove
-    """
-    
-    def checkpermission(self, permission, model):
-        return has_permission(permission, model, self.request)
-
-layout_tiles = [
-    'mainmenu',
-    'content',
-    'navtree',
-    'personaltools',
-]
-
 class LayoutAjaxAction(AjaxAction):
     
-    tiles = layout_tiles
+    tiles = [
+        'mainmenu',
+        'content',
+        'navtree',
+        'personaltools',
+    ]
 
-registerAjaxAction('layout', LayoutAjaxAction, interface=None)
-
-#class KSSMainRenderer(KSSTile):
-#    """KSS renderer mixin. Rendering the application specific parts to it's
-#    slots.
-#    """
-#            
-#    def renderpartsformodel(self, model):
-#        """Render common parts of site
-#        """
-#        core = self.getCommandSet('core')
-#        for tilename in global_tiles:
-#            core.replaceInnerHTML(global_tiles[tilename], 
-#                                  render_tile(model, self.request, tilename))
-
-#@tile('kssroot', tile_interface=IKSSTile, strict=False)
-#class KSSRoot(KSSMainRenderer):
-#    """KSS root tile.
-#    
-#    Invoked at logo click (at least).
-#    """
-#    
-#    def render(self):
-#        self.renderpartsformodel(self.model.root)
-
-#@tile('content', tile_interface=IKSSTile, strict=False)
-#class KSSContent(KSSMainRenderer, AjaxAware):
-#    """KSS content tile.
-#    
-#    Invoke this to render content refered by href via AJAX.
-#    """
-#    
-#    def render(self):
-#        self.renderpartsformodel(self.curmodel)
+registerAjaxAction('layout', LayoutAjaxAction)
 
 @tile('personaltools', 'templates/personaltools.pt', strict=False)
 class PersonalTools(Tile):
@@ -113,7 +36,7 @@ class PersonalTools(Tile):
     """
 
 @tile('mainmenu', 'templates/mainmenu.pt', strict=False)
-class MainMenu(Tile, PermissionAware):
+class MainMenu(Tile):
     """Main Menu tile.
     """
     
@@ -129,7 +52,7 @@ class MainMenu(Tile, PermissionAware):
         # XXX: self.model.root.values() seem to make troubles if model is
         #      already root.
         for key in self.model.root.keys():
-            if not self.checkpermission('view', self.model.root[key]):
+            if not has_permission('view', self.model.root[key], self.request):
                 continue
             url = make_url(self.request, path=[key])
             item = dict()
@@ -141,18 +64,8 @@ class MainMenu(Tile, PermissionAware):
             count += 1
         return ret
 
-#@tile('mainmenu', tile_interface=IKSSTile, strict=False)
-#class KSSMainMenu(KSSMainRenderer, AjaxAware):
-#    """KSS main menu tile.
-#    
-#    Rendering when a main menu link is clicked.
-#    """
-#    
-#    def render(self):
-#        self.renderpartsformodel(self.curmodel)
-
 @tile('navtree', 'templates/navtree.pt', strict=False)
-class NavTree(Tile, AjaxAware, PermissionAware):
+class NavTree(Tile):
     """Navigation tree tile.
     """
     
@@ -173,7 +86,7 @@ class NavTree(Tile, AjaxAware, PermissionAware):
             curpath = None
         for key in model:
             node = model[key]
-            if not self.checkpermission('view', node):
+            if not has_permission('view', node, self.request):
                 continue
             if not node.in_navtree:
                 continue
@@ -185,7 +98,7 @@ class NavTree(Tile, AjaxAware, PermissionAware):
             if curnode:
                 self.fillchildren(node, path[1:], child)
             selected = False
-            if nodepath(self.curmodel) == nodepath(node):
+            if nodepath(self.model) == nodepath(node):
                 selected = True
             child['selected'] = selected
             child['showchildren'] = curnode
@@ -205,16 +118,6 @@ class NavTree(Tile, AjaxAware, PermissionAware):
                                context=self,
                                children=children,
                                level=level)
-
-#@tile('navtree', tile_interface=IKSSTile, strict=False)
-#class KSSNavTree(KSSMainRenderer, AjaxAware):
-#    """KSS navigation tree tile.
-#    
-#    Rendering when a navigation tree. link is clicked.
-#    """
-#    
-#    def render(self):
-#        self.renderpartsformodel(self.curmodel)
 
 class Batch(Tile):
     """An abstract batch tile.
@@ -354,7 +257,7 @@ class Batch(Tile):
             pointer += 1
         return -1
 
-class Form(Tile, HTMLRenderer, AppStateAware):
+class Form(Tile, HTMLRenderer):
     """An abstract form tile.
     """
     
@@ -435,11 +338,10 @@ class Form(Tile, HTMLRenderer, AppStateAware):
         if not self.path:
             raise ValueError(u"Could not render form without template.")
         try: # XXX: do not catch exception.
-            if self.succeed and self.appstate.ajax:
-                # form returns True in case of success processing. needed
-                # for ajax next page rendering.
+            if self.succeed and False: # XXX alter False with ajax request bool
                 return True
-            if self.succeed and self.nexturl and not self.appstate.ajax:
+            if self.succeed and self.nexturl and True:
+                # XXX alter True with ajax request bool
                 self.redirect(self.nexturl)
             return render_template(self.path, request=request,
                                    model=model, context=self)
@@ -449,9 +351,6 @@ class Form(Tile, HTMLRenderer, AppStateAware):
     def processform(self):
         params = dict()
         params.update(self.request.params)
-        appstate = self.appstate
-        if appstate.ajax and appstate.formaction:
-            params[appstate.formaction] = ''
         self.form = self.factory(data=self.defaultvalues,
                                  params=params,
                                  prefix=self.formname)
@@ -463,29 +362,3 @@ class Form(Tile, HTMLRenderer, AppStateAware):
             if self.form.validate():
                 self.form()
                 self.succeed = True
-
-#class KSSForm(KSSTile, Form, AjaxAware):
-#    """Abstract KSS form.
-#    """
-#    
-#    formtile = ''
-#    formname = ''
-#    
-#    def render(self):
-#        core = self.getCommandSet('core')
-#        core.replaceHTML('#%s' % self.formname,
-#                         render_tile(self.curmodel, self.request, 
-#                                     self.formtile))
-
-#class ContentReplacingKSSForm(KSSForm):
-#    """A KSS Form replacing the entire content area instead of the form markup.
-#    """
-#    
-#    nexttile = u'content'
-#    
-#    def render(self):
-#        tile = render_tile(self.curmodel, self.request, self.formtile)
-#        if tile is True:
-#            tile = render_tile(self.curmodel, self.request, self.nexttile)
-#        core = self.getCommandSet('core')
-#        core.replaceInnerHTML('#content-main', tile)
