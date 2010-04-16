@@ -8,6 +8,10 @@ from bda.bfg.app.views.common import (
     Batch, 
     Form, 
 )
+from bda.bfg.app.views.ajax import (
+    AjaxAction,
+    registerAjaxAction,
+)
 from bda.bfg.app.views.utils import (
     nodepath, 
     make_query, 
@@ -74,6 +78,14 @@ class TestFormTile(Form):
 ###############################################################################
 # batch example
 ###############################################################################
+
+class TestBatchAjaxAction(AjaxAction):
+    
+    tiles = [
+        'testbatch',
+    ]
+
+registerAjaxAction('testbatch', TestBatchAjaxAction)
 
 @tile('testbatch')
 class TestBatch(Batch):

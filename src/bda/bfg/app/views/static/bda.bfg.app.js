@@ -6,6 +6,15 @@ jQuery.fn.tiles = function() {
 		var url = jQuery(this).attr('ajax:target');
 		var action = jQuery(this).attr('ajax:action');
 		var params = { name: action };
+		var idx = url.indexOf('?');
+		if (idx != -1) {
+			var parameters = url.slice(idx + 1).split('&');
+	        for(var i = 0;  i < parameters.length; i++) {
+	            var param = parameters[i].split('=');
+	            params[param[0]] = param[1];
+	        }
+	        url = url.substring(0, idx);
+		}
 		var errback = function(request, type) {
 			alert(type);
 		}
@@ -15,7 +24,7 @@ jQuery.fn.tiles = function() {
 			data: params,
 			success: function(data) {
 				for (var i = 0; i < data.length; i++) {
-					var params = { name: data[i] };
+					params.name = data[i];
 					jQuery.ajax({
 			            url: url + '/ajaxtile',
 			            dataType: 'json',
