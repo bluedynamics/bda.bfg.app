@@ -63,13 +63,12 @@ def ajax_action(model, request):
     action = registry.getMultiAdapter((model, request), IAjaxAction, name=name)
     return action.tiles
 
-@bfg_view(name='ajaxtile', xhr=True)
+@bfg_view(name='ajaxtile', accept='application/json', renderer='json')
 def ajax_tile(model, request):
-    """Render a tile from XMLHTTPRequest by tilename.
+    """Render a tile by tilename via JSON.
     
     Request must provide the parameter ``name`` containing the tile name.
     """
     name = request.params.get('name')
     rendered = render_tile(model, request, name)
-    rendered = '<span>%s</span>%s' % (name, rendered)
-    return render_to_response(request, rendered)
+    return [name, rendered]

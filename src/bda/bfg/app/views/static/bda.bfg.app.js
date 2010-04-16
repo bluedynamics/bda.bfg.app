@@ -18,15 +18,16 @@ jQuery.fn.tiles = function() {
 					var params = { name: data[i] };
 					jQuery.ajax({
 			            url: url + '/ajaxtile',
-			            dataType: 'html',
+			            dataType: 'json',
 			            data: params,
 			            success: function(data) {
-							data = jQuery(data);
-							var tilename = data.get(0).innerHTML;
-			                jQuery('.' + tilename).replaceWith(data.get(1));
-							jQuery('#' + tilename).replaceWith(data.get(1));
-							jQuery('.' + tilename + 'a[ajax\\:target]').tiles();
-							jQuery('#' + tilename + 'a[ajax\\:target]').tiles();
+							var tilename = data[0];
+							var single = jQuery('#' + tilename);
+							var multiple = jQuery('.' + tilename);
+							single.replaceWith(data[1]);
+							multiple.replaceWith(data[1]);
+                            jQuery('a[ajax\\:target]', single).tiles();
+                            jQuery('a[ajax\\:target]', multiple).tiles()
 			            },
 			            error: errback
 			        });
