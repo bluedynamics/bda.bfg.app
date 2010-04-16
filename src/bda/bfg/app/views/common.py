@@ -6,7 +6,6 @@ from bda.bfg.tile import (
     render_tile,
     render_template,
 )
-from bda.bfg.app.views.utils import authenticated
 from bda.bfg.app.views.ajax import (
     AjaxAction,
     registerAjaxAction,
