@@ -34,7 +34,6 @@ setup(name='bda.bfg.app',
           'repoze.what',
           'repoze.what.plugins.config',          
           'repoze.formapi',
-          'kss.base',
           'bda.bfg.tile',
       ],
       extras_require = dict(
