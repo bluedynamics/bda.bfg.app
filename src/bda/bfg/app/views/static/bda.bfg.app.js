@@ -21,13 +21,13 @@ jQuery.fn.tiles = function() {
 			            dataType: 'json',
 			            data: params,
 			            success: function(data) {
-							var tilename = data[0];
-							var single = jQuery('#' + tilename);
-							var multiple = jQuery('.' + tilename);
+							var name = data[0];
+							var single = jQuery('#' + name);
+							var multiple = jQuery('.' + name);
 							single.replaceWith(data[1]);
 							multiple.replaceWith(data[1]);
-                            jQuery('a[ajax\\:target]', single).tiles();
-                            jQuery('a[ajax\\:target]', multiple).tiles()
+                            jQuery('#' + name + ' a[ajax\\:target]').tiles();
+                            jQuery('.' + name + ' a[ajax\\:target]').tiles();
 			            },
 			            error: errback
 			        });

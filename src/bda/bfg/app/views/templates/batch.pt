@@ -1,5 +1,5 @@
 <div tal:condition="context.display"
-     class="batch">
+     class="batch ${context.name}">
      
   <span tal:define="firstpage context.firstpage"
         tal:condition="firstpage">
