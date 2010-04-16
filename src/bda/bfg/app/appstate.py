@@ -53,7 +53,7 @@ class AppStateFactory(object):
     
     The path part of the site URL is splitted and set to AppState.path as list.
     
-    I you call the application via XMLHttpRequest, you must set the
+    If you call the application via XMLHttpRequest, you must set the
     'kukitTimeStamp' paramter on it with any value to make AppState
     initialization work properly.
     
