@@ -48,21 +48,21 @@ def registerAjaxAction(name, action, interface):
     registry.registerAdapter(action, [interface, IRequest], IAjaxAction, name, 
                              event=False)
 
-@bfg_view(name='ajaxaction', renderer='json')
+@bfg_view(name='ajaxaction', accept='application/json', renderer='json')
 def ajax_action(model, request):
     """Lookup and render tilenames by actionname via JSON.
     
     Request must provide the parameter ``name`` containing the ajax action name.
     """
     registry = get_current_registry()
-    name = request.get('name')
+    name = request.params.get('name')
     action = registry.getMultiAdapter((model, request), IAjaxAction, name=name)
     return action.tiles
 
-@bfg_view(name='ajaxtile')
+@bfg_view(name='ajaxtile', xhr=True)
 def ajax_tile(model, request):
     """Render a tile from XMLHTTPRequest by tilename.
     
     Request must provide the parameter ``name`` containing the tile name.
     """
-    return render_tile(model, request, request.get('name'))
+    return render_tile(model, request, request.params.get('name'))
