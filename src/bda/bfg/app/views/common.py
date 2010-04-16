@@ -6,7 +6,7 @@ from bda.bfg.tile import (
     render_tile,
     render_template,
 )
-from bda.bfg.app.appstate import appstate
+from bda.bfg.app.views.utils import authenticated
 from bda.bfg.app.views.ajax import (
     AjaxAction,
     registerAjaxAction,
@@ -29,6 +29,16 @@ class LayoutAjaxAction(AjaxAction):
     ]
 
 registerAjaxAction('layout', LayoutAjaxAction)
+
+class ProtectedContentTile(Tile):
+    """A tile rendering the loginform instead default if user is not
+    authenticated.
+    """
+    
+    def __call__(self, model, request):
+        if not authenticated(request):
+            return render_tile(model, request, 'loginform')
+        return Tile.__call__(self, model, request)
 
 @tile('personaltools', 'templates/personaltools.pt', strict=False)
 class PersonalTools(Tile):

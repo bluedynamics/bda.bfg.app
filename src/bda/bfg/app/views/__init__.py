@@ -24,7 +24,6 @@ def render_default_main_template(model, request):
     return render_template_to_response('bda.bfg.app.views:templates/main.pt',
                                        request=request,
                                        model=model,
-                                       authenticated=authenticated(request),
                                        project='BDA DB Backend')
 
 @bfg_view(name='bda.bfg.app.css')
