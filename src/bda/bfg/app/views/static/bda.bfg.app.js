@@ -3,20 +3,34 @@ jQuery(document).ready(function() {
 });
 jQuery.fn.tiles = function() {
 	jQuery(this).bind('click', function(event) {
-		var target = jQuery(this).attr('ajax:target');
-		var url = target.substring(0, target.indexOf('#'));
-		var action = target.substring(target.indexOf('#') + 1, target.length);
-		var data = { name: action };
+		var url = jQuery(this).attr('ajax:target');
+		var action = jQuery(this).attr('ajax:action');
+		var params = { name: action };
+		var errback = function(request, type) {
+			alert(type);
+		}
 		jQuery.ajax({
 			url: url + '/ajaxaction',
 			dataType: 'json',
-			data: data,
+			data: params,
 			success: function(data) {
-				alert(data);
+				for (var i = 0; i < data.length; i++) {
+					var params = { name: data[i] };
+					jQuery.ajax({
+			            url: url + '/ajaxtile',
+			            dataType: 'html',
+			            data: params,
+			            success: function(data) {
+							data = jQuery(data);
+							var tilename = data.get(0).innerHTML;
+			                jQuery('.' + tilename).replaceWith(data.get(1));
+							jQuery('#' + tilename).replaceWith(data.get(1));
+			            },
+			            error: errback
+			        });
+				}
 			},
-			error: function(request, type) {
-				alert(type);
-			}
+			error: errback
 		});
 		event.preventDefault();
 	});

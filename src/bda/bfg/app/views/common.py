@@ -4,15 +4,19 @@ from bda.bfg.tile import (
     registerTile, 
     Tile, 
     render_tile, 
-    render_template
+    render_template,
 )
 from bda.bfg.app.appstate import appstate
+from bda.bfg.app.views.ajax import (
+    AjaxAction,
+    registerAjaxAction,
+)
 from bda.bfg.app.views.utils import (
     authenticated, 
     nodepath, 
     make_query, 
     make_url, 
-    HTMLRenderer
+    HTMLRenderer,
 )
 
 class AppStateAware(object):
@@ -57,13 +61,18 @@ class PermissionAware(object):
     def checkpermission(self, permission, model):
         return has_permission(permission, model, self.request)
 
-#global_tiles = {
-#    'mainmenu': '#menu',
-#    'content': '#content-main',
-#    'loginform': '#content-login',
-#    'navtree': '#navtree',
-#    'personaltools': '#personaltools',
-#}
+layout_tiles = [
+    'mainmenu',
+    'content',
+    'navtree',
+    'personaltools',
+]
+
+class LayoutAjaxAction(AjaxAction):
+    
+    tiles = layout_tiles
+
+registerAjaxAction('layout', LayoutAjaxAction, interface=None)
 
 #class KSSMainRenderer(KSSTile):
 #    """KSS renderer mixin. Rendering the application specific parts to it's

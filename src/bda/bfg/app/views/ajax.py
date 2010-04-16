@@ -5,7 +5,11 @@ from zope.interface import Attribute
 from repoze.bfg.interfaces import IRequest
 from repoze.bfg.threadlocal import get_current_registry
 from repoze.bfg.view import bfg_view
-from bda.bfg.tile import ITile, render_tile
+from bda.bfg.tile import (
+    ITile,
+    render_tile,
+    render_to_response,
+)
 
 class IAjaxAction(Interface):
     """Interface for an ajax action.
@@ -32,7 +36,7 @@ class AjaxAction(object):
         self.model = model
         self.request = request
 
-def registerAjaxAction(name, action, interface):
+def registerAjaxAction(name, action, interface=None):
     """registers a tile.
     
     ``name``
@@ -65,4 +69,7 @@ def ajax_tile(model, request):
     
     Request must provide the parameter ``name`` containing the tile name.
     """
-    return render_tile(model, request, request.params.get('name'))
+    name = request.params.get('name')
+    rendered = render_tile(model, request, name)
+    rendered = '<span>%s</span>%s' % (name, rendered)
+    return render_to_response(request, rendered)
