@@ -12,8 +12,6 @@
 
   <h5>Floatfield</h5>
   <tal:input replace="structure context.textinput('floatfield')" />
-
-  <div />
   
   <tal:action replace="structure context.renderedaction('default')" />
   <tal:action replace="structure context.renderedaction('cancel')" />
