@@ -6,18 +6,7 @@ from repoze.bfg.interfaces import IResponseFactory
 from repoze.bfg.view import static
 from repoze.bfg.view import bfg_view
 from bda.bfg.tile import render_template_to_response
-from kss.base import load_plugins
 from bda.bfg.app.views.utils import authenticated
-
-# KSS convenience access
-#from bda.bfg.app.views._kss import (
-#    IKSSResource,
-#    IKSSTile,
-#    KSSTile,
-#)
-
-# load kss core plugin
-#load_plugins('kss-core')
 
 # static resources
 static_view = static('static')

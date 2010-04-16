@@ -7,7 +7,6 @@ from bda.bfg.tile import (
     render_template
 )
 from bda.bfg.app.appstate import appstate
-#from bda.bfg.app.views._kss import KSSTile, IKSSTile
 from bda.bfg.app.views.utils import (
     authenticated, 
     nodepath, 

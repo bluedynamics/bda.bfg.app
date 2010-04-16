@@ -1,4 +1,4 @@
-<ul>
+<ul id="mainmenu">
     <li tal:repeat="item context.menuitems">
       <a href=""
          tal:define="css item['first'] and 'first' or '';

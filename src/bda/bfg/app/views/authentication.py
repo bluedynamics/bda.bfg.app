@@ -1,12 +1,7 @@
 from repoze import formapi
 from bda.bfg.tile import tile
 from bda.bfg.app.views.utils import authenticated
-#from bda.bfg.app.views import IKSSTile
-from bda.bfg.app.views.common import (
-    Form, 
-    #KSSForm, 
-    #KSSMainRenderer,
-)
+from bda.bfg.app.views.common import Form
 
 class LoginForm(formapi.Form):
     fields = {

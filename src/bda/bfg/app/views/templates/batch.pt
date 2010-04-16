@@ -1,4 +1,5 @@
-<div tal:condition="context.display" class="batch">
+<div tal:condition="context.display"
+     class="batch">
      
   <span tal:define="firstpage context.firstpage"
         tal:condition="firstpage">

@@ -4,13 +4,11 @@ from bda.bfg.tile import (
     Tile, 
     render_tile,
 )
-#from bda.bfg.app.views import KSSTile, IKSSTile
 from bda.bfg.app.views.common import (
     AppStateAware, 
     AjaxAware, 
     Batch, 
     Form, 
-#    KSSForm,
 )
 from bda.bfg.app.views.utils import (
     nodepath, 
