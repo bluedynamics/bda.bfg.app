@@ -25,6 +25,8 @@ jQuery.fn.tiles = function() {
 							var tilename = data.get(0).innerHTML;
 			                jQuery('.' + tilename).replaceWith(data.get(1));
 							jQuery('#' + tilename).replaceWith(data.get(1));
+							jQuery('.' + tilename + 'a[ajax\\:target]').tiles();
+							jQuery('#' + tilename + 'a[ajax\\:target]').tiles();
 			            },
 			            error: errback
 			        });
