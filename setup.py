@@ -45,8 +45,6 @@ setup(name='bda.bfg.app',
           'interlude',
       ],
       test_suite = "bda.bfg.app.tests.test_suite",
-      entry_points = """\
-      [paste.filter_app_factory]
-      appstate = bda.bfg.app.appstate:make_appstate
+      entry_points = """
       """
       )
