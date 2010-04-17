@@ -32,9 +32,13 @@ setup(name='bda.bfg.app',
           'repoze.bfg',
           'repoze.bfg.xmlrpc',
           'repoze.what',
+          'repoze.what.plugins.ini',
           'repoze.what.plugins.config',          
           'repoze.formapi',
           'bda.bfg.tile',
+          'yafowil.webob',
+          'yafowil.image',
+          'yafowil.jq',
       ],
       extras_require = dict(
           test=[
