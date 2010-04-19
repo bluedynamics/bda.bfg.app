@@ -215,6 +215,10 @@ bdajax = {
             type: 'json',
             params: params,
             success: function(data) {
+				if (!data) {
+                    bdajax.error('Server response empty.');
+                    return;
+                }
                 for (var i = 0; i < data.length; i++) {
                     params.name = data[i];
                     bdajax.request({
@@ -254,6 +258,10 @@ bdajax = {
 			type: 'json',
 			params: params,
 			success: function(data) {
+				if (!data) {
+					bdajax.error('Server response empty.');
+					return;
+				}
                 for (var i = 0; i < data.length; i++) {
 					params.name = data[i];
 					bdajax.request({
