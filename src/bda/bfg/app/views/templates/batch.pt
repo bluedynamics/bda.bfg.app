@@ -6,7 +6,7 @@
         tal:condition="firstpage">
     <a href="#"
        ajax:target="${firstpage['url']}"
-       ajax:action="${context.name}"
+       ajax:tiles="${context.name}"
        tal:condition="firstpage['visible'] and not firstpage['current']"
        tal:attributes="href firstpage['url']"
       ><img src="${request.application_url}/static/images/leftmost.gif"
@@ -21,7 +21,7 @@
         tal:condition="prevpage">
     <a href="#"
        ajax:target="${prevpage['url']}"
-       ajax:action="${context.name}"
+       ajax:tiles="${context.name}"
        tal:condition="prevpage['visible'] and not prevpage['current']"
        tal:attributes="href prevpage['url']"
       ><img src="${request.application_url}/static/images/left.gif"
@@ -39,7 +39,7 @@
     <span>
       <a href="#"
          ajax:target="${page['url']}"
-         ajax:action="${context.name}"
+         ajax:tiles="${context.name}"
          tal:condition="page['visible'] and not page['current']"
          tal:attributes="href page['url']"
          tal:content="page['page']">X</a>
@@ -58,7 +58,7 @@
         tal:condition="nextpage">
     <a href="#"
        ajax:target="${nextpage['url']}"
-       ajax:action="${context.name}"
+       ajax:tiles="${context.name}"
        tal:condition="nextpage['visible'] and not nextpage['current']"
        tal:attributes="href nextpage['url']"
       ><img src="${request.application_url}/static/images/right.gif"
@@ -73,7 +73,7 @@
         tal:condition="lastpage">
     <a href="#"
        ajax:target="${lastpage['url']}"
-       ajax:action="${context.name}"
+       ajax:tiles="${context.name}"
        tal:condition="lastpage['visible'] and not lastpage['current']"
        tal:attributes="href lastpage['url']"
       ><img src="${request.application_url}/static/images/rightmost.gif"

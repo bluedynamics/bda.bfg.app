@@ -9,8 +9,8 @@ from bda.bfg.app.views.common import (
     Form, 
 )
 from bda.bfg.app.views.ajax import (
-    AjaxAction,
-    registerAjaxAction,
+    AjaxTiles,
+    registerAjaxTiles,
 )
 from bda.bfg.app.views.utils import (
     nodepath, 
@@ -79,13 +79,13 @@ class TestFormTile(Form):
 # batch example
 ###############################################################################
 
-class TestBatchAjaxAction(AjaxAction):
+class TestBatchAjaxTiles(AjaxTiles):
     
     tiles = [
         'testbatch',
     ]
 
-registerAjaxAction('testbatch', TestBatchAjaxAction)
+registerAjaxTiles('testbatch', TestBatchAjaxTiles)
 
 @tile('testbatch')
 class TestBatch(Batch):

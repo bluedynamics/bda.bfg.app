@@ -7,8 +7,8 @@ from bda.bfg.tile import (
     render_template,
 )
 from bda.bfg.app.views.ajax import (
-    AjaxAction,
-    registerAjaxAction,
+    AjaxTiles,
+    registerAjaxTiles,
 )
 from bda.bfg.app.views.utils import (
     authenticated,
@@ -18,7 +18,7 @@ from bda.bfg.app.views.utils import (
     HTMLRenderer,
 )
 
-class LayoutAjaxAction(AjaxAction):
+class LayoutAjaxTiles(AjaxTiles):
     
     tiles = [
         'mainmenu',
@@ -27,7 +27,7 @@ class LayoutAjaxAction(AjaxAction):
         'personaltools',
     ]
 
-registerAjaxAction('layout', LayoutAjaxAction)
+registerAjaxTiles('layout', LayoutAjaxTiles)
 
 class ProtectedContentTile(Tile):
     """A tile rendering the loginform instead default if user is not

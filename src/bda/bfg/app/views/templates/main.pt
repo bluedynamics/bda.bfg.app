@@ -22,10 +22,11 @@ Released   : 20090622
     <!-- javascripts -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script> 
     <script src="http://cdn.jquerytools.org/1.1.2/tiny/jquery.tools.min.js"></script>
-    <script src="${request.application_url}/static/bda.bfg.app.js" type="text/javascript"></script>
+    <script src="${request.application_url}/static/bda.ajax.js" type="text/javascript"></script>
 
     <!-- stylesheets -->
     <link href="${request.application_url}/static/style.css" rel="stylesheet" type="text/css" media="screen" />
+    <link href="${request.application_url}/static/bda.ajax.css" rel="stylesheet" type="text/css" media="screen" />
     <link href="${request.application_url}/bda.bfg.app.css" rel="stylesheet" type="text/css" media="screen" />
 
   </head>
@@ -37,7 +38,7 @@ Released   : 20090622
           <a class="logolink"
              href="${request.application_url}"
              ajax:target="${request.application_url}"
-             ajax:action="layout"
+             ajax:tiles="layout"
              tal:content="model.root.title">Title</a>
         </h1>
         <p><em> by BlueDynamics Alliance</em></p>
@@ -84,6 +85,15 @@ Released   : 20090622
           All rights reserved. Design by
           <a href="http://www.freecsstemplates.org/">Free CSS Templates</a>.
         </p>
+      </div>
+      
+      <div id="ajax-spinner">
+        <img src="/static/images/spinner.gif" alt="" />
+      </div>
+
+      <div class="ajax-message" id="ajax-message">
+        <div class="message">Message</div>
+        <button class="close">OK</button>
       </div>
       
     </div>
