@@ -227,12 +227,10 @@ bdajax = {
                             var multiple = jQuery('.' + name);
                             single.replaceWith(data[1]);
                             multiple.replaceWith(data[1]);
-                            single = jQuery('#' + name + ' a[ajax\\:target]');
-                            multiple = jQuery('.' + name + ' a[ajax\\:target]');
-                            //single.actions();
-                            single.tiles();
-                            //multiple.actions();
-                            multiple.tiles();
+							jQuery('#' + name + ' a[ajax\\:actions]').actions();
+                            jQuery('#' + name + ' a[ajax\\:tiles]').tiles();
+                            jQuery('.' + name + ' a[ajax\\:actions]').actions();
+                            jQuery('.' + name + ' a[ajax\\:tiles]').tiles();
                         },
                         error: err
                     });
@@ -268,12 +266,10 @@ bdajax = {
                             var multiple = jQuery('.' + name);
                             single.replaceWith(data[1]);
                             multiple.replaceWith(data[1]);
-							single = jQuery('#' + name + ' a[ajax\\:target]');
-                            multiple = jQuery('.' + name + ' a[ajax\\:target]');
-                            //single.actions();
-                            single.tiles();
-							//multiple.actions();
-                            multiple.tiles();
+							jQuery('#' + name + ' a[ajax\\:actions]').actions();
+                            jQuery('#' + name + ' a[ajax\\:tiles]').tiles();
+							jQuery('.' + name + ' a[ajax\\:actions]').actions();
+                            jQuery('.' + name + ' a[ajax\\:tiles]').tiles();
                         },
 			            error: err
 					});
