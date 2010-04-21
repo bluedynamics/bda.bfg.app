@@ -1,47 +1,26 @@
 jQuery(document).ready(function() {
 	jQuery('#ajax-spinner')
-	    .hide()
-	    .ajaxStart(function() {
-	        jQuery(this).show();
-	    })
-	    .ajaxStop(function() {
-	        jQuery(this).hide();
-	    })
-	;
+        .hide()
+        .ajaxStart(function() {
+            jQuery(this).show();
+        })
+        .ajaxStop(function() {
+            jQuery(this).hide();
+        })
+    ;
 	jQuery('a[ajax\\:actions]').actions();
-    jQuery('a[ajax\\:tiles]').tiles();
+    jQuery('a[ajax\\:action]').action();
 });
+
+jQuery.fn.action = function() {
+    jQuery(this).bind('click', bdajax.action);
+}
 
 jQuery.fn.actions = function() {
     jQuery(this).bind('click', bdajax.actions);
 }
 
-jQuery.fn.tiles = function() {
-    jQuery(this).bind('click', bdajax.tiles);
-}
-
 bdajax = {
-	
-	/*
-     * Error messages.
-     */
-    ajaxerrors: {
-        timeout: 'The request has timed out. Pleasae try again.',
-        error: 'An error occoured while processing the request. Aborting.',
-        parsererror: 'The Response could not be parsed. Aborting.',
-        unknown: 'An unknown error occoured while request. Aborting.'
-    },
-	
-	/*
-     * Get error message.
-     * 
-     * @param status: ``jQuery.ajax`` error callback status
-     */
-	ajaxerror: function(status) {
-		if (status == 'notmodified') { return; }
-        if (status == null) { status = 'unknown' }
-		return bdajax.ajaxerrors[status];
-	},
 	
 	/*
 	 * Strip query from URL if existent and return.
@@ -74,6 +53,27 @@ bdajax = {
         }
 		return params;
 	},
+	
+	/*
+     * Error messages.
+     */
+    ajaxerrors: {
+        timeout: 'The request has timed out. Pleasae try again.',
+        error: 'An error occoured while processing the request. Aborting.',
+        parsererror: 'The Response could not be parsed. Aborting.',
+        unknown: 'An unknown error occoured while request. Aborting.'
+    },
+    
+    /*
+     * Get error message.
+     * 
+     * @param status: ``jQuery.ajax`` error callback status
+     */
+    ajaxerror: function(status) {
+        if (status == 'notmodified') { return; }
+        if (status == null) { status = 'unknown' }
+        return bdajax.ajaxerrors[status];
+    },
 	
 	/*
 	 * Perform an ajax request.
@@ -144,70 +144,62 @@ bdajax = {
 	},
 	
 	/*
-	 * Display System message as overlay.
+	 * Perform JSON request to server and alter element(s).
 	 * 
-	 * @param message: Message to display as String or DOM element.
+	 * This function expects as response an array containing a name
+	 * mapping to class and/or id attributes of the dom element to alter
+	 * and the html payload which is used as data replacement.
+	 * 
+	 * @param config: object containing action configuration.
+     *     Configuration fields:
+     *         name: Action name.
+     *         element: Dom element the event is bound to. 
+     *         event: thrown event.
 	 */
-	message: function(message) {
-		jQuery('#ajax-message').overlay({
-		    expose: {
-		        color: '#fff',
-		        loadSpeed: 200
-		    },
-			onBeforeLoad: function() {
-                var overlay = this.getOverlay();
-				jQuery('.message', overlay).html(message);
+	_action: function(config) {
+		var target = jQuery(config.element).attr('ajax:target');
+        var url = bdajax.parseurl(target);
+        var params = bdajax.parsequery(target);
+        params.name = config.name;
+		var error = function(req, status, exception) {
+            bdajax.error(exception);
+        };
+		bdajax.request({
+            url: bdajax.parseurl(config.url) + '/' + config.view,
+            type: 'json',
+            params: config.params,
+            success: function(data) {
+                var name = data[0];
+                jQuery('#' + name).replaceWith(data[1]);
+                jQuery('.' + name).replaceWith(data[1]);
+				jQuery('a[ajax\\:actions]', jQuery('#' + name)).action();
+                jQuery('a[ajax\\:action]', jQuery('.' + name)).action();
+				jQuery('a[ajax\\:actions]', jQuery('#' + name)).actions();
+                jQuery('a[ajax\\:action]', jQuery('.' + name)).actions();
             },
-		    closeOnClick: false,
-		    api: true
-		}).load();
+            error: error
+        });
+		config.event.preventDefault();
 	},
 	
 	/*
-     * Display Error message as overlay.
-     * 
-     * @param message: Message to display as String or DOM element.
-     */
-	error: function(message) {
-        jQuery("#ajax-message .message")
-		    .removeClass('error warning info')
-			.addClass('error')
-		;
-		bdajax.message(message);
-    },
-	
-	/*
-     * Display Info message as overlay.
-     * 
-     * @param message: Message to display as String or DOM element.
-     */
-	info: function(message) {
-        jQuery("#ajax-message .message")
-            .removeClass('error warning info')
-            .addClass('info')
-        ;
-        bdajax.message(message);
-    },
-	
-	/*
-     * Display Warning message as overlay.
-     * 
-     * @param message: Message to display as String or DOM element.
-     */
-	warning: function(message) {
-        jQuery("#ajax-message .message")
-            .removeClass('error warning info')
-            .addClass('warning')
-        ;
-        bdajax.message(message);
-    },
-	
-	actions: function(event) {
-        var target = jQuery(this).attr('ajax:target');
+	 * Perform JSON request to server and perform specified action(s).
+	 * 
+	 * This function expects as response an array containing the action name(s)
+     * mapping to given actions name.
+	 * 
+	 * @param config: object containing action configuration.
+     *     Configuration fields:
+     *         name: Actions name.
+     *         element: Dom element the event is bound to. 
+     *         event: thrown event.
+	 */
+	_actions: function(config) {
+        var target = jQuery(config.element).attr('ajax:target');
         var url = bdajax.parseurl(target);
         var params = bdajax.parsequery(target);
-        params.name = jQuery(this).attr('ajax:actions');
-        var err = function(req, status, exception) {
+        params.name = config.name;
+        var error = function(req, status, exception) {
             bdajax.error(exception);
         };
         bdajax.request({
@@ -215,76 +207,116 @@ bdajax = {
             type: 'json',
             params: params,
             success: function(data) {
-				if (!data) {
+                if (!data) {
                     bdajax.error('Server response empty.');
                     return;
                 }
                 for (var i = 0; i < data.length; i++) {
                     params.name = data[i];
-                    bdajax.request({
-                        url: bdajax.parseurl(url) + '/ajaxaction',
-                        type: 'json',
-                        params: params,
-                        success: function(data) {
-                            var name = data[0];
-                            var single = jQuery('#' + name);
-                            var multiple = jQuery('.' + name);
-                            single.replaceWith(data[1]);
-                            multiple.replaceWith(data[1]);
-							jQuery('#' + name + ' a[ajax\\:actions]').actions();
-                            jQuery('#' + name + ' a[ajax\\:tiles]').tiles();
-                            jQuery('.' + name + ' a[ajax\\:actions]').actions();
-                            jQuery('.' + name + ' a[ajax\\:tiles]').tiles();
-                        },
-                        error: err
-                    });
+					bdajax.request({
+			            url: bdajax.parseurl(url) + '/ajaxaction',
+			            type: 'json',
+			            params: params,
+			            success: function(data) {
+			                var name = data[0];
+			                jQuery('#' + name).replaceWith(data[1]);
+			                jQuery('.' + name).replaceWith(data[1]);
+							jQuery('a[ajax\\:actions]',
+							       jQuery('#' + name)).action();
+                            jQuery('a[ajax\\:action]',
+							       jQuery('.' + name)).action();
+                            jQuery('a[ajax\\:actions]',
+							       jQuery('#' + name)).actions();
+                            jQuery('a[ajax\\:action]',
+							       jQuery('.' + name)).actions();
+			            },
+			            error: error
+			        });
                 }
             },
-            error: err
+            error: error
         });
-        event.preventDefault();
+        config.event.preventDefault();
     },
 	
-	tiles: function(event) {
-		var target = jQuery(this).attr('ajax:target');
-        var url = bdajax.parseurl(target);
-		var params = bdajax.parsequery(target);
-		params.name = jQuery(this).attr('ajax:tiles');
-		var err = function(req, status, exception) {
-            bdajax.error(exception);
-        };
-		bdajax.request({
-			url: url + '/ajaxtiles',
-			type: 'json',
-			params: params,
-			success: function(data) {
-				if (!data) {
-					bdajax.error('Server response empty.');
-					return;
-				}
-                for (var i = 0; i < data.length; i++) {
-					params.name = data[i];
-					bdajax.request({
-						url: bdajax.parseurl(url) + '/ajaxtile',
-						type: 'json',
-						params: params,
-						success: function(data) {
-                            var name = data[0];
-                            var single = jQuery('#' + name);
-                            var multiple = jQuery('.' + name);
-                            single.replaceWith(data[1]);
-                            multiple.replaceWith(data[1]);
-							jQuery('#' + name + ' a[ajax\\:actions]').actions();
-                            jQuery('#' + name + ' a[ajax\\:tiles]').tiles();
-							jQuery('.' + name + ' a[ajax\\:actions]').actions();
-                            jQuery('.' + name + ' a[ajax\\:tiles]').tiles();
-                        },
-			            error: err
-					});
-                }
-            },
-			error: err
+	/*
+	 * Callback handler for an action binding.
+	 */
+	action: function(event) {
+		bdajax._action({
+			name: jQuery(this).attr('ajax:action'),
+			element: this,
+            event: event
+        });
+	},
+	
+	/*
+     * Callback handler for an actions binding.
+     */
+	actions: function(event) {
+		bdajax._actions({
+			name: jQuery(this).attr('ajax:actions'),
+			element: this,
+			event: event
 		});
-        event.preventDefault();
-	}
+    },
+	
+	/*
+     * Display System message as overlay.
+     * 
+     * @param message: Message to display as String or DOM element.
+     */
+    message: function(message) {
+        jQuery('#ajax-message').overlay({
+            expose: {
+                color: '#fff',
+                loadSpeed: 200
+            },
+            onBeforeLoad: function() {
+                var overlay = this.getOverlay();
+                jQuery('.message', overlay).html(message);
+            },
+            closeOnClick: false,
+            api: true
+        }).load();
+    },
+    
+    /*
+     * Display Error message as overlay.
+     * 
+     * @param message: Message to display as String or DOM element.
+     */
+    error: function(message) {
+        jQuery("#ajax-message .message")
+            .removeClass('error warning info')
+            .addClass('error')
+        ;
+        bdajax.message(message);
+    },
+    
+    /*
+     * Display Info message as overlay.
+     * 
+     * @param message: Message to display as String or DOM element.
+     */
+    info: function(message) {
+        jQuery("#ajax-message .message")
+            .removeClass('error warning info')
+            .addClass('info')
+        ;
+        bdajax.message(message);
+    },
+    
+    /*
+     * Display Warning message as overlay.
+     * 
+     * @param message: Message to display as String or DOM element.
+     */
+    warning: function(message) {
+        jQuery("#ajax-message .message")
+            .removeClass('error warning info')
+            .addClass('warning')
+        ;
+        bdajax.message(message);
+    }
 };

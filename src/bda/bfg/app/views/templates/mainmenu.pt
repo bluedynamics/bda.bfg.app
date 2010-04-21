@@ -3,7 +3,7 @@
     <li tal:repeat="item context.menuitems">
       <a href=""
          ajax:target="${item['url']}"
-         ajax:tiles="layout"
+         ajax:actions="layout"
          tal:define="css item['first'] and 'first' or '';
                      css item['selected']
                          and ' '.join([css, 'current_page_item'])

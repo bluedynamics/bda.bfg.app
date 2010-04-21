@@ -2,7 +2,7 @@
   <li tal:repeat="item children" class="navtreeitem">
     <a href=""
        ajax:target="${item['url']}"
-       ajax:tiles="layout"
+       ajax:actions="layout"
        tal:define="css item['selected'] and 'selected' or '';
                    css ' '.join([css, 'navtreelevel_%i' % level])"
        tal:attributes="href item['url'];

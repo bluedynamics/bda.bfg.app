@@ -38,7 +38,7 @@ Released   : 20090622
           <a class="logolink"
              href="${request.application_url}"
              ajax:target="${request.application_url}"
-             ajax:tiles="layout"
+             ajax:actions="layout"
              tal:content="model.root.title">Title</a>
         </h1>
         <p><em> by BlueDynamics Alliance</em></p>

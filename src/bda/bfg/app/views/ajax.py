@@ -11,64 +11,67 @@ from bda.bfg.tile import (
     render_to_response,
 )
 
-class IAjaxTiles(Interface):
-    """Interface for ajax tiles definition.
+class IAjaxActions(Interface):
+    """Interface for ajax actions definition.
     
     An implementation of this interface must be registered with
-    ``registerAjaxTiles``.
+    ``registerAjaxActions``.
     
     You have to provide the ``__init__`` function accepting
     ``model`` and ``request`` as parameters.
     
-    You can use the ``AjaxTiles`` base class which already implements the
+    You can use the ``AjaxActions`` base class which already implements the
     signature.
     """
-    tiles = Attribute(u'List of tilenames')
+    actions = Attribute(u'List of tilenames')
 
-class AjaxTiles(object):
-    """Abstract IAjaxTiles implementation.
+class AjaxActions(object):
+    """Abstract IAjaxActions implementation.
     """
-    implements(IAjaxTiles)
+    implements(IAjaxActions)
     
-    tiles = list()
+    actions = list()
     
     def __init__(self, model, request):
         self.model = model
         self.request = request
 
-def registerAjaxTiles(name, action, interface=None):
-    """registers ajax tiles.
+def registerAjaxActions(name, actions, interface=None):
+    """registers ajax actions.
     
     ``name``
         identifier of the action (for later lookup).
     
-    ``action``
-        the ``IAjaxTiles`` implementation to register.
+    ``actions``
+        the ``IAjaxActions`` implementation to register.
     
     ``interface`` 
         Interface or Class of the bfg model the action is registered for.
     """
     registry = get_current_registry()
-    registry.registerAdapter(action, [interface, IRequest], IAjaxTiles, name, 
+    registry.registerAdapter(actions, [interface, IRequest], IAjaxActions, name, 
                              event=False)
 
-@bfg_view(name='ajaxtiles', accept='application/json', renderer='json')
-def ajax_tiles(model, request):
-    """Lookup and return tilenames by tiles action via JSON.
+@bfg_view(name='ajaxactions', accept='application/json', renderer='json')
+def ajax_actions(model, request):
+    """Lookup ajaxactions by name.
     
-    Request must provide the parameter ``name`` containing the ajax action name.
+    Request must provide the parameter ``name`` containing the ajax actions
+    registration name.
     """
     registry = get_current_registry()
     name = request.params.get('name')
-    action = registry.getMultiAdapter((model, request), IAjaxTiles, name=name)
-    return action.tiles
+    action = registry.getMultiAdapter((model, request), IAjaxActions, name=name)
+    return action.actions
 
-@bfg_view(name='ajaxtile', accept='application/json', renderer='json')
+@bfg_view(name='ajaxaction', accept='application/json', renderer='json')
 def ajax_tile(model, request):
-    """Render a tile by tilename via JSON.
+    """Render an ajax action by name.
     
-    Request must provide the parameter ``name`` containing the tile name.
+    Request must provide the parameter ``name`` containing the view or tile
+    name.
     """
     name = request.params.get('name')
     rendered = render_tile(model, request, name)
+    # XXX: if tile not renderable, try to render bgf view with same name.
     return [name, rendered]
