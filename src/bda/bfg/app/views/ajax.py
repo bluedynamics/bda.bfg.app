@@ -7,9 +7,15 @@ from repoze.bfg.threadlocal import get_current_registry
 from repoze.bfg.view import bfg_view
 from bda.bfg.tile import (
     ITile,
+    registerTile,
     render_tile,
     render_to_response,
 )
+
+registerTile('bdajax',
+             'bda.bfg.app:views/templates/bdajax.pt',
+             permission='login',
+             strict=False)
 
 class IAjaxActions(Interface):
     """Interface for ajax actions definition.

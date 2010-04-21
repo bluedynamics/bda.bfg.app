@@ -1,3 +1,7 @@
+/*
+ * bdajax.js
+ */
+
 jQuery(document).ready(function() {
 	jQuery('#ajax-spinner')
         .hide()
@@ -12,10 +16,16 @@ jQuery(document).ready(function() {
     jQuery('a[ajax\\:action]').action();
 });
 
+/*
+ * jQuery plugin for bdajax action
+ */
 jQuery.fn.action = function() {
     jQuery(this).bind('click', bdajax.action);
 }
 
+/*
+ * jQuery plugin for bdajax actions
+ */
 jQuery.fn.actions = function() {
     jQuery(this).bind('click', bdajax.actions);
 }
