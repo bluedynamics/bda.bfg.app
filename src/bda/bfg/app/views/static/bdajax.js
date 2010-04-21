@@ -21,7 +21,8 @@
  *         ...
  *     </html>
  * 
- * You can define the following attributes in your markup:
+ * You can define the following attributes in your markup (not all features
+ * implemented yet):
  * 
  *   * ajax:action="actionname" - perform ajax action
  * 
