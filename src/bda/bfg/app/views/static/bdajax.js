@@ -1,5 +1,82 @@
 /*
  * bdajax.js
+ * =========
+ * 
+ * AJAX convenience library.
+ * 
+ * This library provides functions for common ajax communication, event
+ * rebinding and error handling.
+ * 
+ * XHTML namespace extension:
+ * ----------------------------
+ * 
+ * Beside functions you can use inside your own javascrips, this library
+ * provides behaviour for performing ajax actions defined in the markup. This
+ * action definitions use a XML namespace extension. Thus your markup must
+ * define this namespace.
+ * ::
+ * 
+ *     <html xmlns="http://www.w3.org/1999/xhtml"
+ *           xmlns:ajax="http://namesspaces.bluedynamics.eu/ajax">
+ *         ...
+ *     </html>
+ * 
+ * You can either trigger a single ajax ``action`` or a bunch of ajax
+ * ``actions`` with this mechanism.
+ * 
+ * Perform a single action
+ * -----------------------
+ * 
+ * Tell ``bdajax`` to bind an ``action`` in the markup.
+ * ::
+ * 
+ *     <a href="http://fubar.org/subpath/to/context/viewname?param=value"
+ *        ajax:target="http://fubar.org/subpath/to/context?param=value"
+ *        ajax:action="somename"
+ *     >fubar</a>
+ * 
+ * ``bdajax`` binds on page load the click event to ``bdajax.action`` callback
+ * on all dom elements defining an ``ajax:action`` attribute. This attribute
+ * contains the actionname which gets send to the server.
+ * 
+ * ``ajax.target`` is used to define the context on which the request is made
+ * and the query string you want to deliver. We need this because href might
+ * map to something completely different for a non-javascript fallback or the
+ * dom element is not a hyperlink at all.
+ * 
+ * When the action is triggered, ``bdajax`` calls a view named ``ajaxaction``
+ * and expects a JSON response (see ``bdajax._action`` for details).
+ * 
+ * Perform multiple actions
+ * ------------------------
+ * 
+ * Tell ``bdajax`` to bind multiple ``actions`` in the markup.
+ * ::
+ * 
+ *     <a href="http://fubar.org/subpath/to/context/viewname?param=value"
+ *        ajax:target="http://fubar.org/subpath/to/context?param=value"
+ *        ajax:actions="somename"
+ *     >fubar</a>
+ * 
+ * ``bdajax`` binds on page load the click event to ``bdajax.actions`` callback
+ * on all dom elements defining an ``ajax:actions`` attribute. This attribute
+ * contains the actions ``name`` which gets send to the server.
+ * 
+ * ``ajax.target`` is behaves the same way as when performing a single action.
+ * 
+ * When actions is triggered, ``bdajax`` calls a view named ``ajaxactions``
+ * and expects a JSON response containing a list of single actions which are
+ * then executed in sequence order (see ``bdajax._actions`` for details).
+ * 
+ * Credits:
+ * --------
+ * 
+ *     * Written by Robert Niederreiter <rnix@squarewave.at>
+ * 
+ * Dependencies:
+ * -------------
+ *     * jQuery
+ *     * jQuery tools
  */
 
 jQuery(document).ready(function() {
@@ -17,14 +94,14 @@ jQuery(document).ready(function() {
 });
 
 /*
- * jQuery plugin for bdajax action
+ * jQuery plugin for bdajax.action
  */
 jQuery.fn.action = function() {
     jQuery(this).bind('click', bdajax.action);
 }
 
 /*
- * jQuery plugin for bdajax actions
+ * jQuery plugin for bdajax.actions
  */
 jQuery.fn.actions = function() {
     jQuery(this).bind('click', bdajax.actions);
