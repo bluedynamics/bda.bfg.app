@@ -8,7 +8,7 @@
  * rebinding and error handling.
  * 
  * XHTML namespace extension:
- * ----------------------------
+ * --------------------------
  * 
  * Beside functions you can use inside your own javascrips, this library
  * provides behaviour for performing ajax actions defined in the markup. This
@@ -21,8 +21,24 @@
  *         ...
  *     </html>
  * 
- * You can either trigger a single ajax ``action`` or a bunch of ajax
- * ``actions`` with this mechanism.
+ * You can define the following attributes in your markup:
+ * 
+ *   * ajax:action="actionname" - perform ajax action
+ * 
+ *   * ajax:actiomode="replace" (XXX)
+ *       - replace - replace HTML at selector (default) 
+ *       - inner - replace inner HTML at selector
+ * 
+ *   * ajax:actions="actionsname" - perform ajax actions querying actions from
+ *                                  the server
+ * 
+ *   * ajax:actions="actionname1 actionname2" - perform ajax actions directly (XXX)
+ * 
+ *   * ajax:selector="a.someclass" (XXX)
+ * 
+ *   * ajax:event="eventname" - trigger event on selector (XXX)
+ * 
+ *   * ajax:call="someLocalFunction" - call function with selector (XXX)
  * 
  * Perform a single action
  * -----------------------
