@@ -24,18 +24,26 @@
  * You can define the following attributes in your markup (not all features
  * implemented yet):
  * 
- *   * ajax:action="actionname" - perform ajax action
- * 
- *   * ajax:actiomode="replace" (XXX)
+ *   * ajax:mode="replace" - takes effect for ajax:action and ajax:actions (XXX)
  *       - replace - replace HTML at selector (default) 
  *       - inner - replace inner HTML at selector
+ *       - append - append HTML at selector
+ * 
+ *   * ajax:action="actionname" - perform ajax action. You can provide
+ *                                ``action:mode`` directly by defining it after
+ *                                action name seperated by colon,
+ *                                i.e. ``actionname:inner``
  * 
  *   * ajax:actions="actionsname" - perform ajax actions querying actions from
- *                                  the server
+ *                                  the server. If ``action:mode`` is defined
+ *                                  and action name does not define mode
+ *                                  directly, use set ``action:mode`` as default
  * 
- *   * ajax:actions="actionname1 actionname2" - perform ajax actions directly (XXX)
+ *   * ajax:actions="actionname1:sel1 actionname2:sel2:inner" - perform ajax
+ *                                  actions directly (XXX)
  * 
- *   * ajax:selector="a.someclass" (XXX)
+ *   * ajax:selector="a.someclass" - takes effect everywhere but ajax:actions.
+ *                                   (XXX)
  * 
  *   * ajax:event="eventname" - trigger event on selector (XXX)
  * 
