@@ -172,10 +172,10 @@ bdajax = {
                 var name = data[0];
                 jQuery('#' + name).replaceWith(data[1]);
                 jQuery('.' + name).replaceWith(data[1]);
-				jQuery('a[ajax\\:actions]', jQuery('#' + name)).action();
-                jQuery('a[ajax\\:action]', jQuery('.' + name)).action();
-				jQuery('a[ajax\\:actions]', jQuery('#' + name)).actions();
-                jQuery('a[ajax\\:action]', jQuery('.' + name)).actions();
+				jQuery('#' + name + ' a[ajax\\:action]').action();
+                jQuery('#' + name + ' a[ajax\\:actions]').actions();
+                jQuery('.' + name + ' a[ajax\\:action]').action();
+                jQuery('.' + name + ' a[ajax\\:actions]').actions();
             },
             error: error
         });
@@ -221,14 +221,10 @@ bdajax = {
 			                var name = data[0];
 			                jQuery('#' + name).replaceWith(data[1]);
 			                jQuery('.' + name).replaceWith(data[1]);
-							jQuery('a[ajax\\:actions]',
-							       jQuery('#' + name)).action();
-                            jQuery('a[ajax\\:action]',
-							       jQuery('.' + name)).action();
-                            jQuery('a[ajax\\:actions]',
-							       jQuery('#' + name)).actions();
-                            jQuery('a[ajax\\:action]',
-							       jQuery('.' + name)).actions();
+							jQuery('#' + name + ' a[ajax\\:action]').action();
+                            jQuery('#' + name + ' a[ajax\\:actions]').actions();
+							jQuery('.' + name + ' a[ajax\\:action]').action();
+                            jQuery('.' + name + ' a[ajax\\:actions]').actions();
 			            },
 			            error: error
 			        });
