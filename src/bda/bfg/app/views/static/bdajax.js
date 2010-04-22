@@ -114,7 +114,7 @@ bdajax = {
     event: function(event) {
 		event.preventDefault();
         var target = bdajax.parsetarget(this);
-		var defs = bdajax._to_array(jQuery(this).attr('ajax:event'));
+		var defs = bdajax._defs_to_array(jQuery(this).attr('ajax:event'));
         for (var i = 0; i < defs.length; i++) {
 			var def = defs[i];
             def = def.split(':');
@@ -132,10 +132,10 @@ bdajax = {
         } else {
             target = bdajax.parsetarget(this);
         }
-		actions = bdajax._to_array(jQuery(this).attr('ajax:action'));
+		actions = bdajax._defs_to_array(jQuery(this).attr('ajax:action'));
 		for (var i = 0; i < actions.length; i++) {
 			var defs = actions[i].split(':');
-			bdajax._action({
+			bdajax._ajax({
 	            name: defs[0],
 	            selector: defs[1],
 	            mode: defs[2],
@@ -195,7 +195,7 @@ bdajax = {
 	// config.mode: action mode
     // config.url: target url
     // config.params: query params
-	_action: function(config) {
+	_ajax: function(config) {
         config.params['bdajax.action'] = config.name;
 		config.params['bdajax.mode'] = config.mode;
 		config.params['bdajax.selector'] = config.selector;
@@ -225,7 +225,7 @@ bdajax = {
         });
 	},
 	
-	_to_array: function(str) {
+	_defs_to_array: function(str) {
         var arr;
 		if (str.indexOf(' ') != -1) {
             arr = str.split(' ');
