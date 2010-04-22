@@ -85,8 +85,10 @@ You can define the following attributes in your markup:
         indicator attribute to force bdajax to bind something.
 
   * ajax:event="event:selector"
-        Trigger ``event`` on ``selector``
-
+        Trigger ``event`` on ``selector``. The triggered event gets the target
+        as additional parameter which rules in case ``ajax:target`` is defined
+        on triggered element.
+        
   * ajax:call="function:selector"
         Call ``function`` with ``selector``.
   
@@ -107,14 +109,14 @@ You can define the following attributes in your markup:
   * ajax:mode="inner"
         Takes effect for ``ajax:action`` and ``ajax:actions`` and define the
         manipulation mode. Available modes:
-            - replace - replace HTML at selector (default) 
+            - replace - replace HTML at selector
             - inner - replace inner HTML at selector
   
   * ajax:target="http://fubar.org?param=value"
-        Is mandatory for ``ajax:action`` and ``ajax:actions`` and defines the
-        server context on which the ajax action(s) should be executed on as
-        well as the query string, which is parsed and sent to the server as
-        request parameters
+        Is mandatory for ``ajax:event``, ``ajax:action`` and ``ajax:actions``
+        and defines the server context on which the ajax action(s) should be
+        executed on as well as the query string, which is parsed and sent to
+        the server as request parameters
 
 Event binding
 -------------

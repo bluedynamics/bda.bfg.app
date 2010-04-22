@@ -97,6 +97,83 @@ bdajax = {
 		return params;
 	},
 	
+	// Parse target definitions from ``ajax:target`` on elem
+	// @param target: DOM element with ``ajax:target`` attribute set
+	parsetarget: function(elem) {
+		var target = jQuery(elem).attr('ajax:target');
+		return {
+			url: bdajax.parseurl(target),
+			params: bdajax.parsequery(target)
+		};
+	},
+	
+	// Callback handler for event triggering.
+    event: function(event) {
+        var target = bdajax.parsetarget(this);
+        var attr = jQuery(this).attr('ajax:event');
+        var defs = attr.split(' ');
+        for (def in defs) {
+            def = def.split(':');
+            var evt = jQuery.Event(def[0]);
+            evt.target = target;
+            jQuery(def[1]).trigger(evt);
+        }
+    },
+    
+    // Callback handler for javascript function calls.
+    call: function(event) {
+        var attr = jQuery(this).attr('ajax:call');
+        var defs = attr.split(' ');
+        for (def in defs) {
+            def = def.split(':');
+            func = eval(def[0]);
+            func(jQuery(def[1]));
+        }
+    },
+    
+    // Callback handler for an action binding.
+    action: function(event) {
+        var target;
+        if (event.target) {
+            target = config.event.target;
+        } else {
+            target = bdajax.parsetarget(this);
+        }
+        var defs = jQuery(this).attr('ajax:action');
+        defs = defs.split(':');
+        bdajax._action({
+            name: defs[0],
+            selector: defs[1],
+            mode: defs[2],
+            url: target.url,
+            params: target.params,
+        });
+        event.preventDefault();
+    },
+    
+    // Callback handler for an actions binding.
+    actions: function(event) {
+		var target;
+        if (event.target) {
+            target = config.event.target;
+        } else {
+            target = bdajax.parsetarget(this);
+        }
+        var actions = jQuery(this).attr('ajax:actions');
+		actions = defs.split(' ');
+		for (action in actions) {
+			defs = action.split(':');
+			bdajax._action({
+	            name: defs[0],
+	            selector: defs[1],
+	            mode: defs[2],
+	            url: target.url,
+	            params: target.params,
+	        });
+		}
+		event.preventDefault();
+    },
+	
     // Error messages.
     ajaxerrors: {
         timeout: 'The request has timed out. Pleasae try again.',
@@ -148,68 +225,26 @@ bdajax = {
 	    });
 	},
 	
-    // Callback handler for event triggering.
-    event: function(event) {
-        var attr = jQuery(this).attr('[ajax\\:event]');
-        var defs = attr.split(' ');
-        for (def in defs) {
-            def = def.split(':');
-            jQuery(def[1]).trigger(jQuery.Event(def[0]));
-        }
-    },
-	
-    // Callback handler for javascript function calls.
-    call: function(event) {
-        var attr = jQuery(this).attr('[ajax\\:call]');
-        var defs = attr.split(' ');
-        for (def in defs) {
-            def = def.split(':');
-			func = eval(def[0]);
-			func(jQuery(def[1]));
-        }
-    },
-    
-    // Callback handler for an action binding.
-    action: function(event) {
-        bdajax._action({
-            name: jQuery(this).attr('ajax:action'),
-            element: this,
-            event: event
-        });
-    },
-    
-    // Callback handler for an actions binding.
-    actions: function(event) {
-        bdajax._actions({
-            name: jQuery(this).attr('ajax:actions'),
-            element: this,
-            event: event
-        });
-    },
-	
 	// Perform JSON request to server and alter element(s).
 	// This function expects as response an array containing a name
 	// mapping to class and/or id attributes of the dom element to alter
 	// and the html payload which is used as data replacement.
 	// @param config: object containing action configuration.
     //     Configuration fields:
-    //         name: Action name.
-    //         element: Dom element the event is bound to. 
-    //         event: thrown event.
+    //         name: Action name
+    //         selector: result selector
 	//         mode: action mode
-	//         selector: result selector
+    //         url: target url,
+    //         params: query params,
 	_action: function(config) {
-		var target = jQuery(config.element).attr('ajax:target');
-        var url = bdajax.parseurl(target);
-        var params = bdajax.parsequery(target);
-        params['bdajax.action'] = config.name;
-		params['bdajax.mode'] = config.mode;
-		params['bdajax.selector'] = config.selector;
+        config.params['bdajax.action'] = config.name;
+		config.params['bdajax.mode'] = config.mode;
+		config.params['bdajax.selector'] = config.selector;
 		var error = function(req, status, exception) {
             bdajax.error(exception);
         };
 		bdajax.request({
-            url: bdajax.parseurl(config.url) + '/' + config.view,
+            url: bdajax.parseurl(config.url) + '/ajaxaction',
             type: 'json',
             params: config.params,
             success: function(data) {
@@ -228,54 +263,5 @@ bdajax = {
             error: error
         });
 		config.event.preventDefault();
-	},
-	
-	// Perform JSON request to server and perform specified action(s).
-	// This function expects as response an array containing the action name(s)
-    // mapping to given actions name.
-	// @param config: object containing action configuration.
-    //     Configuration fields:
-    //         name: Actions name.
-    //         element: Dom element the event is bound to. 
-    //         event: thrown event.
-	_actions: function(config) {
-        var target = jQuery(config.element).attr('ajax:target');
-        var url = bdajax.parseurl(target);
-        var params = bdajax.parsequery(target);
-        params.name = config.name;
-        var error = function(req, status, exception) {
-            bdajax.error(exception);
-        };
-        bdajax.request({
-            url: url + '/ajaxactions',
-            type: 'json',
-            params: params,
-            success: function(data) {
-                if (!data) {
-                    bdajax.error('Server response empty.');
-                    return;
-                }
-                for (var i = 0; i < data.length; i++) {
-                    params.name = data[i];
-					bdajax.request({
-			            url: bdajax.parseurl(url) + '/ajaxaction',
-			            type: 'json',
-			            params: params,
-			            success: function(data) {
-			                var name = data[0];
-			                jQuery('#' + name).replaceWith(data[1]);
-			                jQuery('.' + name).replaceWith(data[1]);
-							jQuery('#' + name + ' a[ajax\\:action]').action();
-                            jQuery('#' + name + ' a[ajax\\:actions]').actions();
-							jQuery('.' + name + ' a[ajax\\:action]').action();
-                            jQuery('.' + name + ' a[ajax\\:actions]').actions();
-			            },
-			            error: error
-			        });
-                }
-            },
-            error: error
-        });
-        config.event.preventDefault();
-    }
+	}
 };
