@@ -21,34 +21,42 @@ Dispatching
 -----------
 
 For those who know KSS (Kinetic Style Sheets) and TAL (Tag Attribute Language);
-The syntax reminds to TAL while the functionality is inspired by the
-functionality of KSS. The main difference in functionality is the use of an
-'event/listener' model, what makes it possible to 'listen' to, and trigger
-'events' on the DOM tree.
+The syntax reminds of TAL - attributes are interpreted by JS instead of TAL
+renderer - while the functionality is inspired by KSS.
 
-You can define the
-following attributes in your markup:
+The main paradigm is the use of an 'event/listener' model, what makes it
+possible to 'listen' to, and trigger 'events' on the DOM tree.
 
-  * ajax:bind="eventname"
-        The event name(s) on which ``bdajax`` should bind to. This is also the
-        indicator attribute to force bdajax to bind something.
+Attributes
+----------
 
-  * ajax:call="function:selector"
-        Call ``function`` with ``selector``.
+You can define the following attributes in your markup:
 
-  * ajax:event="event:selector"
+  * ajax:bind="evt1 evt2"
+        Indicate a bdajax behavior on DOM element and the event(s) triggering
+        it.
+
+  * ajax:call="function1:selector1 function2:selector2"
+        Call function(s). The function gets passed a jQuery iterator of
+        selector and a target object. Target object provides ``url`` and
+        ``params``.
+
+  * ajax:event="evt1:sel1 evt2:sel2"
         Trigger event(s) on selector. The triggered event gets the target
-        as additional parameter which rules in case ``ajax:target`` is defined
-        on triggered element.
+        as additional parameter on event.ajaxtarget.
   
-  * ajax:action="name:selector:mode"
-        Perform ajax action(s).
+  * ajax:action="name1:selector1:mode1 name2:selector2:mode2"
+        Perform ajax action(s) on selector with mode. selector points the target
+        DOM element while mode defines how to modify the DOM tree. Possible
+        mode values are ``inner`` and ``replace``.
   
   * ajax:target="http://fubar.org?param=value"
-        Is mandatory for ``ajax:event``, ``ajax:action`` and defines the server
-        context on which the ajax action(s) should be executed on as well as
-        the query string, which is parsed and sent to the server as request
-        parameters
+        AJAX target definition. Consists out of target context URL and a
+        query string used for requests on the target context.
+        ``ajax:target`` is mandatory when ``ajax:event`` is defined, and
+        optional when ``ajax:action`` is defined (depends if event is triggered
+        by bdajax or browser event). See examples to get a clue what i am
+        talking about.
 
 Messages, Infos, Warnings and Errors
 ------------------------------------
