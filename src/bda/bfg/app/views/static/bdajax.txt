@@ -84,39 +84,22 @@ You can define the following attributes in your markup:
         The event name(s) on which ``bdajax`` should bind to. This is also the
         indicator attribute to force bdajax to bind something.
 
-  * ajax:event="event:selector"
-        Trigger ``event`` on ``selector``. The triggered event gets the target
-        as additional parameter which rules in case ``ajax:target`` is defined
-        on triggered element.
-        
   * ajax:call="function:selector"
         Call ``function`` with ``selector``.
+
+  * ajax:event="event:selector"
+        Trigger event(s) on selector. The triggered event gets the target
+        as additional parameter which rules in case ``ajax:target`` is defined
+        on triggered element.
   
   * ajax:action="name:selector:mode"
-        Perform an ajax action. ``name`` and ``selector`` are mandatory,
-        ``mode`` is optional. If ``mode`` is omitted, ``ajax:mode`` takes
-        effekt
-
-  * ajax:actions="name"
-        Perform multiple ajax actions by querying action definitions
-        from server by ``name``. Action format is as described in
-        ``ajax:action``
-
-  * ajax:actions="name:sel:mode name:sel:mode"
-        Perform multiple ajax actions using attribute value directly. Action
-        format is as described in ``ajax:action``
-  
-  * ajax:mode="inner"
-        Takes effect for ``ajax:action`` and ``ajax:actions`` and define the
-        manipulation mode. Available modes:
-            - replace - replace HTML at selector
-            - inner - replace inner HTML at selector
+        Perform ajax action(s).
   
   * ajax:target="http://fubar.org?param=value"
-        Is mandatory for ``ajax:event``, ``ajax:action`` and ``ajax:actions``
-        and defines the server context on which the ajax action(s) should be
-        executed on as well as the query string, which is parsed and sent to
-        the server as request parameters
+        Is mandatory for ``ajax:event``, ``ajax:action`` and defines the server
+        context on which the ajax action(s) should be executed on as well as
+        the query string, which is parsed and sent to the server as request
+        parameters
 
 Event binding
 -------------

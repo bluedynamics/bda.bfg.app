@@ -8,17 +8,25 @@ jQuery(document).ready(function() {
             jQuery(this).hide();
         })
     ;
-	jQuery(document).bdajax();
+	jQuery().bdajax(true);
 });
 
 // bind bdajax behaviour to context
-jQuery.fn.bdajax = function() {
-	jQuery('[ajax\\:bind]', this).each(function() {
-		var events = jQuery(this).attr('[ajax\\:bind]');
-		jQuery('[ajax\\:event]', this).bind(events, bdajax.event);
-		jQuery('[ajax\\:call]', this).bind(events, bdajax.call);
-		jQuery('[ajax\\:action]', this).bind(events, bdajax.action);
-		jQuery('[ajax\\:actions]', this).bind(events, bdajax.actions);
+jQuery.fn.bdajax = function(global) {
+	var context = this;
+	if (global) { context = null; }
+	jQuery('[ajax\\:bind]', context).each(function() {
+		var ajax = jQuery(this);
+		var events = ajax.attr('ajax:bind');
+		if (ajax.attr('ajax:action')) {
+            ajax.bind(events, bdajax.action);
+        }
+		if (ajax.attr('ajax:event')) {
+            ajax.bind(events, bdajax.event);
+        }
+		if (ajax.attr('ajax:call')) {
+            ajax.bind(events, bdajax.call);
+        }
 	});
 }
 
@@ -101,27 +109,18 @@ bdajax = {
 	// @param target: DOM element with ``ajax:target`` attribute set
 	parsetarget: function(elem) {
 		var target = jQuery(elem).attr('ajax:target');
+		var url = bdajax.parseurl(target);
+		var params = bdajax.parsequery(target);
+		if (!params) { params = {}; }
 		return {
-			url: bdajax.parseurl(target),
-			params: bdajax.parsequery(target)
+			url: url,
+			params: params
 		};
 	},
 	
-	// Callback handler for event triggering.
-    event: function(event) {
-        var target = bdajax.parsetarget(this);
-        var attr = jQuery(this).attr('ajax:event');
-        var defs = attr.split(' ');
-        for (def in defs) {
-            def = def.split(':');
-            var evt = jQuery.Event(def[0]);
-            evt.target = target;
-            jQuery(def[1]).trigger(evt);
-        }
-    },
-    
-    // Callback handler for javascript function calls.
+	// Callback handler for javascript function calls.
     call: function(event) {
+        event.preventDefault();
         var attr = jQuery(this).attr('ajax:call');
         var defs = attr.split(' ');
         for (def in defs) {
@@ -130,39 +129,33 @@ bdajax = {
             func(jQuery(def[1]));
         }
     },
+	
+	// Callback handler for event triggering.
+    event: function(event) {
+		event.preventDefault();
+        var target = bdajax.parsetarget(this);
+		var defs = bdajax._to_array(jQuery(this).attr('ajax:event'));
+        for (var i = 0; i < defs.length; i++) {
+			var def = defs[i];
+            def = def.split(':');
+            var evt = jQuery.Event(def[0]);
+            evt.ajaxtarget = target;
+            jQuery(def[1]).trigger(evt);
+        }
+    },
     
     // Callback handler for an action binding.
     action: function(event) {
-        var target;
-        if (event.target) {
-            target = config.event.target;
-        } else {
-            target = bdajax.parsetarget(this);
-        }
-        var defs = jQuery(this).attr('ajax:action');
-        defs = defs.split(':');
-        bdajax._action({
-            name: defs[0],
-            selector: defs[1],
-            mode: defs[2],
-            url: target.url,
-            params: target.params,
-        });
-        event.preventDefault();
-    },
-    
-    // Callback handler for an actions binding.
-    actions: function(event) {
+		event.preventDefault();
 		var target;
         if (event.target) {
-            target = config.event.target;
+            target = event.ajaxtarget;
         } else {
             target = bdajax.parsetarget(this);
         }
-        var actions = jQuery(this).attr('ajax:actions');
-		actions = defs.split(' ');
-		for (action in actions) {
-			defs = action.split(':');
+		actions = bdajax._to_array(jQuery(this).attr('ajax:action'));
+		for (var i = 0; i < actions.length; i++) {
+			var defs = actions[i].split(':');
 			bdajax._action({
 	            name: defs[0],
 	            selector: defs[1],
@@ -171,7 +164,6 @@ bdajax = {
 	            params: target.params,
 	        });
 		}
-		event.preventDefault();
     },
 	
     // Error messages.
@@ -262,6 +254,16 @@ bdajax = {
             },
             error: error
         });
-		config.event.preventDefault();
+	},
+	
+	// Split str by ' ' and return Array
+	_to_array: function(str) {
+        var arr;
+		if (str.indexOf(' ') != -1) {
+            arr = str.split(' ');
+        } else {
+            arr = new Array(str);
+        }
+        return arr
 	}
 };

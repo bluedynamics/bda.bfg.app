@@ -37,8 +37,9 @@ Released   : 20090622
         <h1>
           <a class="logolink"
              href="${request.application_url}"
+             ajax:bind="click"
              ajax:target="${request.application_url}"
-             ajax:actions="layout"
+             ajax:event="contextchanged:.contextsensitiv"
              tal:content="model.root.title">Title</a>
         </h1>
         <p><em> by BlueDynamics Alliance</em></p>
@@ -66,7 +67,14 @@ Released   : 20090622
         <div id="page-bgtop">
           
           <div id="content_wrapper">
-            <tal:content replace="structure tile('content')" />
+          
+            <div id="content"
+               class="contextsensitiv"
+               ajax:bind="contextchanged"
+               ajax:action="content:#content:inner">
+              <tal:content replace="structure tile('content')" />
+            </div>
+          
           </div>
           
           <div id="sidebar">
