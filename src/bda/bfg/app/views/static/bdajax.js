@@ -16,22 +16,13 @@ jQuery.fn.bdajax = function() {
 		var ajax = jQuery(this);
 		var events = ajax.attr('ajax:bind');
 		if (ajax.attr('ajax:action')) {
-            ajax
-			    .unbind(events)
-			    .bind(events, bdajax.action)
-			;
+            ajax.unbind(events).bind(events, bdajax.action);
         }
 		if (ajax.attr('ajax:event')) {
-            ajax
-			    .unbind(events)
-			    .bind(events, bdajax.event)
-			;
+            ajax.unbind(events).bind(events, bdajax.event);
         }
 		if (ajax.attr('ajax:call')) {
-            ajax
-			    .unbind(events)
-			    .bind(events, bdajax.call)
-			;
+            ajax.unbind(events).bind(events, bdajax.call);
         }
 	});
 }
