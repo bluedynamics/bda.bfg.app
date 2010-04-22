@@ -1,0 +1,215 @@
+bdajax.js
+=========
+
+AJAX convenience library.
+
+Messages, Infos, Warnings and Errors
+------------------------------------
+
+``bdajax`` provides displaying application messages in a jQuery tools
+overlay. ``bdajax.message`` displays a message as is, while ``bdajax.info``,
+``bda.warning`` and ``bda.error`` decorates the message with the approriate
+icon.
+::
+
+    bdajax.message('I am an application Message');
+
+URL Operations
+--------------
+
+You can parse hyperlinks for the base URL or the request parameters
+::
+
+    bdajax.parseurl('http://fubar.org?param=value');
+
+results in
+::
+
+    'http://fubar.org'
+
+while
+::
+
+    bdajax.parsequery('http://fubar.org?param=value');
+
+results in
+::
+
+    { param: 'value' }
+
+XMLHTTPRequest convenience
+--------------------------
+
+``bdajax`` provides the function ``request`` as convenience for
+XMLHTTPRequests. By default it sends requests of type ``html`` and displays
+a ``bdajax.error`` Message if request fails.
+::
+
+    bdajax.request({
+        success: function(data) {
+            // do something with data.
+        },
+        url: 'foo',
+        params: {
+            a: 'a',
+            b: 'b'
+        },
+        type: 'json',
+        error: function() {
+            bdajax.error('Request failed');
+        }
+    });
+
+The given ``url`` might contain a query string. The query is parsed and
+written to request parameters. If the same request parameter is defined
+in URL request query AND params object, latter one rules.
+
+Ajax behaviour and rules defined by XHTML markup attributes
+-----------------------------------------------------------
+
+Beside functions for use inside your own javascrips, this library
+provides behaviour for performing ajax actions defined in the markup. This
+action definitions use a XML namespace extension. Thus your markup must
+define this namespace.
+::
+
+    <html xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:ajax="http://namesspaces.bluedynamics.eu/ajax">
+        ...
+    </html>
+
+You can define the following attributes in your markup:
+
+  * ajax:bind="eventname"
+        The event name(s) on which ``bdajax`` should bind to. Defaults to
+        ``click``
+
+  * ajax:event="event:selector"
+        Trigger ``event`` on ``selector``
+
+  * ajax:call="function:selector"
+        Call ``function`` with ``selector``.
+  
+  * ajax:action="name:selector:mode"
+        Perform an ajax action. ``name`` and ``selector`` are mandatory,
+        ``mode`` is optional. If ``mode`` is omitted, ``ajax:mode`` takes
+        effekt
+
+  * ajax:actions="name"
+        Perform multiple ajax actions by querying action definitions
+        from server by ``name``. Action format is as described in
+        ``ajax:action``
+
+  * ajax:actions="name:sel:mode name:sel:mode"
+        Perform multiple ajax actions using attribute value directly. Action
+        format is as described in ``ajax:action``
+  
+  * ajax:mode="inner"
+        Takes effect for ``ajax:action`` and ``ajax:actions`` and define the
+        manipulation mode. Available modes:
+            - replace - replace HTML at selector (default) 
+            - inner - replace inner HTML at selector
+            - append - append HTML at selector
+  
+  * ajax:target="http://fubar.org?param=value"
+        Is mandatory for ``ajax:action`` and ``ajax:actions`` and defines the
+        server context on which the ajax action(s) should be executed on as
+        well as the query string, which is parsed and sent to the server as
+        request parameters
+
+Event binding
+-------------
+
+Bind DOM element to events
+::
+
+    <a href="http://fubar.org/subpath/to/context/viewname?param=value"
+       ajax:bind="keydown click"
+    >fubar</a>
+
+Binds the 'a' tag to event ``keydown`` and ``click``.
+
+Trigger events
+--------------
+
+Bind ``event`` in the markup.
+::
+
+    <a href="http://fubar.org/subpath/to/context/viewname?param=value"
+       ajax:event="click:a.autoclick"
+    >fubar</a>
+
+Bind multiple events in the markup.
+::
+
+    <a href="http://fubar.org/subpath/to/context/viewname?param=value"
+       ajax:bind="mouseout"
+       ajax:event="click:a.clickme customevent:div#navtree"
+    >fubar</a>
+
+``bdajax`` binds on page load ``ajax:bind`` event to ``bdajax.event`` callback
+on all dom elements defining an ``ajax:event`` attribute.
+
+Call local Javascript function
+------------------------------
+
+Bind ``call`` in the markup.
+::
+
+    <a href="http://fubar.org/subpath/to/context/viewname?param=value"
+       ajax:bind="click"
+       ajax:call="somefunction:div#content"
+    >fubar</a>
+
+``bdajax`` binds on page load ``ajax:bind`` event to ``bdajax.call`` callback
+on all DOM elements defining an ``ajax:call`` attribute.
+
+Perform a single action
+-----------------------
+
+Bind an ``action`` in the markup.
+::
+
+    <a href="http://fubar.org/subpath/to/context/viewname?param=value"
+       ajax:target="http://fubar.org/subpath/to/context?param=value"
+       ajax:action="someaction"
+       ajax:mode="append"
+    >fubar</a>
+
+``bdajax`` binds on page load ``ajax:bind`` to ``bdajax.action`` callback
+on all dom elements defining an ``ajax:action`` attribute.
+
+Perform multiple actions
+------------------------
+
+Bind multiple ``actions`` in the markup.
+::
+
+    <!-- Query action definitions from server -->
+    <a href="http://fubar.org/subpath/to/context/viewname?param=value"
+       ajax:target="http://fubar.org/subpath/to/context?param=value"
+       ajax:actions="somename"
+    >fubar</a>
+    
+    <!-- Use action definitions from attribute directly -->
+    <a href="http://fubar.org/subpath/to/context/viewname?param=value"
+       ajax:target="http://fubar.org/subpath/to/context?param=value"
+       ajax:actions="somename:a.someclass content:div#content:inner"
+    >fubar</a>
+
+``bdajax`` binds on page load `ajax:bind`` to ``bdajax.actions`` callback
+on all dom elements defining an ``ajax:actions`` attribute.
+ 
+Credits:
+--------
+
+    * Written by Robert Niederreiter <rnix@squarewave.at>
+
+Dependencies:
+-------------
+    * jQuery
+    * jQuery Tools
+    * bdajax.js
+    * bdajax.css
+    * bdajax.images
+    * bdajax.pt
