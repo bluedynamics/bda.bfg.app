@@ -8,23 +8,30 @@ jQuery(document).ready(function() {
             jQuery(this).hide();
         })
     ;
-	jQuery().bdajax(true);
+	jQuery().bdajax();
 });
 
-jQuery.fn.bdajax = function(global) {
-	var context = this;
-	if (global) { context = null; }
-	jQuery('[ajax\\:bind]', context).each(function() {
+jQuery.fn.bdajax = function() {
+	jQuery('[ajax\\:bind]').each(function() {
 		var ajax = jQuery(this);
 		var events = ajax.attr('ajax:bind');
 		if (ajax.attr('ajax:action')) {
-            ajax.bind(events, bdajax.action);
+            ajax
+			  .unbind(events)
+			  .bind(events, bdajax.action)
+			;
         }
 		if (ajax.attr('ajax:event')) {
-            ajax.bind(events, bdajax.event);
+            ajax
+			  .unbind(events)
+			  .bind(events, bdajax.event)
+			;
         }
 		if (ajax.attr('ajax:call')) {
-            ajax.bind(events, bdajax.call);
+            ajax
+			  .unbind(events)
+			  .bind(events, bdajax.call)
+			;
         }
 	});
 }
