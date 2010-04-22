@@ -11,10 +11,15 @@ jQuery(document).ready(function() {
 	jQuery(document).bdajax();
 });
 
+// bind bdajax behaviour to context
 jQuery.fn.bdajax = function() {
-	var context = this;
-    //jQuery(this).bind('click', bdajax.action);
-	//jQuery(this).bind('click', bdajax.actions);
+	jQuery('[ajax\\:bind]', this).each(function() {
+		var events = jQuery(this).attr('[ajax\\:bind]');
+		jQuery('[ajax\\:event]', this).bind(events, bdajax.event);
+		jQuery('[ajax\\:call]', this).bind(events, bdajax.call);
+		jQuery('[ajax\\:action]', this).bind(events, bdajax.action);
+		jQuery('[ajax\\:actions]', this).bind(events, bdajax.actions);
+	});
 }
 
 bdajax = {
@@ -117,34 +122,29 @@ bdajax = {
 	//         type: ``xml``, ``json``, ``script``, or ``html`` (optional).
 	//         error: Callback if request fails (optional).
 	request: function(config) {
-		var success = config.success
-		var url = config.url
-		var params = config.params
-		var type = config.type
-		var error = config.error
-		if (url.indexOf('?') != -1) {
-			var addparams = params;
-			params = bdajax.parsequery(url);
+		if (config.url.indexOf('?') != -1) {
+			var addparams = config.params;
+			config.params = bdajax.parsequery(url);
 			url = bdajax.parseurl(url);
 			for (var key in addparams) {
-                params[key] = addparams[key];
+                config.params[key] = addparams[key];
             }
 		} else {
-			if (!params) { params = {}; }
+			if (!config.params) { config.params = {}; }
 		}
-		if (!type) { type = 'html'; }
-	    if (!error) {
-	        error = function(request, status) {
+		if (!config.type) { config.type = 'html'; }
+	    if (!config.error) {
+	        config.error = function(request, status) {
 				var err = bdajax.ajaxerror(status);
 				if (err) { bdajax.error(err); }
 	        }
 	    }
 	    jQuery.ajax({
-	        url: url,
-	        dataType: type,
-	        data: params,
-	        success: success,
-	        error: error
+	        url: config.url,
+	        dataType: config.type,
+	        data: config.params,
+	        success: config.success,
+	        error: config.error
 	    });
 	},
 	
@@ -196,11 +196,15 @@ bdajax = {
     //         name: Action name.
     //         element: Dom element the event is bound to. 
     //         event: thrown event.
+	//         mode: action mode
+	//         selector: result selector
 	_action: function(config) {
 		var target = jQuery(config.element).attr('ajax:target');
         var url = bdajax.parseurl(target);
         var params = bdajax.parsequery(target);
-        params.name = config.name;
+        params['bdajax.action'] = config.name;
+		params['bdajax.mode'] = config.mode;
+		params['bdajax.selector'] = config.selector;
 		var error = function(req, status, exception) {
             bdajax.error(exception);
         };
@@ -209,13 +213,17 @@ bdajax = {
             type: 'json',
             params: config.params,
             success: function(data) {
-                var name = data[0];
-                jQuery('#' + name).replaceWith(data[1]);
-                jQuery('.' + name).replaceWith(data[1]);
-				jQuery('#' + name + ' a[ajax\\:action]').action();
-                jQuery('#' + name + ' a[ajax\\:actions]').actions();
-                jQuery('.' + name + ' a[ajax\\:action]').action();
-                jQuery('.' + name + ' a[ajax\\:actions]').actions();
+				var mode = data.mode;
+				var selector = data.selector;
+				if (mode == 'replace') {
+					jQuery(selector).replaceWith(data.payload);
+					jQuery(selector).bdajax();
+				} else if (mode == 'inner') {
+					jQuery(selector).html(data.payload);
+					jQuery(selector).each(function() {
+						jQuery(this).bdajax();
+					});
+				}
             },
             error: error
         });

@@ -81,8 +81,8 @@ define this namespace.
 You can define the following attributes in your markup:
 
   * ajax:bind="eventname"
-        The event name(s) on which ``bdajax`` should bind to. Defaults to
-        ``click``
+        The event name(s) on which ``bdajax`` should bind to. This is also the
+        indicator attribute to force bdajax to bind something.
 
   * ajax:event="event:selector"
         Trigger ``event`` on ``selector``
@@ -109,7 +109,6 @@ You can define the following attributes in your markup:
         manipulation mode. Available modes:
             - replace - replace HTML at selector (default) 
             - inner - replace inner HTML at selector
-            - append - append HTML at selector
   
   * ajax:target="http://fubar.org?param=value"
         Is mandatory for ``ajax:action`` and ``ajax:actions`` and defines the
