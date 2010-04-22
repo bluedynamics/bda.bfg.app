@@ -102,12 +102,13 @@ bdajax = {
 	
     call: function(event) {
         event.preventDefault();
-        var attr = jQuery(this).attr('ajax:call');
-        var defs = attr.split(' ');
-        for (def in defs) {
+		var target = bdajax.parsetarget(this);
+		var defs = bdajax._defs_to_array(jQuery(this).attr('ajax:call'));
+        for (var i = 0; i < defs.length; i++) {
+			var def = defs[i];
             def = def.split(':');
             func = eval(def[0]);
-            func(jQuery(def[1]));
+            func(jQuery(def[1]), target);
         }
     },
 	
