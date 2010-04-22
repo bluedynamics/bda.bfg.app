@@ -42,8 +42,11 @@ Released   : 20090622
              ajax:event="contextchanged:.contextsensitiv"
              tal:content="model.root.title">Title</a>
         </h1>
-        <p><em> by BlueDynamics Alliance</em></p>
+        <p>
+          <em> by BlueDynamics Alliance</em>
+        </p>
       </div>
+      
       <hr />
 
       <div id="header">

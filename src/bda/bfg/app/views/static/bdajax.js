@@ -220,11 +220,13 @@ bdajax = {
 				var selector = data.selector;
 				if (mode == 'replace') {
 					jQuery(selector).replaceWith(data.payload);
-					jQuery(selector).bdajax();
+					jQuery().bdajax();
+					// jQuery(selector).bdajax();
 				} else if (mode == 'inner') {
 					jQuery(selector).html(data.payload);
 					jQuery(selector).each(function() {
-						jQuery(this).bdajax();
+						jQuery().bdajax();
+						// jQuery(this).bdajax();
 					});
 				}
             },
