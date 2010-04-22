@@ -45,26 +45,20 @@ bdajax = {
     },
     
     error: function(message) {
-        jQuery("#ajax-message .message")
-            .removeClass('error warning info')
-            .addClass('error')
-        ;
+        jQuery("#ajax-message .message").removeClass('error warning info')
+                                        .addClass('error');
         bdajax.message(message);
     },
     
     info: function(message) {
-        jQuery("#ajax-message .message")
-            .removeClass('error warning info')
-            .addClass('info')
-        ;
+        jQuery("#ajax-message .message").removeClass('error warning info')
+                                        .addClass('info');
         bdajax.message(message);
     },
     
     warning: function(message) {
-        jQuery("#ajax-message .message")
-            .removeClass('error warning info')
-            .addClass('warning')
-        ;
+        jQuery("#ajax-message .message").removeClass('error warning info')
+                                        .addClass('warning');
         bdajax.message(message);
     },
 	
