@@ -1,7 +1,54 @@
-bdajax.js
-=========
+bdajax
+======
 
-AJAX convenience library.
+AJAX convenience.
+
+This library provides some JavaScript helper functions and a simple 
+dispatcher system which is driven by attributes. These attributes are defined
+in a XML namespace extension, placed in your XHTML markup.
+
+You can basically control 3 behaviors with the supported attributes:
+
+    - Call functions
+
+    - Trigger events
+    
+    - Perform actions
+
+Each behavior is bound to a JavaScript event itself. 
+
+Dispatching
+-----------
+
+For those who know KSS (Kinetic Style Sheets) and TAL (Tag Attribute Language);
+The syntax reminds to TAL while the functionality is inspired by the
+functionality of KSS. The main difference in functionality is the use of an
+'event/listener' model, what makes it possible to 'listen' to, and trigger
+'events' on the DOM tree.
+
+You can define the
+following attributes in your markup:
+
+  * ajax:bind="eventname"
+        The event name(s) on which ``bdajax`` should bind to. This is also the
+        indicator attribute to force bdajax to bind something.
+
+  * ajax:call="function:selector"
+        Call ``function`` with ``selector``.
+
+  * ajax:event="event:selector"
+        Trigger event(s) on selector. The triggered event gets the target
+        as additional parameter which rules in case ``ajax:target`` is defined
+        on triggered element.
+  
+  * ajax:action="name:selector:mode"
+        Perform ajax action(s).
+  
+  * ajax:target="http://fubar.org?param=value"
+        Is mandatory for ``ajax:event``, ``ajax:action`` and defines the server
+        context on which the ajax action(s) should be executed on as well as
+        the query string, which is parsed and sent to the server as request
+        parameters
 
 Messages, Infos, Warnings and Errors
 ------------------------------------
@@ -77,29 +124,6 @@ define this namespace.
           xmlns:ajax="http://namesspaces.bluedynamics.eu/ajax">
         ...
     </html>
-
-You can define the following attributes in your markup:
-
-  * ajax:bind="eventname"
-        The event name(s) on which ``bdajax`` should bind to. This is also the
-        indicator attribute to force bdajax to bind something.
-
-  * ajax:call="function:selector"
-        Call ``function`` with ``selector``.
-
-  * ajax:event="event:selector"
-        Trigger event(s) on selector. The triggered event gets the target
-        as additional parameter which rules in case ``ajax:target`` is defined
-        on triggered element.
-  
-  * ajax:action="name:selector:mode"
-        Perform ajax action(s).
-  
-  * ajax:target="http://fubar.org?param=value"
-        Is mandatory for ``ajax:event``, ``ajax:action`` and defines the server
-        context on which the ajax action(s) should be executed on as well as
-        the query string, which is parsed and sent to the server as request
-        parameters
 
 Event binding
 -------------
