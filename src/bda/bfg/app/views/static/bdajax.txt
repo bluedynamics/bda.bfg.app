@@ -95,7 +95,7 @@ Calling functions
 Provide the function to be called in your JavaScript
 ::
 
-    def somefunc(iter, target) {
+    somefunc = function(iter, target) {
         // do something
     }
 
