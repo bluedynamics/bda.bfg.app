@@ -1,8 +1,0 @@
-<div id="ajax-spinner">
-  <img src="/static/images/spinner.gif" alt="" />
-</div>
-
-<div class="ajax-message" id="ajax-message">
-  <div class="message">Message</div>
-  <button class="close">OK</button>
-</div>

@@ -5,7 +5,7 @@ from bda.bfg.tile import (
 )
 
 registerTile('bdajax',
-             'bda.bfg.app:views/templates/bdajax.pt',
+             'bdajax:bdajax.pt',
              permission='login',
              strict=False)
 
