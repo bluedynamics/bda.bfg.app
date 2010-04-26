@@ -1,7 +1,24 @@
+import yafowil.common
+import yafowil.compound
+from yafowil.base import factory
+
 from repoze import formapi
 from bda.bfg.tile import tile
 from bda.bfg.app.views.utils import authenticated
 from bda.bfg.app.views.common import Form
+
+from bda.bfg.app.views.common import YafowilForm
+
+class LoginForm(YafowilForm):
+    
+    @property
+    def form(self):
+        form = factory(u'form',
+                       name='loginform',
+                       properties={'action': self.nodeurl})
+        form['loginfields'] = factory('fieldset')
+        form['loginfields']['errfield'] = factory('errorfield', properties={})
+        form['loginfields']['errfield']['user'] = factory('user', properties={'required': 1})
 
 class LoginForm(formapi.Form):
     fields = {

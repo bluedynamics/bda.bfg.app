@@ -1,3 +1,4 @@
+from webob.exc import HTTPFound
 from repoze.bfg.security import has_permission
 from bda.bfg.tile import (
     tile,
@@ -6,6 +7,8 @@ from bda.bfg.tile import (
     render_tile,
     render_template,
 )
+from yafowil.controller import Controller
+from yafowil.webob import WebObRequestAdapter
 from bda.bfg.app.views.utils import (
     authenticated,
     nodepath,
@@ -43,8 +46,8 @@ class MainMenu(Tile):
             curpath = path[0]
         else:
             curpath = ''
-        # XXX: self.model.root.values() seem to make troubles if model is
-        #      already root.
+        # work with ``self.model.root.keys()``, ``values()`` propably not works
+        # due to the use of factory node.
         for key in self.model.root.keys():
             if not has_permission('view', self.model.root[key], self.request):
                 continue
@@ -250,6 +253,33 @@ class Batch(Tile):
                 return pointer
             pointer += 1
         return -1
+
+class YafowilForm(Tile):
+    
+    @property
+    def form(self):
+        """Return yafowil compound.
+        
+        Not implemented in base class.
+        """
+        raise NotImplementedError(u"``form`` property must be provided "
+                                  u"by deriving object.")
+    
+    def __call__(self, model, request):
+        self.model = model
+        self.request = request
+        self.prepare() # XXX maybe remove.
+        if not self.show:
+            return ''
+        request = WebObRequestAdapter(request)
+        controller = Controller(self.form)
+        next = controller(request)
+        if not next:
+            return self.form(request)
+        if isinstance(next, HTTPFound):
+            self.redirect(next.location)
+            return
+        return next(request)
 
 class Form(Tile, HTMLRenderer):
     """An abstract form tile.
