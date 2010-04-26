@@ -1,5 +1,3 @@
-import yafowil.common
-import yafowil.compound
 from yafowil.base import factory
 
 from repoze import formapi
@@ -9,7 +7,8 @@ from bda.bfg.app.views.common import Form
 
 from bda.bfg.app.views.common import YafowilForm
 
-class LoginForm(YafowilForm):
+@tile('yafowilloginform', permission="login")
+class YafowilLoginForm(YafowilForm):
     
     @property
     def form(self):
@@ -17,8 +16,32 @@ class LoginForm(YafowilForm):
                        name='loginform',
                        properties={'action': self.nodeurl})
         form['loginfields'] = factory('fieldset')
-        form['loginfields']['errfield'] = factory('errorfield', properties={})
-        form['loginfields']['errfield']['user'] = factory('user', properties={'required': 1})
+        userprops = {
+            'required': True,
+            'label': 'Username',
+        }
+        form['loginfields']['user'] = factory('field:error:text',
+                                              properties=userprops)
+        passprops = {
+            'label': 'Password',
+        }
+        form['loginfields']['password'] = factory('field:error:password',
+                                                  properties=passprops)
+        actionprops = {
+            'action': 'login',
+            'expression': True,
+            'handler': self.login,
+            'next': self.next,
+            'label': 'Login',
+        }
+        form['login'] = factory('submit', properties=actionprops)
+        return form
+    
+    def login(self, widget, data):
+        print 'login'
+    
+    def next(self, request):
+        print 'next'
 
 class LoginForm(formapi.Form):
     fields = {

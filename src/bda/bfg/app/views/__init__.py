@@ -1,3 +1,6 @@
+import yafowil.common
+import yafowil.compound
+import yafowil.labeled
 from webob import Response
 from webob.exc import HTTPUnauthorized
 from zope.interface import Interface
