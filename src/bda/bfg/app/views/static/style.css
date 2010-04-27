@@ -41,6 +41,7 @@ img.right {
 	margin: 7px 0 0 30px;
 }
 hr { display: none; }
+label { display: block; }
 .list1 {
 }
 .list1 li {

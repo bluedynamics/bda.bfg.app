@@ -14,27 +14,22 @@ class YafowilLoginForm(YafowilForm):
     def form(self):
         form = factory(u'form',
                        name='loginform',
-                       properties={'action': self.nodeurl})
-        form['loginfields'] = factory('fieldset')
-        userprops = {
-            'required': True,
+                       props={'action': self.nodeurl})
+        form['user'] = factory('field:label:error:text', props = {
+            'required': 'No username given',
             'label': 'Username',
-        }
-        form['loginfields']['user'] = factory('field:error:text',
-                                              properties=userprops)
-        passprops = {
+        })    
+        form['password'] = factory('field:label:error:password', props = {
+            'required': 'No password given',
             'label': 'Password',
-        }
-        form['loginfields']['password'] = factory('field:error:password',
-                                                  properties=passprops)
-        actionprops = {
+        })
+        form['login'] = factory('submit', props = {
             'action': 'login',
             'expression': True,
             'handler': self.login,
             'next': self.next,
             'label': 'Login',
-        }
-        form['login'] = factory('submit', properties=actionprops)
+        })
         return form
     
     def login(self, widget, data):
