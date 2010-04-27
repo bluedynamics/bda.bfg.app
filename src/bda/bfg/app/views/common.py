@@ -254,7 +254,7 @@ class Batch(Tile):
             pointer += 1
         return -1
 
-class YafowilForm(Tile):
+class Form(Tile):
     
     @property
     def form(self):
@@ -280,109 +280,3 @@ class YafowilForm(Tile):
             self.redirect(next.location)
             return
         return next(request)
-
-class Form(Tile, HTMLRenderer):
-    """An abstract form tile.
-    """
-    
-    @property
-    def factory(self):
-        raise NotImplementedError(u"``factory`` property must be provided "
-                                   "by deriving object.")
-    
-    @property
-    def formname(self):
-        return ''
-    
-    @property
-    def actionnames(self):
-        return dict()
-    
-    @property
-    def defaultvalues(self):
-        return dict()
-    
-    @property
-    def nexturl(self):
-        return self.request.application_url
-    
-    @property
-    def formaction(self):
-        return make_url(self.request, node=self.model)
-    
-    def textinput(self, name):
-        value = self.form.data[name]
-        payload = self.tag('input',
-                           type='text',
-                           name=name,
-                           value=value)
-        return self.wraperror(name, payload)
-    
-    def passwordinput(self, name):
-        payload = self.tag('input',
-                           type='password',
-                           name=name)
-        return self.wraperror(name, payload)
-    
-    def hiddeninput(self, name, value):
-        return self.tag('input', type='hidden', name=name, value=value)
-    
-    def renderedaction(self, name):
-        if name == 'default':
-            fieldname = self.formname
-        else:
-            fieldname = '%s.%s' % (self.formname, name)
-        return self.tag('input',
-                        type='submit',
-                        name=fieldname,
-                        _class='formaction',
-                        alt='/'.join(nodepath(self.model)),
-                        value=self.actionnames.get(name, name))
-    
-    def wraperror(self, name, payload):
-        message = self.form.errors._dict.get(name)
-        if not message:
-            return self.tag('div',
-                            payload,
-                            _class='field')
-        message = ', '.join(message._messages)
-        return self.tag('div',
-                        self.tag('div', message, _class='message'),
-                        self.tag('div', payload, _class='field'),
-                        _class='error')
-    
-    def __call__(self, model, request):
-        self.model = model
-        self.request = request
-        self.succeed = False
-        self.processform()
-        self.prepare() # XXX maybe remove.
-        if not self.show:
-            return ''
-        if not self.path:
-            raise ValueError(u"Could not render form without template.")
-        try: # XXX: do not catch exception.
-            if self.succeed and False: # XXX alter False with ajax request bool
-                return True
-            if self.succeed and self.nexturl and True:
-                # XXX alter True with ajax request bool
-                self.redirect(self.nexturl)
-            return render_template(self.path, request=request,
-                                   model=model, context=self)
-        except Exception, e:
-            return u"Error:<br /><pre>%s</pre>" % e
-    
-    def processform(self):
-        params = dict()
-        params.update(self.request.params)
-        self.form = self.factory(data=self.defaultvalues,
-                                 params=params,
-                                 prefix=self.formname)
-        if self.form.action:
-            # XXX: request should be allowed additionally
-            # XXX: make model providing on form via annotation
-            setattr(self.form, '_request', self.request)
-            setattr(self.form, 'model', self.model)
-            if self.form.validate():
-                self.form()
-                self.succeed = True

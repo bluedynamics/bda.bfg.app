@@ -1,4 +1,3 @@
-from repoze import formapi
 from bda.bfg.tile import (
     tile, 
     Tile, 
@@ -18,58 +17,7 @@ from bda.bfg.app.views.utils import (
 # form example
 ###############################################################################
 
-class TestForm(formapi.Form):
-    fields = {
-        'unicodefield': unicode,
-        'strfield': str,
-        'intfield': int,
-        'floatfield': float,
-    }
-    
-    @formapi.validator('unicodefield')
-    def check_unicodefield(self):
-        if self.data['unicodefield'] != 'fillme':
-            yield 'Unicodefield is invalid'
-    
-    @formapi.action
-    def save(self, data):
-        """do anything with data on save.
-        """
-    
-    @formapi.action("cancel")
-    def cancel(self, data):
-        """do anything with data on cancel.
-        """
-
-@tile('testform', path='templates/testform.pt')
-class TestFormTile(Form):
-    
-    @property
-    def factory(self):
-        return TestForm
-    
-    @property
-    def formname(self):
-        return 'testform'
-    
-    @property
-    def actionnames(self):
-        return {
-            'default': 'Speichern',
-            'cancel': 'Abbrechen',
-        }
-    
-    @property
-    def nexturl(self):
-        return self.request.application_url
-    
-    @property
-    def defaultvalues(self):
-        return {
-            'unicodefield': 'fillme',
-            'intfield': 0,
-            'floatfield': 0.0,
-        }
+# XXX:
 
 ###############################################################################
 # batch example

@@ -18,8 +18,8 @@ class FormPlugin(BasePlugin):
             environ['wsgi.input'] = StringIO()
             form.update(query)
             try:
-                login = form['login']
-                password = form['password']
+                login = form['loginform.user']
+                password = form['loginform.password']
             except KeyError:
                 return None
             del query[self.login_form_qs]
@@ -33,7 +33,9 @@ class FormPlugin(BasePlugin):
             return credentials
         return None
 
-def make_plugin(login_form_qs='__do_login', rememberer_name=None, form=None):
+def make_plugin(login_form_qs='__do_login',
+                rememberer_name=None, form=None):
+    login_form_qs='loginform.__do_login' # XXX: make this clean
     if rememberer_name is None:
         raise ValueError(
             'must include rememberer key (name of another IIdentifier plugin)')
