@@ -1,7 +1,5 @@
 import urllib
 from paste.request import parse_formvars
-from paste.request import construct_url
-from paste.httpexceptions import HTTPFound
 from repoze.who.plugins.form import FormPlugin as BasePlugin
 
 class FormPlugin(BasePlugin):
@@ -13,21 +11,20 @@ class FormPlugin(BasePlugin):
     def identify(self, environ):
         query = parse_formvars(environ)
         if query.get(self.login_form_qs): 
-            form = parse_formvars(environ)
             from StringIO import StringIO
             environ['wsgi.input'] = StringIO()
-            form.update(query)
             try:
-                login = form['loginform.user']
-                password = form['loginform.password']
+                login = query['loginform.user']
+                password = query['loginform.password']
             except KeyError:
                 return None
             del query[self.login_form_qs]
             environ['QUERY_STRING'] = urllib.urlencode(query)
-            environ['repoze.who.application'] = HTTPFound(
-                                                    construct_url(environ))
-            credentials = {'login':login, 'password':password}
-            max_age = form.get('max_age', None)
+            credentials = {
+                'login': login,
+                'password': password,
+            }
+            max_age = query.get('max_age', None)
             if max_age is not None:
                 credentials['max_age'] = max_age
             return credentials
@@ -35,7 +32,6 @@ class FormPlugin(BasePlugin):
 
 def make_plugin(login_form_qs='__do_login',
                 rememberer_name=None, form=None):
-    login_form_qs='loginform.__do_login' # XXX: make this clean
     if rememberer_name is None:
         raise ValueError(
             'must include rememberer key (name of another IIdentifier plugin)')

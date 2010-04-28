@@ -8,7 +8,6 @@ from bda.bfg.tile import (
     render_template,
 )
 from yafowil.controller import Controller
-from yafowil.webob import WebObRequestAdapter
 from bda.bfg.app.views.utils import (
     authenticated,
     nodepath,
@@ -268,15 +267,13 @@ class Form(Tile):
     def __call__(self, model, request):
         self.model = model
         self.request = request
-        self.prepare() # XXX maybe remove.
+        self.prepare()
         if not self.show:
             return ''
-        request = WebObRequestAdapter(request)
-        controller = Controller(self.form)
-        next = controller(request)
-        if not next:
-            return self.form(request)
-        if isinstance(next, HTTPFound):
-            self.redirect(next.location)
+        controller = Controller(self.form, request)
+        if not controller.next or controller.error:
+            return controller.rendered
+        if isinstance(controller.next, HTTPFound):
+            self.redirect(controller.next.location)
             return
-        return next(request)
+        return controller.next

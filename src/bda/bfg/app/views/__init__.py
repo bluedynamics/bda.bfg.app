@@ -1,3 +1,4 @@
+import yafowil.webob
 import yafowil.loader
 from webob import Response
 from webob.exc import HTTPUnauthorized

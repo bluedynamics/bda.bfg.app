@@ -1,3 +1,4 @@
+from webob.exc import HTTPFound
 from yafowil.base import (
     factory,
     ExtractionError,
@@ -15,12 +16,14 @@ class LoginForm(Form):
                        name='loginform',
                        props={'action': self.nodeurl})
         form['__do_login'] = factory('hidden', value='true')
-        form['user'] = factory('field:label:error:text',
+        form['user'] = factory(
+            'field:label:error:text',
             props = {
                 'required': 'No username given',
                 'label': 'Username',
             })    
-        form['password'] = factory('field:label:*credentials:error:password',
+        form['password'] = factory(
+            'field:label:*credentials:error:password',
             props = {
                 'required': 'No password given',
                 'label': 'Password',
@@ -28,12 +31,13 @@ class LoginForm(Form):
             custom = {
                 'credentials': ([self.authenticated], [], [], []),
             })
-        form['login'] = factory('submit',
+        form['login'] = factory(
+            'submit',
             props = {
                 'action': 'login',
                 'expression': True,
-                'handler': self.login,
-                'next': self.next,
+                'handler': None,
+                'next': None,
                 'label': 'Login',
             })
         return form
@@ -41,13 +45,3 @@ class LoginForm(Form):
     def authenticated(self, widget, data):
         if not authenticated(self.request):
             raise ExtractionError(u'Invalid Credentials')
-    
-    def login(self, widget, data):
-        # do not need to perform anything here. login gets performed
-        # by middleware.
-        pass
-    
-    def next(self, request):
-        # the loginform called context gets rendered automatically due to app
-        # behavior
-        pass
