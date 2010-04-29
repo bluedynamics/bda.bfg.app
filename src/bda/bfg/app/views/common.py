@@ -1,4 +1,4 @@
-from webob.exc import HTTPFound
+from paste.httpexceptions import HTTPFound
 from repoze.bfg.security import has_permission
 from bda.bfg.tile import (
     tile,
@@ -274,6 +274,6 @@ class Form(Tile):
         if not controller.next or controller.error:
             return controller.rendered
         if isinstance(controller.next, HTTPFound):
-            self.redirect(controller.next.location)
+            self.redirect(controller.next.location())
             return
         return controller.next

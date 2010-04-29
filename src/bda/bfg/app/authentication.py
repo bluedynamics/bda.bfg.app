@@ -1,7 +1,7 @@
 import urllib
 from paste.request import parse_formvars
-from paste.request import construct_url 
-from paste.httpexceptions import HTTPFound 
+from paste.request import construct_url
+from paste.httpexceptions import HTTPFound
 from repoze.who.interfaces import IAuthenticator
 from repoze.who.plugins.form import FormPlugin as BasePlugin
 
