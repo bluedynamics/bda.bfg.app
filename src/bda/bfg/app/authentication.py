@@ -28,13 +28,13 @@ class FormPlugin(BasePlugin):
                 'password': password,
             }
             
-            # XXX: hack, change authentication mechanism as soon as
-            #      repoze.who >= 2 takes place
+            # XXX: hack, change authentication mechanism to API as soon as
+            #      repoze.who >= 2.0 takes place
             #
             # repoze.who first calls identify, then the wsgi app and finally
-            # does remembering the credentials. this causes the authentication
-            # information is not available to the downstream app even if it
-            # should (at least imho)
+            # does remembering the credentials. this causes authentication
+            # checks fail in downstream app even if credentials are valid
+            # (at least imho)
             #
             # so we iterate the available IAuthentication plugins and check
             # if user is already authenticated. if so, change downstream to
