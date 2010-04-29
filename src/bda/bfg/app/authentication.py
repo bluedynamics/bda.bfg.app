@@ -21,20 +21,17 @@ class FormPlugin(BasePlugin):
                 password = query['loginform.password']
             except KeyError:
                 return None
-            del query[self.login_form_qs]
-            environ['QUERY_STRING'] = urllib.urlencode(query)
             credentials = {
                 'login': login,
                 'password': password,
             }
             
-            # XXX: hack, change authentication mechanism to API as soon as
-            #      repoze.who >= 2.0 takes place
+            # XXX: HACK, change authentication mechanism to repoze.who API as
+            #      soon as repoze.who >= 2.0 takes place
             #
-            # repoze.who first calls identify, then the wsgi app and finally
-            # does remembering the credentials. this causes authentication
-            # checks fail in downstream app even if credentials are valid
-            # (at least imho)
+            # repoze.who first calls identify, then the downstream app and
+            # finally remembers the credentials. this causes authentication
+            # checks to fail in downstream app even if credentials are valid.
             #
             # so we iterate the available IAuthentication plugins and check
             # if user is already authenticated. if so, change downstream to
@@ -49,7 +46,10 @@ class FormPlugin(BasePlugin):
                 environ['QUERY_STRING'] = ''
                 downstream = HTTPFound(construct_url(environ))
                 environ['repoze.who.application'] = downstream
-            # XXX: end hack
+            # XXX: END HACK
+            
+            del query[self.login_form_qs]
+            environ['QUERY_STRING'] = urllib.urlencode(query)
             
             max_age = query.get('max_age', None)
             if max_age is not None:
