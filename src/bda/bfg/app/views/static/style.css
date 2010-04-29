@@ -13,11 +13,14 @@ body {
 }
 h1, h2, h3 {
 	margin: 0;
+	margin-bottom: 0.5em;
 	font-family: "Trebuchet MS", Georgia, "Times New Roman", Times, serif;
 	font-weight: normal;
 	color: #4B8749;
 }
-h1 { font-size: 21px; }
+h1 {
+    font-size: 21px;
+}
 h2 { font-size: 18px; }
 h3 {}
 p, ul, ol {
