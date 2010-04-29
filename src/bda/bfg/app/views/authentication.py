@@ -1,4 +1,3 @@
-from webob.exc import HTTPFound
 from yafowil.base import (
     factory,
     ExtractionError,
