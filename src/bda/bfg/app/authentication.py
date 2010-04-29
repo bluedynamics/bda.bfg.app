@@ -1,5 +1,8 @@
 import urllib
 from paste.request import parse_formvars
+from paste.request import construct_url 
+from paste.httpexceptions import HTTPFound 
+from repoze.who.interfaces import IAuthenticator
 from repoze.who.plugins.form import FormPlugin as BasePlugin
 
 class FormPlugin(BasePlugin):
@@ -24,6 +27,30 @@ class FormPlugin(BasePlugin):
                 'login': login,
                 'password': password,
             }
+            
+            # XXX: hack, change authentication mechanism as soon as
+            #      repoze.who >= 2 takes place
+            #
+            # repoze.who first calls identify, then the wsgi app and finally
+            # does remembering the credentials. this causes the authentication
+            # information is not available to the downstream app even if it
+            # should (at least imho)
+            #
+            # so we iterate the available IAuthentication plugins and check
+            # if user is already authenticated. if so, change downstream to
+            # a HTTPFound instance
+            already_authenticated = False
+            for plugin in environ['repoze.who.plugins'].values():
+                if IAuthenticator.providedBy(plugin):
+                    login = credentials['login']
+                    if plugin.authenticate(environ, credentials) == login:
+                        already_authenticated = True
+            if already_authenticated:
+                environ['QUERY_STRING'] = ''
+                downstream = HTTPFound(construct_url(environ))
+                environ['repoze.who.application'] = downstream
+            # XXX: end hack
+            
             max_age = query.get('max_age', None)
             if max_age is not None:
                 credentials['max_age'] = max_age
