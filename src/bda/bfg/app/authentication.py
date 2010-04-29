@@ -6,10 +6,6 @@ from repoze.who.interfaces import IAuthenticator
 from repoze.who.plugins.form import FormPlugin as BasePlugin
 
 class FormPlugin(BasePlugin):
-    """Need to provide own implementation here because original plugin tries
-    to get the trigger param from the request query string, but it is sent
-    as post variable in case of KSS request.
-    """
     
     def identify(self, environ):
         query = parse_formvars(environ)
