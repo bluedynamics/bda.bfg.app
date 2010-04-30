@@ -1,5 +1,4 @@
-<tal:nav omit-tag="True"
-         xmlns:ajax="http://namesspaces.bluedynamics.eu/ajax">
+<tal:ajax xmlns:ajax="http://namesspaces.bluedynamics.eu/ajax" omit-tag="True">
   <ul>
     <li tal:repeat="item children" class="navtreeitem">
       <a href=""
@@ -17,4 +16,4 @@
       </ul>
     </li>
   </ul>
-</tal:nav>
+</tal:ajax>

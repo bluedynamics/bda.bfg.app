@@ -1,5 +1,4 @@
-<tal:batch omit-tag="True"
-           xmlns:ajax="http://namesspaces.bluedynamics.eu/ajax">
+<tal:ajax xmlns:ajax="http://namesspaces.bluedynamics.eu/ajax" omit-tag="True">
   <div tal:condition="context.display"
        class="batch">
      
@@ -91,4 +90,4 @@
     </span>
   
   </div>
-</tal:batch>
+</tal:ajax>

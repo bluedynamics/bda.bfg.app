@@ -1,5 +1,4 @@
-<tal:navtree omit-tag="True"
-             xmlns:ajax="http://namesspaces.bluedynamics.eu/ajax">
+<tal:ajax xmlns:ajax="http://namesspaces.bluedynamics.eu/ajax" omit-tag="True">
   <ul id="navtree"
       class="contextsensitiv"
       ajax:bind="contextchanged"
@@ -9,4 +8,4 @@
       <tal:tree replace="structure context.rendertree(context.navtree()['children'])" />
     </li>
   </ul>
-</tal:navtree>
+</tal:ajax>
