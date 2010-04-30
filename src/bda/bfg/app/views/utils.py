@@ -14,9 +14,11 @@ def make_query(**kw):
         query.append('%s=%s' % (name, param))
     return '?%s' % '&'.join(query)
 
-def make_url(request, path=[], node=None, query=None):
+def make_url(request, path=[], node=None, resource=None, query=None):
     if node is not None:
         path = nodepath(node)
+    if resource is not None:
+        path.append(resource)
     if not query:
         return '%s/%s' % (request.application_url, '/'.join(path))
     return '%s/%s%s' % (request.application_url, '/'.join(path), query)
