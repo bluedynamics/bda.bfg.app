@@ -271,7 +271,7 @@ class Form(Tile):
         if not self.show:
             return ''
         controller = Controller(self.form, request)
-        if not controller.next or controller.error:
+        if not controller.next:
             return controller.rendered
         if isinstance(controller.next, HTTPFound):
             self.redirect(controller.next.location())
