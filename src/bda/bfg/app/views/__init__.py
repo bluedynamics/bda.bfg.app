@@ -7,7 +7,10 @@ from zope.component import queryUtility, getUtilitiesFor
 from repoze.bfg.interfaces import IResponseFactory
 from repoze.bfg.view import static
 from repoze.bfg.view import bfg_view
-from bda.bfg.tile import render_template_to_response
+from bda.bfg.tile import (
+    render_template_to_response,
+    render_tile,
+)
 from bda.bfg.app.views.utils import authenticated
 
 # static resources
@@ -22,10 +25,15 @@ class ICSSResource(Interface):
         """Return CSS rules. The output is appended to ``bda.bfg.app.css``.
         """
 
-def render_default_main_template(model, request):
+def render_default_main_template(model, request, contenttilename='content'):
+    """Renders main template and return response object.
+    
+    As main content the tile with name contenttilename is rendered.
+    """
     return render_template_to_response('bda.bfg.app.views:templates/main.pt',
                                        request=request,
                                        model=model,
+                                       contenttilename=contenttilename,
                                        project='BDA DB Backend')
 
 @bfg_view(name='bda.bfg.app.css')
