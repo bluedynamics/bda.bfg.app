@@ -53,24 +53,22 @@ class FactoryNode(BaseNode):
 Base = FactoryNode
 
 class NodeAdapter(BaseNode):
-    """Could be used to adapt other Node implementations to be used as
-    application model Node.
+    """Could be used to adapt other Node implementations you want to use as
+    application model node.
+    
+    This object just calls the equivalent adapted node's functions on common
+    read operations.
     """
     
     def __init__(self, node, name, parent):
+        """Name and parent are used to hook the correct application hierarchy.
+        """
         self.node = node
         self.__name__ = name
-        # need to change the location chain for url generation.
         self.__parent__ = parent
     
     def __getitem__(self, key):
         return self.node[key]
-    
-    def __setitem__(self, key, val):
-        self.node[key] = val
-    
-    def __delitem__(self, key):
-        del self.node[key]
     
     def __contains__(self, key):
         return key in self.node.keys()
