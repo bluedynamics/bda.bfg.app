@@ -51,3 +51,59 @@ class FactoryNode(BaseNode):
     
 # BBB
 Base = FactoryNode
+
+class NodeAdapter(BaseNode):
+    """Could be used to adapt other Node implementations to be used as
+    application model Node.
+    """
+    
+    def __init__(self, node, name, parent):
+        self.node = node
+        self.__name__ = name
+        # need to change the location chain for url generation.
+        self.__parent__ = parent
+    
+    def __getitem__(self, key):
+        return self.node[key]
+    
+    def __setitem__(self, key, val):
+        self.node[key] = val
+    
+    def __delitem__(self, key):
+        del self.node[key]
+    
+    def __contains__(self, key):
+        return key in self.node.keys()
+    
+    def __len__(self):
+        return len(self.node)
+    
+    def __iter__(self):
+        for key in self.node:
+            yield key
+    
+    iterkeys = __iter__
+    
+    def keys(self):
+        return self.node.keys()
+    
+    def itervalues(self):
+        for value in self.node.itervalues():
+            yield value
+    
+    def values(self):
+        return list(self.itervalues())
+    
+    def iteritems(self):
+        for item in self.node.iteritems():
+            yield item
+    
+    def items(self):
+        return list(self.iteritems())
+    
+    def get(self, key, default=None):
+        return self.node.get(key, default)
+    
+    @property
+    def attrs(self):
+        return self.node.attrs
