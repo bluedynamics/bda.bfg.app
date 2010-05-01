@@ -10,13 +10,11 @@ from repoze.bfg.security import authenticated_userid
 class BaseNode(LifecycleNode):
     """Base application model node.
     """
-
     __acl__ = [
         (Allow, 'group:authenticated', 'view'),
         (Allow, Everyone, 'login'),
         (Deny, Everyone, ALL_PERMISSIONS),
     ]
-
     in_navtree = True
 
     @property
