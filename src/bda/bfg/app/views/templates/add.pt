@@ -1,0 +1,7 @@
+<div>
+  
+  <h1>Add</h1>
+  
+  <tal:add replace="structure tile('addform')" />
+
+</div>

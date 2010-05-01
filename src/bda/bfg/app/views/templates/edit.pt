@@ -1,0 +1,7 @@
+<div>
+  
+  <h1>Edit</h1>
+  
+  <tal:add replace="structure tile('editform')" />
+
+</div>
