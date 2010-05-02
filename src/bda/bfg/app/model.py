@@ -21,6 +21,10 @@ class BaseNode(LifecycleNode):
     def title(self):
         return self.__name__
     
+    @property
+    def metadata(self):
+        return self.attrs
+    
 class FactoryNode(BaseNode):
     """Base application model node with factories.
     """
