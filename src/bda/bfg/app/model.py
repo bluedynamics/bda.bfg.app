@@ -6,10 +6,12 @@ from repoze.bfg.security import Allow
 from repoze.bfg.security import Deny
 from repoze.bfg.security import ALL_PERMISSIONS
 from repoze.bfg.security import authenticated_userid
+from bda.bfg.app.interfaces import IApplicationNode
 
 class BaseNode(LifecycleNode):
     """Base application model node.
     """
+    implements(IApplicationNode)
     __acl__ = [
         (Allow, 'group:authenticated', 'view'),
         (Allow, Everyone, 'login'),
