@@ -300,50 +300,26 @@ form div.field {
 form div.message {
     padding: 2px 2px 0px 2px;
 }
-/* Calendar XXX: propably remove */
-#calendar {}
-#calendar caption {
-	padding-bottom: 5px;
-	font-weight: bold;
-}
-#calendar table {
+/* Contents */
+table.contents {
 	width: 100%;
+	border-style: solid;
+	border-width: 1px 0px 0px 1px;
+	border-color: #ccc;
 	border-collapse: collapse;
-	border-bottom: 1px solid #24130F;
-	border-left: 1px solid #24130F;
-	border-right: 1px solid #24130F;
+	border-spacing: none;
 }
-#calendar thead th {
-	padding: 5px 0;
-	text-align: center;
-	border-top: 1px solid #24130F;
-	border-left: 1px solid #24130F;
-	background: #24130F;
+table.contents th {
+	padding: 3px;
+	border-bottom: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	background-color: #eee;
+	text-align: left;
 }
-#calendar tbody td {
-	padding: 5px 0;
-	text-align: center;
-	border-top: 1px solid #24130F;
-	border-left: 1px solid #24130F;
-	border-bottom: 1px solid #24130F;
-}
-#calendar tfoot td {
-	padding: 5px;
-	border-left: 1px solid #24130F;
-	border-bottom: 1px solid #24130F;
-}
-#calendar tfoot #next {
-	border-top: 1px solid #24130F;
-	text-align: right;
-}
-#calendar tfoot #prev {
-	border-top: 1px solid #24130F;
-}
-#calendar .pad {
-	border-bottom: 1px solid #24130F;
-}
-#calendar #today {
-	background: #24130F;
+table.contents td {
+	padding: 3px;
+	border-bottom: 1px solid #ccc;
+	border-right: 1px solid #ccc;
 }
 /* Footer */
 #footer {

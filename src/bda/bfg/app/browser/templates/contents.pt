@@ -1,9 +1,12 @@
 <tal:ajax xmlns:ajax="http://namesspaces.bluedynamics.eu/ajax" omit-tag="True">
-  <table>
-    <th>Title</th>
-    <th>Creator</th>
-    <th>Created</th>
-    <th>Edit</th>
+  <table class="contents">
+    <tr class="head">
+      <th>Title</th>
+      <th>Creator</th>
+      <th>Created</th>
+      <th>View</th>
+      <th>Edit</th>
+    </tr>
     <tal:row repeat="item context.items">
       <tr>
         <td>
@@ -17,6 +20,14 @@
         </td>
         <td tal:content="item.metadata.get('creator', 'unknown')">Creator</td>
         <td tal:content="item.metadata.get('created', 'unknown')">Created</td>
+        <td>
+          <a href="${context.nodeurl}/${item.__name__}"
+             ajax:bind="click"
+             ajax:target="${context.nodeurl}/${item.__name__}"
+             ajax:action="content:#content:inner">
+              View
+          </a>
+        </td>
         <td>
           <a href="${context.nodeurl}/${item.__name__}/edit"
              ajax:bind="click"

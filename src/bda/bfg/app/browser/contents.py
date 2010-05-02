@@ -8,7 +8,7 @@ from bda.bfg.tile import (
 class Contents(Tile):
     """Contents tile.
     
-    XXX: batching
+    XXX: batching, sorting
     """
     
     @property
