@@ -4,8 +4,7 @@
       <th>Title</th>
       <th>Creator</th>
       <th>Created</th>
-      <th>View</th>
-      <th>Edit</th>
+      <th>Actions</th>
     </tr>
     <tal:row repeat="item context.items">
       <tr>
@@ -23,15 +22,15 @@
         <td>
           <a href="${context.nodeurl}/${item.__name__}"
              class="view16_16"
+             title="View"
              ajax:bind="click"
              ajax:target="${context.nodeurl}/${item.__name__}"
              ajax:action="content:#content:inner">
               &nbsp;
           </a>
-        </td>
-        <td>
           <a href="${context.nodeurl}/${item.__name__}/edit"
              class="edit16_16"
+             title="Edit"
              ajax:bind="click"
              ajax:target="${context.nodeurl}/${item.__name__}"
              ajax:action="edit:#content:inner">
