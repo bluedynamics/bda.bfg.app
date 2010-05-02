@@ -3,11 +3,9 @@ from bda.bfg.tile import (
     Tile, 
     render_tile,
 )
-from bda.bfg.app.views.common import (
-    Batch, 
-    Form, 
-)
-from bda.bfg.app.views.utils import (
+from bda.bfg.app.browser.batch import Batch
+from bda.bfg.app.browser.form import Form
+from bda.bfg.app.browser.utils import (
     nodepath, 
     make_query, 
     make_url,

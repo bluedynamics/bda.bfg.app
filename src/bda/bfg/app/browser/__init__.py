@@ -11,7 +11,7 @@ from bda.bfg.tile import (
     render_template_to_response,
     render_tile,
 )
-from bda.bfg.app.views.utils import authenticated
+from bda.bfg.app.browser.utils import authenticated
 
 # static resources
 static_view = static('static')
@@ -30,7 +30,7 @@ def render_default_main_template(model, request, contenttilename='content'):
     
     As main content the tile with name contenttilename is rendered.
     """
-    return render_template_to_response('bda.bfg.app.views:templates/main.pt',
+    return render_template_to_response('bda.bfg.app.browser:templates/main.pt',
                                        request=request,
                                        model=model,
                                        contenttilename=contenttilename,

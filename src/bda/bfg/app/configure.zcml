@@ -3,11 +3,11 @@
   <include package="repoze.bfg.includes" />
   <include package="bdajax" file="bfg.zcml" />
   
-  <scan package=".views" />
+  <scan package=".browser" />
   
   <view
     for="*"
-    view=".views.static_view"
+    view=".browser.static_view"
     name="static"
   />
   

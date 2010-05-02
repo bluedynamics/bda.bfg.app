@@ -3,8 +3,8 @@ from yafowil.base import (
     ExtractionError,
 )
 from bda.bfg.tile import tile
-from bda.bfg.app.views.utils import authenticated
-from bda.bfg.app.views.common import Form
+from bda.bfg.app.browser.utils import authenticated
+from bda.bfg.app.browser.form import Form
 
 @tile('loginform', permission="login")
 class LoginForm(Form):
