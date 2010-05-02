@@ -13,6 +13,9 @@ from bda.bfg.tile import (
 )
 from bda.bfg.app.browser.utils import authenticated
 
+# main template. Overwrite to customize
+MAIN_TEMPLATE = 'bda.bfg.app.browser:templates/main.pt'
+
 # static resources
 static_view = static('static')
 
@@ -25,16 +28,20 @@ class ICSSResource(Interface):
         """Return CSS rules. The output is appended to ``bda.bfg.app.css``.
         """
 
-def render_default_main_template(model, request, contenttilename='content'):
+def render_main_template(model, request, contenttilename='content'):
     """Renders main template and return response object.
     
     As main content the tile with name contenttilename is rendered.
     """
-    return render_template_to_response('bda.bfg.app.browser:templates/main.pt',
+    return render_template_to_response(MAIN_TEMPLATE,
                                        request=request,
                                        model=model,
                                        contenttilename=contenttilename,
                                        project='BDA DB Backend')
+
+@bfg_view(permission='login')
+def main(model, request):
+    return render_main_template(model, request)
 
 @bfg_view(name='bda.bfg.app.css')
 def bda_bfg_app_css(model, request):
