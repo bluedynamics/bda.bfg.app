@@ -1,8 +1,3 @@
-/*
-Design by Free CSS Templates
-http://www.freecsstemplates.org
-Released for free under a Creative Commons Attribution 2.5 License
-*/
 body {
 	margin: 0;
 	padding: 0;
@@ -273,6 +268,26 @@ label { display: block; }
 #sidebar li.navtreeitem a.selected {
     color: #000000;
 }
+/* Footer */
+#footer {
+    width: 1000px;
+    height: 95px;
+    margin: 0 auto;
+    padding: 0;
+    background: url(/static/images/img05.jpg) no-repeat left top;
+}
+#footer p {
+    margin: 0;
+    padding: 56px 0;
+    text-align: center;
+    line-height: normal;
+    text-transform: uppercase;
+    font-size: 10px;
+    color: #66665E;
+}
+#footer a {
+    color: #000000;
+}
 /* batch */
 .batch {
 	width: 100%;
@@ -310,34 +325,27 @@ table.contents {
 	border-spacing: none;
 }
 table.contents th {
-	padding: 3px;
+	padding: 4px;
 	border-bottom: 1px solid #ccc;
 	border-right: 1px solid #ccc;
 	background-color: #eee;
 	text-align: left;
 }
 table.contents td {
-	padding: 3px;
+	padding: 4px;
 	border-bottom: 1px solid #ccc;
 	border-right: 1px solid #ccc;
 }
-/* Footer */
-#footer {
-	width: 1000px;
-	height: 95px;
-	margin: 0 auto;
-	padding: 0;
-	background: url(/static/images/img05.jpg) no-repeat left top;
+/* Authoring */
+a.view16_16 {
+	text-decoration: none;
+	padding-left: 16px;
+	width:16px;
+	background:url('/static/images/view16_16.png') 50% 50% no-repeat;
 }
-#footer p {
-	margin: 0;
-	padding: 56px 0;
-	text-align: center;
-	line-height: normal;
-	text-transform: uppercase;
-	font-size: 10px;
-	color: #66665E;
-}
-#footer a {
-	color: #000000;
+a.edit16_16 {
+	text-decoration: none;
+    padding-left: 16px;
+	width:16px;
+    background:url('/static/images/edit16_16.png') 50% 50% no-repeat;
 }

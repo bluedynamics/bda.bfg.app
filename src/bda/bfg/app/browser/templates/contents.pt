@@ -22,18 +22,20 @@
         <td tal:content="item.metadata.get('created', 'unknown')">Created</td>
         <td>
           <a href="${context.nodeurl}/${item.__name__}"
+             class="view16_16"
              ajax:bind="click"
              ajax:target="${context.nodeurl}/${item.__name__}"
              ajax:action="content:#content:inner">
-              View
+              &nbsp;
           </a>
         </td>
         <td>
           <a href="${context.nodeurl}/${item.__name__}/edit"
+             class="edit16_16"
              ajax:bind="click"
              ajax:target="${context.nodeurl}/${item.__name__}"
              ajax:action="edit:#content:inner">
-              Edit
+              &nbsp;
           </a>
         </td>
       </tr>
