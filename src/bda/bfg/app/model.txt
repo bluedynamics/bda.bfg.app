@@ -16,15 +16,84 @@ has some advantages:
       ``Node.path``.
     
     - The model is held in memory. ``LifecycleNode`` triggers object events
-      when it is modified, so we can subscribe to this events for tree
-      manipulation or trigger those events, i.e. on cache timeouts.
+      when it is modified, so we can subscribe to this events for data or tree
+      manipulation or trigger those events ourself, i.e. on cache timeouts.
     
-    - Node have an index holding references to all contained Nodes in the tree
+    - Nodes have an index holding references to all contained Nodes in the tree
       by uid. This makes it easy to access information from other Nodes in the
       tree.
 
-Test the base Node.
+``bda.bfg.app.interfaces.IApplicationNode`` extend this interface by:
+
+    - An ``__acl__`` property defining security. See documentation of
+      ``repoze.bfg.security`` for details.
+    
+    - A ``properties`` property, holding app specific information, i.e.
+      'in_navtree', which is used by ``navtree`` tile to determine wether this
+      node should be displayed in navigation tree or not. Use this property
+      if you need 'by-node' configuration in your application.
+    
+    - A ``metadata`` property, containing an IMetadata implementation.
+      ``bda.bfg.app.model.BaseNode`` returns by default, a
+      ``bda.bfg.app.model.BaseMetadata`` instance. This
+      base implementation is an adapter like object wrapping any dict like
+      object, is case of ``BaseNode`` the data for metadata is
+      ``BaseNode.attrs``.
+    
+    - A ``title`` property as convenience. This might get removed in future.
+
+BaseNode
+--------
 ::
 
     >>> from bda.bfg.app.model import BaseNode
     >>> root = BaseNode()
+
+Default permissions.
+::
+
+    >>> root.__acl__
+    [('Allow', 'group:authenticated', 'view'), 
+    ('Allow', 'system.Everyone', 'login'), 
+    ('Deny', 'system.Everyone', 
+    <repoze.bfg.security.AllPermissionsList object at ...>)]
+
+Base implementation does not define any properties.
+::
+
+    >>> root.properties
+    {}
+
+Metadata of base implementation maps to base implementation's ``attr`` property.
+::
+
+    >>> root.metadata._data() is root.attrs
+    True
+    
+``title`` property returns either ``properties['title']`` or ``Node.__name__``.
+::
+
+    >>> root.__name__ = 'foo'
+    >>> root.title
+    'foo'
+    
+    >>> root.attrs.title = 'Foo Title'
+    >>> root.title
+    'Foo Title'
+
+Now ``metadata.title`` is available as well since ``BaseNode.metadata`` just
+wraps ``BaseNode.attrs``.
+::
+
+    >>> root.metadata.title
+    'Foo Title'
+
+``IMetadata`` implementations do not raise AttributeErrors if requested metadata
+not exists.
+::
+
+    >>> root.metadata.inexistent
+
+FactoryNode
+-----------
+

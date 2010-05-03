@@ -59,9 +59,6 @@ class FactoryNode(BaseNode):
             child = self.factories[key]()
             self[key] = child
         return child
-    
-# BBB
-Base = FactoryNode
 
 class NodeAdapter(BaseNode):
     """Could be used to adapt other Node implementations you want to use as
