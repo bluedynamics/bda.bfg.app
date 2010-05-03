@@ -93,16 +93,16 @@ Request dummy.
 Model dummy.
 ::
 
-    >>> #from bda.bfg.app.model import BaseNode
-    >>> #model = BaseNode()
+    >>> from bda.bfg.app.model import BaseNode
+    >>> model = BaseNode()
 
 Render the main template. The function accepts an optional ``contenttilename``
 argument. if omitted, reserved name 'content' is used.
 ::
 
-    >>> #from bda.bfg.app.browser import render_main_template
-    >>> #res = render_main_template(model, request)
-    >>> #res
+    >>> from bda.bfg.app.browser import render_main_template
+    >>> res = render_main_template(model, request)
+    >>> res
     <Response at ... 200 OK>
 
 Register tile with other name as well.
