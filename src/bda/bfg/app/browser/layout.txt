@@ -102,9 +102,62 @@ argument. if omitted, reserved name 'content' is used.
 
     >>> from bda.bfg.app.browser import render_main_template
     >>> res = render_main_template(model, request)
-    >>> res
-    <Response at ... 200 OK>
+    >>> res.body
+    '<...
+    <body>\n    <div>Content</div>\n  
+    </body>\n</html>'
 
-Register tile with other name as well.
+    >>> registerTile('othername', class_=ContentTile)
+    >>> res = render_main_template(model, request, contenttilename='othername')
+    >>> res.body
+    '<...
+    <body>\n    <div>Content</div>\n  
+    </body>\n</html>'
 
-    >>> #registerTile('othername', class_=ContentTile)
+Switch back to origin main template.
+::
+
+    >>> main =  'bda.bfg.app.browser:templates/main.pt'
+    >>> bda.bfg.app.browser.MAIN_TEMPLATE = main
+    
+    >>> import bda.bfg.app.browser.ajax
+    >>> import bda.bfg.app.browser.layout
+    
+    >>> res = render_main_template(model, request, contenttilename='othername')
+    >>> res.body.find('id="mainmenu"') > -1
+    True
+    
+    >>> res.body.find('id="navtree"') > -1
+    True
+    
+    >>> res.body.find('id="personaltools"') > -1
+    True
+
+Main menu
+---------
+
+    >>> root = BaseNode()
+    >>> root['1'] = BaseNode()
+    >>> root['2'] = BaseNode()
+
+Render main menu at root.
+::
+
+    >>> res = render_tile(root, request, 'mainmenu')
+    >>> res.find('href="http://example.com/1"') > -1
+    True
+    
+    >>> res.find('href="http://example.com/2"') > -1
+    True
+
+Render main menu at child. Child is marked selected.
+::
+
+    >>> res = render_tile(root['1'], request, 'mainmenu')
+    >>> res.find('class="first current_page_item mainmenulink"') > -1
+    True
+
+Navtree
+-------
+
+    >>> 
