@@ -11,7 +11,6 @@ AJAX helpers.
 Setup
 =====
 
-
 Application egg
 ---------------
 
@@ -266,6 +265,7 @@ Copyright
 
     - Copyright (c) 2009-2010 BlueDynamics Alliance http://www.bluedynamics.com
 
+
 Credits
 =======
 
@@ -273,10 +273,11 @@ Credits
     
     - Jens Klein <jens@bluedynamics.com>
 
+
 Changes
 =======
 
-unreleased (svn)
+Unreleased (svn)
 ----------------
 
     - Introduce model interfaces. authentication and model tests
