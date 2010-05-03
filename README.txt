@@ -11,6 +11,7 @@ AJAX helpers.
 Setup
 =====
 
+
 Application egg
 ---------------
 
@@ -95,7 +96,6 @@ This is how our ``who.ini`` looks like.
     [challengers]
     plugins = loginform
 
-
 Create ``repoze.what`` configuration, defining plugins to use recognizing 
 permissions and groups.
  
@@ -114,7 +114,6 @@ adapters.
     [what]
     group_adapters = ini_group
     permission_adapters = ini_permission
-
 
 Read the documentation of ``repoze.what.plugins.ini`` for information about
 group and permission configuration via INI files.
@@ -262,46 +261,33 @@ Now the base application setup is done. Test your setup by
 You should be able now to browse the application at ``localhost:8080``.
 
 
-The application Model
-=====================
+Copyright
+=========
 
-XXX
+    - Copyright (c) 2009-2010 BlueDynamics Alliance http://www.bluedynamics.com
 
+Credits
+=======
 
-The Application Layout
-======================
+    - written by Robert Niederreiter <rnix@squarewave.at>
+    
+    - Jens Klein <jens@bluedynamics.com>
 
-Tiles and the application
--------------------------
+Changes
+=======
 
-XXX
+unreleased (svn)
+----------------
 
+    - Introduce model interfaces. authentication and model tests
+      [rnix, 2010-05-03]
 
-Reserved tiles
---------------
+    - Code Cleanup [rnix]
 
-XXX
+    - Update to repoze.bfg 1.3 [rnix]
 
+    - Remove KSS. Integrate bdajax [rnix]
+    
+    - Update to repoze.bfg 1.2 [jensens]
 
-Application Widgets
-===================
-
-Forms
------
-
-XXX
-
-
-Batches
--------
-
-XXX
-
-
-Application security
-====================
-
-Dealing with ACL's
-------------------
-
-XXX
+    - Initial work [rnix]
