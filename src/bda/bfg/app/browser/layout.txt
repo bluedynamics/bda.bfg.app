@@ -1,0 +1,110 @@
+Layout
+======
+
+This application strictly follows the concept of tiles. Each part of the
+application is represented by a tile, i.e. main menu, navigation tree, site
+content area, etc..
+
+Doing this gives us the following characteristics:
+
+    - Abstraction of the site to several 'subapplications' which could be
+      views, widgets and/or controllers.
+    
+    - The possibility to create generic tiles by the contract of
+      ``bda.bfg.app.interfaces.IApplicationNode``.
+    
+    - AJAX is easily integrateable.
+
+Reserved Tiles
+--------------
+
+The Application ships with a set of tiles. Some of them are abstract while
+others are already registered.
+
+Here are lists of currently reserved tile names.
+
+Behavioral:
+
+    - ``content`` - Used as default view for current model.
+    
+    - ``addform`` - Used as addform for model
+    
+    - ``editform`` - Used as editform for model
+
+Views and widgets:
+
+    - ``mainmenu`` - Render ``model.root.values``
+    
+    - ``navtree`` - Render Navigation Tree for model
+    
+    - ``personaltools`` - Render personal tools for model
+    
+    - ``contents`` - Render model contents as batched (XXX), sortable (XXX)
+      listing
+    
+    - ``byline`` - Render byline for model.metadata XXX
+    
+    - ``contentmenu`` - Render contentmenu for model XXX
+
+
+Default Layout
+--------------
+
+The default layout contained in this package has the following grid:
+::
+
+    +--------------------------------------------------------------------+
+    | main menu                                                          |
+    +-----------------+--------------------------------------------------+
+    | navigation tree | content                                          |
+    +-----------------+                                                  |
+    | personal tools  |                                                  |
+    +-----------------+--------------------------------------------------+
+
+To change this, provide your own main template in your package and overwrite
+``bda.bfg.app.browser.MAIN_TEMPLATE`` on application startup.
+::
+
+    >>> import bda.bfg.app.browser
+    >>> bda.bfg.app.browser.MAIN_TEMPLATE
+    'bda.bfg.app.browser:templates/main.pt'
+    
+    >>> main = 'bda.bfg.app.tests:dummy_main.pt'
+    >>> bda.bfg.app.browser.MAIN_TEMPLATE = main
+
+Create mocks to test layout rendering.
+::
+
+A tile named as content. This is the default content tile.
+::
+
+    >>> from bda.bfg.tile import registerTile, Tile, render_tile
+    >>> class ContentTile(Tile):
+    ...     def render(self):
+    ...         return '<div>Content</div>'
+    >>> registerTile('content', class_=ContentTile)
+
+Request dummy.
+::
+
+    >>> from repoze.bfg import testing
+    >>> request = testing.DummyRequest()
+
+Model dummy.
+::
+
+    >>> #from bda.bfg.app.model import BaseNode
+    >>> #model = BaseNode()
+
+Render the main template. The function accepts an optional ``contenttilename``
+argument. if omitted, reserved name 'content' is used.
+::
+
+    >>> #from bda.bfg.app.browser import render_main_template
+    >>> #res = render_main_template(model, request)
+    >>> #res
+    <Response at ... 200 OK>
+
+Register tile with other name as well.
+
+    >>> #registerTile('othername', class_=ContentTile)

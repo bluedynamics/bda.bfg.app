@@ -1,5 +1,5 @@
 from zope.interface import implements
-from zodict.node import LifecycleNode
+from zodict.node import LifecycleNode, AttributedNode
 from repoze.bfg.threadlocal import get_current_request
 from repoze.bfg.security import Everyone
 from repoze.bfg.security import Allow
@@ -12,7 +12,8 @@ from bda.bfg.app.interfaces import (
     IMetadata,
 )
 
-class BaseNode(LifecycleNode):
+class BaseNode(AttributedNode):
+#class BaseNode(LifecycleNode):
     implements(IApplicationNode)
     
     __acl__ = [
@@ -42,7 +43,8 @@ class FactoryNode(BaseNode):
         keys = set()
         for key in self.factories.keys():
             keys.add(key)
-        for key in LifecycleNode.__iter__(self):
+        for key in AttributedNode.__iter__(self):
+        #for key in LifecycleNode.__iter__(self):
             keys.add(key)
         for key in keys:
             yield key
@@ -51,7 +53,8 @@ class FactoryNode(BaseNode):
     
     def __getitem__(self, key):
         try:
-            child = LifecycleNode.__getitem__(self, key)
+            child = AttributedNode.__getitem__(self, key)
+            #child = LifecycleNode.__getitem__(self, key)
         except KeyError, e:
             if not key in self:
                 raise KeyError
