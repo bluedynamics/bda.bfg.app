@@ -9,6 +9,7 @@ from repoze.bfg.security import authenticated_userid
 from bda.bfg.app.interfaces import (
     IApplicationNode,
     IFactoryNode,
+    IAdapterNode,
     IMetadata,
 )
 
@@ -62,51 +63,52 @@ class FactoryNode(BaseNode):
             self[key] = child
         return child
 
-class NodeAdapter(BaseNode):
+class AdapterNode(BaseNode):
+    implements(IAdapterNode)
     
-    def __init__(self, node, name, parent):
-        self.node = node
+    def __init__(self, model, name, parent):
+        self.model = model
         self.__name__ = name
         self.__parent__ = parent
     
     def __getitem__(self, key):
-        return self.node[key]
+        return self.model[key]
     
     def __contains__(self, key):
-        return key in self.node.keys()
+        return key in self.model.keys()
     
     def __len__(self):
-        return len(self.node)
+        return len(self.model)
     
     def __iter__(self):
-        for key in self.node:
+        for key in self.model:
             yield key
     
     iterkeys = __iter__
     
     def keys(self):
-        return self.node.keys()
+        return self.model.keys()
     
     def itervalues(self):
-        for value in self.node.itervalues():
+        for value in self.model.itervalues():
             yield value
     
     def values(self):
         return list(self.itervalues())
     
     def iteritems(self):
-        for item in self.node.iteritems():
+        for item in self.model.iteritems():
             yield item
     
     def items(self):
         return list(self.iteritems())
     
     def get(self, key, default=None):
-        return self.node.get(key, default)
+        return self.model.get(key, default)
     
     @property
     def attrs(self):
-        return self.node.attrs
+        return self.model.attrs
 
 class BaseMetadata(object):
     implements(IMetadata)

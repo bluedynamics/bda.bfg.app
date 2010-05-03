@@ -123,23 +123,23 @@ Node for ``key`` on ``__getitem__`` if not existent yet.
     KeyError
 
 
-NodeAdapter
+AdapterNode
 -----------
 
-A NodeAdapter is intended to be used if you want to publish some other kind of
-node implementing data structures.
+An AdapterNode is intended to be used if you want to publish some kind of dict
+like object or other node implementations.
 
 Since other Node tree implementations depend on its own internal hierarchy and
 do not provide the extensions described in
 ``bda.bfg.app.interfaces.IApplicationNode``, we have to wrap it inside a
 Node adapter in order to use it inside the application.
 
-The node adapter calls for common read operations the equivalent functions on
-it's adapted Node.
+The adapter node calls for common read operations the equivalent functions on
+it's adapted model.
 ::
 
     >>> from zodict.node import AttributedNode
-    >>> from bda.bfg.app.model import NodeAdapter
+    >>> from bda.bfg.app.model import AdapterNode
     
     >>> toadapt = AttributedNode()
     >>> toadapt['foo'] = AttributedNode()
@@ -150,9 +150,9 @@ it's adapted Node.
 Adapt created node structure.
 ::
 
-    >>> adapter = NodeAdapter(toadapt, 'name', None)
+    >>> adapter = AdapterNode(toadapt, 'name', None)
 
-Check ``INodeAdapter`` interface.
+Check ``AdapterNode`` interface.
 
 ``__getitem__``
 ::
@@ -210,25 +210,25 @@ Check ``INodeAdapter`` interface.
     >>> adapter.attrs.title
     'Some title'
     
-The node adapter is responsible to return other node adapters or application
+The node adapter is responsible to return other adapters nodes or application
 nodes on ``__getitem__`` if application hierarchy continues.
 
 You can do key aliasing as well at this place.
 ::
 
-    >>> class MyNodeAdapter(NodeAdapter):
+    >>> class MyAdapterNode(AdapterNode):
     ...     def __getitem__(self, key):
-    ...         return NodeAdapter(self.node['bar'], key, self)
+    ...         return AdapterNode(self.model['bar'], key, self)
 
 This dummy class does a static mapping on __getitem__.
 ::
 
-    >>> node = MyNodeAdapter(toadapt, 'adapter', None)
+    >>> node = MyAdapterNode(toadapt, 'adapter', None)
     >>> child = node['aliased']
     >>> child
-    <NodeAdapter object 'aliased' at ...>
+    <AdapterNode object 'aliased' at ...>
     
-    >>> child.node
+    >>> child.model
     <AttributedNode object 'bar' at ...>
 
 The application node path differs from the adapted node path. This is essential
@@ -239,7 +239,7 @@ structure.
     >>> child.path
     ['adapter', 'aliased']
     
-    >>> child.node.path
+    >>> child.model.path
     [None, 'bar']
 
 
