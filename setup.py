@@ -48,7 +48,7 @@ setup(name='bda.bfg.app',
       tests_require=[
           'interlude',
       ],
-      test_suite = "bda.bfg.app.tests.test_suite",
+      test_suite = "bda.bfg.app.tests.test_app.test_suite",
       entry_points = """
       """
       )
