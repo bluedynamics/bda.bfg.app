@@ -42,6 +42,7 @@ has some advantages:
     
     - A ``title`` property as convenience. This might get removed in future.
 
+
 BaseNode
 --------
 ::
@@ -94,6 +95,7 @@ not exists.
 
     >>> root.metadata.inexistent
 
+
 FactoryNode
 -----------
 
@@ -119,6 +121,7 @@ Node for ``key`` on ``__getitem__`` if not existent yet.
     Traceback (most recent call last):
       ...
     KeyError
+
 
 NodeAdapter
 -----------
@@ -238,6 +241,7 @@ structure.
     
     >>> child.node.path
     [None, 'bar']
+
 
 Metadata
 --------
