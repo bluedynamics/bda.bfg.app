@@ -1,0 +1,30 @@
+Application Model
+=================
+
+The application model is used to describe the application hierarchy, fetch
+application specific information and access application data.
+
+The base application node inherits from ``zodict.node.LifecycleNode``. This
+has some advantages:
+
+    - ``repoze.bfg`` expects dict like objects for traversal, so we already
+      fulfill this contract by using Nodes.
+    
+    - It is ordered.
+    
+    - Nodes know about it's location so we can easily generate URL's out of
+      ``Node.path``.
+    
+    - The model is held in memory. ``LifecycleNode`` triggers object events
+      when it is modified, so we can subscribe to this events for tree
+      manipulation or trigger those events, i.e. on cache timeouts.
+    
+    - Node have an index holding references to all contained Nodes in the tree
+      by uid. This makes it easy to access information from other Nodes in the
+      tree.
+
+Test the base Node.
+::
+
+    >>> from bda.bfg.app.model import BaseNode
+    >>> root = BaseNode()

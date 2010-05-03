@@ -79,7 +79,7 @@ class NavTree(Tile):
             node = model[key]
             if not has_permission('view', node, self.request):
                 continue
-            if not node.in_navtree:
+            if not node.properties.get('in_navtree'):
                 continue
             title = node.title
             url = make_url(self.request, node=node)

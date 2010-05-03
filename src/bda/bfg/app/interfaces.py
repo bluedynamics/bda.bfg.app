@@ -8,14 +8,11 @@ class IApplicationNode(IAttributedNode):
     
     __acl__ = Attribute(u"ACL")
 
-    in_navtree = Attribute(u"Flag wether Node should be displayed in navtree. "
-                           u"XXX: remove this from ApplicationNode interface. "
-                           u"Its a navtree widget specific info and must be "
-                           u"handled elsewhere.")
-
-    title = Attribute(u"Node Title")
+    properties = Attribute(u"Properties for this application Node")
     
     metadata = Attribute(u"IMetadata implementation")
+    
+    title = Attribute(u"Node Title")
 
 class IMetadata(IReadMapping):
     """Interface for providing metadata for application nodes.
@@ -23,6 +20,9 @@ class IMetadata(IReadMapping):
     
     def __getattr__(name):
         """Return metadata by attribute access.
+        
+        Never throws an AttributeError if attribute does not exists, return
+        None instead.
         """
     
     def __setattr__(name, value):

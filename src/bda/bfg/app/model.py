@@ -6,26 +6,33 @@ from repoze.bfg.security import Allow
 from repoze.bfg.security import Deny
 from repoze.bfg.security import ALL_PERMISSIONS
 from repoze.bfg.security import authenticated_userid
-from bda.bfg.app.interfaces import IApplicationNode
+from bda.bfg.app.interfaces import (
+    IApplicationNode,
+    IMetadata,
+)
 
 class BaseNode(LifecycleNode):
     """Base application model node.
     """
     implements(IApplicationNode)
+    
     __acl__ = [
         (Allow, 'group:authenticated', 'view'),
         (Allow, Everyone, 'login'),
         (Deny, Everyone, ALL_PERMISSIONS),
     ]
-    in_navtree = True
-
-    @property
-    def title(self):
-        return self.__name__
+    
+    properties = dict()
     
     @property
     def metadata(self):
-        return self.attrs
+        return BaseMetadata(self.attrs)
+    
+    @property
+    def title(self):
+        if self.metadata.get('title'):
+            return self.metadata.title
+        return self.__name__
     
 class FactoryNode(BaseNode):
     """Base application model node with factories.
@@ -109,3 +116,29 @@ class NodeAdapter(BaseNode):
     @property
     def attrs(self):
         return self.node.attrs
+
+class BaseMetadata(object):
+    """Base Metadata object. Wraps any dict like object.
+    """
+    implements(IMetadata)
+    
+    def __init__(self, data):
+        object.__setattr__(self, 'data', data)
+    
+    def __getitem__(self, key):
+        return self._data()[key]
+    
+    def get(self, key, default=None):
+        return self._data().get(key, default)
+    
+    def __contains__(self, key):
+        return key in self._data()
+    
+    def __getattr__(self, name):
+        return self._data().get(name)
+    
+    def __setattr__(self, name, value):
+        self._data()[name] = value
+    
+    def _data(self):
+        return object.__getattribute__(self, 'data')
