@@ -133,8 +133,45 @@ Switch back to origin main template.
     >>> res.body.find('id="personaltools"') > -1
     True
 
+
+Protected content tile
+----------------------
+
+There's the situation where a login form should be rendered instead of the
+content for anonymous users.
+
+The class ``bda.bfg.app.browser.layout.ProtectedContentTile`` provides this
+behavior.
+::
+
+    >>> import bda.bfg.app.browser.authentication
+    >>> from bda.bfg.app.browser.layout import ProtectedContentTile
+    >>> class ProtectedContent(ProtectedContentTile):
+    ...     def render(self):
+    ...         return '<div>Content</div>'
+    
+    >>> class ProtectedModel(BaseNode): pass
+    
+    >>> registerTile('content',
+    ...              interface=ProtectedModel,
+    ...              class_=ProtectedContentTile)
+
+Render protected tile. This will fail due to ``yafowil.webob`` not accepting
+bfg test requests.
+::
+
+    >>> render_tile(ProtectedModel(), request, 'content')
+    Traceback (most recent call last):
+      ...
+    ValueError: ('Expecting object based on webob.request.BaseRequest', 
+    '<function webob_preprocessor at ...>', 'loginform')
+
+
 Main menu
 ---------
+
+Test main menu tile.
+::
 
     >>> root = BaseNode()
     >>> root['1'] = BaseNode()
@@ -157,7 +194,44 @@ Render main menu at child. Child is marked selected.
     >>> res.find('class="first current_page_item mainmenulink"') > -1
     True
 
+
 Navtree
 -------
 
-    >>> 
+Test navigation tree tile.
+
+Empty navtree, no items are marked to be displayed.
+::
+
+    >>> res = render_tile(root, request, 'navtree')
+    >>> res
+    u'\n  <ul id="navtree" class="contextsensitiv" ajax:bind="contextchanged" 
+    ajax:action="navtree:#navtree:replace">\n    <li>\n      
+    <h2>Navigation</h2>\n      \n  <ul>\n    \n  </ul>\n\n    
+    </li>\n  </ul>\n'
+
+Set node property ``in_navtree`` defining the contract with the navtree tile.
+::
+
+    >>> root['1'].properties['in_navtree'] = True
+    >>> res = render_tile(root, request, 'navtree')
+    >>> res.find('href="http://example.com/1"') > -1
+    True
+
+Render navtree on ``root['1']``, must be selected.
+::
+
+    >>> res = render_tile(root['1'], request, 'navtree')
+    >>> res.find('class="selected navtreelevel_1">1</a>') > -1
+    True
+
+
+Personal Tools
+--------------
+
+    >>> res = render_tile(root, request, 'personaltools')
+    >>> res
+    u'<ul id="personaltools">\n  <li>\n    <h2>Personal tools</h2>\n    
+    <ul>\n      <li>\n        
+    <a href="http://example.com/logout">Logout</a>\n      </li>\n    </ul>\n  
+    </li>\n</ul>'
