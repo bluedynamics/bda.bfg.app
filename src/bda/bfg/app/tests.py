@@ -10,6 +10,15 @@ optionflags = doctest.NORMALIZE_WHITESPACE | \
 TESTFILES = [
     'authentication.txt',
     'model.txt',
+    'browser/browser.txt',
+    'browser/layout.txt',
+    'browser/ajax.txt',
+    'browser/utils.txt',
+    'browser/authentication.txt',
+    'browser/authoring.txt',
+    'browser/contents.txt',
+    'browser/form.txt',
+    'browser/batch.txt',
 ]
 
 def test_suite():
