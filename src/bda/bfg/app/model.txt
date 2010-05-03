@@ -97,3 +97,197 @@ not exists.
 FactoryNode
 -----------
 
+You can use the factory node to build static structures. It created the child
+Node for ``key`` on ``__getitem__`` if not existent yet.
+::
+
+    >>> from bda.bfg.app.model import FactoryNode
+    >>> class Root(FactoryNode):
+    ...     factories = {
+    ...         'foo': BaseNode,
+    ...         'bar': BaseNode,
+    ...     }
+    
+    >>> root = Root()
+    >>> root['foo']
+    <BaseNode object 'foo' at ...>
+    
+    >>> root['bar']
+    <BaseNode object 'bar' at ...>
+    
+    >>> root['baz']
+    Traceback (most recent call last):
+      ...
+    KeyError
+
+NodeAdapter
+-----------
+
+A NodeAdapter is intended to be used if you want to publish some other kind of
+node implementing data structures.
+
+Since other Node tree implementations depend on its own internal hierarchy and
+do not provide the extensions described in
+``bda.bfg.app.interfaces.IApplicationNode``, we have to wrap it inside a
+Node adapter in order to use it inside the application.
+
+The node adapter calls for common read operations the equivalent functions on
+it's adapted Node.
+::
+
+    >>> from zodict.node import AttributedNode
+    >>> from bda.bfg.app.model import NodeAdapter
+    
+    >>> toadapt = AttributedNode()
+    >>> toadapt['foo'] = AttributedNode()
+    >>> toadapt['bar'] = AttributedNode()
+    >>> toadapt.attrs.title = 'Some title'
+    >>> toadapt.attrs.description = 'Some description'
+
+Adapt created node structure.
+::
+
+    >>> adapter = NodeAdapter(toadapt, 'name', None)
+
+Check ``INodeAdapter`` interface.
+
+``__getitem__``
+::
+
+    >>> adapter['foo']
+    <AttributedNode object 'foo' at ...>
+
+``__contains__``
+::
+
+    >>> 'bar' in adapter
+    True
+
+``__len__``
+::
+
+    >>> len(adapter)
+    2
+
+``__iter__``
+::
+
+    >>> [key for key in adapter]
+    ['foo', 'bar']
+
+``keys``
+::
+
+    >>> adapter.keys()
+    ['foo', 'bar']
+
+``values``
+::
+
+    >>> adapter.values()
+    [<AttributedNode object 'foo' at ...>, 
+    <AttributedNode object 'bar' at ...>]
+
+``items``
+::
+
+    >>> adapter.items()
+    [('foo', <AttributedNode object 'foo' at ...>), 
+    ('bar', <AttributedNode object 'bar' at ...>)]
+
+``get``
+::
+
+    >>> adapter.get('bar')
+    <AttributedNode object 'bar' at ...>
+
+``attrs``
+::
+
+    >>> adapter.attrs.title
+    'Some title'
+    
+The node adapter is responsible to return other node adapters or application
+nodes on ``__getitem__`` if application hierarchy continues.
+
+You can do key aliasing as well at this place.
+::
+
+    >>> class MyNodeAdapter(NodeAdapter):
+    ...     def __getitem__(self, key):
+    ...         return NodeAdapter(self.node['bar'], key, self)
+
+This dummy class does a static mapping on __getitem__.
+::
+
+    >>> node = MyNodeAdapter(toadapt, 'adapter', None)
+    >>> child = node['aliased']
+    >>> child
+    <NodeAdapter object 'aliased' at ...>
+    
+    >>> child.node
+    <AttributedNode object 'bar' at ...>
+
+The application node path differs from the adapted node path. This is essential
+to keep the application path sane while not violating the adapted node's
+structure.
+::
+
+    >>> child.path
+    ['adapter', 'aliased']
+    
+    >>> child.node.path
+    [None, 'bar']
+
+Metadata
+--------
+
+The ``IMetadata`` implementation returned by ``IApplicationNode.metadata`` is
+used by the application for displaying metadata information.
+
+The default implementation accepts a dict like object on ``__init__``.
+::
+
+    >>> from bda.bfg.app.model import BaseMetadata
+    >>> data = {
+    ...     'title': 'some title',
+    ...     'description': 'some description',
+    ...     'creator': 'john doe',
+    ... }
+
+Check ``INodeAdapter`` interface.
+::
+
+    >>> metadata = BaseMetadata(data)
+
+``__getattr__``. No AttributeError is raised if attribute is inexistent.
+::
+
+    >>> metadata.title
+    'some title'
+    
+    >>> metadata.description
+    'some description'
+    
+    >>> metadata.creator
+    'john doe'
+    
+    >>> metadata.inexistent
+
+``__getitem__``
+::
+
+    >>> metadata['title']
+    'some title'
+
+``__contains__``
+::
+
+    >>> 'description' in metadata
+    True
+
+``get``
+::
+
+    >>> metadata.get('creator')
+    'john doe'

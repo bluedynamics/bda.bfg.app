@@ -8,12 +8,11 @@ from repoze.bfg.security import ALL_PERMISSIONS
 from repoze.bfg.security import authenticated_userid
 from bda.bfg.app.interfaces import (
     IApplicationNode,
+    IFactoryNode,
     IMetadata,
 )
 
 class BaseNode(LifecycleNode):
-    """Base application model node.
-    """
     implements(IApplicationNode)
     
     __acl__ = [
@@ -35,8 +34,8 @@ class BaseNode(LifecycleNode):
         return self.__name__
     
 class FactoryNode(BaseNode):
-    """Base application model node with factories.
-    """
+    implements(IFactoryNode)
+    
     factories = {}
     
     def __iter__(self):
@@ -61,16 +60,8 @@ class FactoryNode(BaseNode):
         return child
 
 class NodeAdapter(BaseNode):
-    """Could be used to adapt other Node implementations you want to use as
-    application model node.
-    
-    This object just calls the equivalent adapted node's functions on common
-    read operations.
-    """
     
     def __init__(self, node, name, parent):
-        """Name and parent are used to hook the correct application hierarchy.
-        """
         self.node = node
         self.__name__ = name
         self.__parent__ = parent
@@ -115,8 +106,6 @@ class NodeAdapter(BaseNode):
         return self.node.attrs
 
 class BaseMetadata(object):
-    """Base Metadata object. Wraps any dict like object.
-    """
     implements(IMetadata)
     
     def __init__(self, data):
