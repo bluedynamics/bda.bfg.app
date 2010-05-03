@@ -129,10 +129,10 @@ AdapterNode
 An AdapterNode is intended to be used if you want to publish some kind of dict
 like object or other node implementations.
 
-Since other Node tree implementations depend on its own internal hierarchy and
+Since other node implementations depend on its own internal hierarchy and
 do not provide the extensions described in
 ``bda.bfg.app.interfaces.IApplicationNode``, we have to wrap it inside a
-Node adapter in order to use it inside the application.
+adapter node in order to use it inside the application.
 
 The adapter node calls for common read operations the equivalent functions on
 it's adapted model.
@@ -210,7 +210,7 @@ Check ``AdapterNode`` interface.
     >>> adapter.attrs.title
     'Some title'
     
-The node adapter is responsible to return other adapters nodes or application
+The adapter node is responsible to return other adapters nodes or application
 nodes on ``__getitem__`` if application hierarchy continues.
 
 You can do key aliasing as well at this place.
