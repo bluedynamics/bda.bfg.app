@@ -25,7 +25,7 @@ Required imports.
     ...     make_url,
     ... )
 
-A batch implementation.
+A simple batch implementation.
 ::
 
     >>> @tile('testbatch')
