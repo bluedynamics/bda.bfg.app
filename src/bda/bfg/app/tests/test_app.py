@@ -12,8 +12,8 @@ TESTFILES = [
     '../model.txt',
     '../browser/layout.txt',
     '../browser/utils.txt',
-    '../browser/authoring.txt',
     '../browser/form.txt',
+    '../browser/authoring.txt',
     '../browser/batch.txt',
 ]
 
