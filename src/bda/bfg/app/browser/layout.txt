@@ -156,15 +156,12 @@ behavior.
     ...              interface=ProtectedModel,
     ...              class_=ProtectedContentTile)
 
-Render protected tile. This will fail due to ``yafowil.webob`` not accepting
-bfg test requests.
+Render protected tile.
 ::
 
     >>> render_tile(ProtectedModel(), request, 'content')
-    Traceback (most recent call last):
-      ...
-    ValueError: ('Expecting object based on webob.request.BaseRequest', 
-    '<function webob_preprocessor at ...>', 'loginform')
+    u'<form action="http://example.com" enctype="multipart/form-data" 
+    id="form-loginform" method="post">...
 
 
 Main menu
