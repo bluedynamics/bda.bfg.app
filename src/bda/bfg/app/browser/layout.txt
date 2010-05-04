@@ -35,7 +35,7 @@ Views and widgets:
 
     - ``mainmenu`` - Render ``model.root.values``
     
-    - ``navtree`` - Render Navigation Tree for model
+    - ``navtree`` - Render Navigation tree for model
     
     - ``personaltools`` - Render personal tools for model
     
@@ -44,7 +44,7 @@ Views and widgets:
     
     - ``byline`` - Render byline for model.metadata XXX
     
-    - ``contentmenu`` - Render contentmenu for model XXX
+    - ``contextmenu`` - Render contextmenu for model
     
     - ``add_dropdown`` - Adding dropdown menu for model
 
