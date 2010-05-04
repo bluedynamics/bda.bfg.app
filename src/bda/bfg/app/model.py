@@ -131,26 +131,25 @@ class AdapterNode(BaseNode):
 class Properties(object):
     implements(IProperties)
     
-    def __init__(self, data={}):
-        object.__setattr__(self, 'data', data)
+    def __init__(self, data=None):
+        if data is None:
+            data = dict()
+        object.__setattr__(self, '_data', data)
     
     def __getitem__(self, key):
-        return self._data()[key]
+        return object.__getattribute__(self, '_data')[key]
     
     def get(self, key, default=None):
-        return self._data().get(key, default)
+        return object.__getattribute__(self, '_data').get(key, default)
     
     def __contains__(self, key):
-        return key in self._data()
+        return key in object.__getattribute__(self, '_data')
     
     def __getattr__(self, name):
-        return self._data().get(name)
+        return object.__getattribute__(self, '_data').get(name)
     
     def __setattr__(self, name, value):
-        self._data()[name] = value
-    
-    def _data(self):
-        return object.__getattribute__(self, 'data')
+        object.__getattribute__(self, '_data')[name] = value
 
 class BaseMetadata(Properties):
     implements(IMetadata)

@@ -68,7 +68,7 @@ BaseNode.properties returns BaseNodeInfo with BaseNode.attrs as data properties.
 Metadata of base implementation maps to base implementation's ``attr`` property.
 ::
 
-    >>> root.metadata._data() is root.attrs
+    >>> root.metadata._data is root.attrs
     True
     
 ``title`` property returns either ``properties['title']`` or ``Node.__name__``.
@@ -346,3 +346,20 @@ Lookup Node info.
 
     >>> nodeinfo.get('node')
     <class 'bda.bfg.app.model.BaseNode'>
+
+
+Properties
+----------
+
+You can use the ``Properties`` object for any kind of mapping.
+::
+
+    >>> from bda.bfg.app.model import Properties
+    >>> p1 = Properties()
+    >>> p1.prop = 'Foo'
+    
+    >>> p2 = Properties()
+    >>> p2.prop = 'Bar'
+    
+    >>> p1.prop, p2.prop
+    ('Foo', 'Bar')

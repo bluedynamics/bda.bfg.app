@@ -45,6 +45,8 @@ Views and widgets:
     - ``byline`` - Render byline for model.metadata XXX
     
     - ``contentmenu`` - Render contentmenu for model XXX
+    
+    - ``add_dropdown`` - Adding dropdown menu for model
 
 
 Default Layout

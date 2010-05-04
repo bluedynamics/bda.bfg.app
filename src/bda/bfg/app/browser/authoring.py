@@ -1,12 +1,20 @@
 from repoze.bfg.view import bfg_view
 from bda.bfg.tile import (
+    Tile,
     tile,
     registerTile,
     render_tile,
 )
-from bda.bfg.app.model import getNodeInfo
+from bda.bfg.app.model import (
+    getNodeInfo,
+    Properties,
+)
 from bda.bfg.app.browser import render_main_template
 from bda.bfg.app.browser.layout import ProtectedContentTile
+from bda.bfg.app.browser.utils import (
+    make_url,
+    make_query,
+)
 
 @bfg_view('add', permission='login')
 def add(model, request):
@@ -35,3 +43,29 @@ registerTile('edit',
              class_=ProtectedContentTile,
              permission='login',
              strict=False)
+
+@tile('add_dropdown', 'templates/add_dropdown.pt', strict=False)
+class AddDropdown(Tile):
+    
+    @property
+    def items(self):
+        #import pdb;pdb.set_trace()
+        ret = list()
+        addables = self.model.properties.addables
+        if not addables:
+            return ret
+        for addable in addables:
+            info = getNodeInfo(addable)
+            if not info:
+                continue
+            query = make_query(factory=addable)
+            url = make_url(self.request, node=self.model,
+                           resource='add', query=query)
+            target = make_url(self.request, node=self.model, query=query)
+            props = Properties()
+            props.url = url
+            props.target = target
+            props.title = info.title
+            props.icon = info.icon
+            ret.append(props)
+        return ret

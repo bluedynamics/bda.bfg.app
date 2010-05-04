@@ -19,10 +19,7 @@ Create dummy node.
     >>> from bda.bfg.app.model import BaseNode
     >>> from bda.bfg.app.model import getNodeInfo
     >>> class MyNode(BaseNode):
-    ... 
-    ...     @property
-    ...     def properties(self):
-    ...         return getNodeInfo('mynode')
+    ...     node_info_name = 'mynode'
 
 Now, if we want to use the build-in adding mechanism, we need to
 provide NodeInfo for our application nodes.
@@ -219,7 +216,45 @@ Check the results.
     'Changed title'
 
 
-Add Items Widget
-----------------
+Add Items Dropdown Widget
+-------------------------
 
-XXX
+You can render an item dropdown in your application which renders a dropdown
+menu containing links to the addforms of allowed child nodes.
+::
+
+    >>> request = DummyRequest()
+    >>> render_tile(root['somechild'], request, 'add_dropdown')
+    u'\n  <div class="add_dropdown">\n    <div class="add_icon">\n      
+    <a href="http://example.com/somechild/adding">&nbsp;</a>\n    </div>\n    
+    <ul class="add_dropdown">\n      <li>\n        
+    <a href="http://example.com/somechild/add?factory=mynode" 
+    ajax:bind="click" 
+    ajax:target="http://example.com/somechild?factory=mynode" 
+    ajax:action="add:#content:inner">My Node</a>\n      </li>\n    
+    </ul>\n  </div>\n'
+
+Allow another node type as child.
+::
+
+    >>> nodeinfo = BaseNodeInfo()
+    >>> nodeinfo.title = 'Another Node'
+    >>> nodeinfo.description = 'This is another node.'
+    >>> nodeinfo.node = BaseNode
+    >>> nodeinfo.addables = []
+    >>> registerNodeInfo('anothernode', nodeinfo)
+    >>> getNodeInfo('mynode').addables = ['mynode', 'anothernode']
+    
+    >>> render_tile(root['somechild'], request, 'add_dropdown')
+    u'\n  <div class="add_dropdown">\n    <div class="add_icon">\n      
+    <a href="http://example.com/somechild/adding">&nbsp;</a>\n    </div>\n    
+    <ul class="add_dropdown">\n      <li>\n        
+    <a href="http://example.com/somechild/add?factory=mynode" 
+    ajax:bind="click" 
+    ajax:target="http://example.com/somechild?factory=mynode" 
+    ajax:action="add:#content:inner">My Node</a>\n      </li> <li>\n        
+    <a href="http://example.com/somechild/add?factory=anothernode" 
+    ajax:bind="click" 
+    ajax:target="http://example.com/somechild?factory=anothernode" 
+    ajax:action="add:#content:inner">Another Node</a>\n      
+    </li>\n    </ul>\n  </div>\n'
