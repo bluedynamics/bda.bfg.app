@@ -1,24 +1,13 @@
 <tal:ajax xmlns:ajax="http://namesspaces.bluedynamics.eu/ajax" omit-tag="True">
   <table class="contents">
     <tr class="head">
+      <th>Actions</th>
       <th>Title</th>
       <th>Creator</th>
       <th>Created</th>
-      <th>Actions</th>
     </tr>
     <tal:row repeat="item context.items">
       <tr>
-        <td>
-          <a href="${context.nodeurl}/${item.__name__}"
-             ajax:bind="click"
-             ajax:target="${context.nodeurl}/${item.__name__}"
-             ajax:action="content:#content:inner"
-             tal:content="item.metadata.get('title', item.__name__)">
-              Media
-          </a>
-        </td>
-        <td tal:content="item.metadata.get('creator', 'unknown')">Creator</td>
-        <td tal:content="item.metadata.get('created', 'unknown')">Created</td>
         <td>
           <a href="${context.nodeurl}/${item.__name__}"
              class="view16_16"
@@ -37,6 +26,17 @@
               &nbsp;
           </a>
         </td>
+        <td>
+          <a href="${context.nodeurl}/${item.__name__}"
+             ajax:bind="click"
+             ajax:target="${context.nodeurl}/${item.__name__}"
+             ajax:action="content:#content:inner"
+             tal:content="item.metadata.get('title', item.__name__)">
+              Media
+          </a>
+        </td>
+        <td tal:content="item.metadata.get('creator', 'unknown')">Creator</td>
+        <td tal:content="item.metadata.get('created', 'unknown')">Created</td>
       </tr>
     </tal:row>
   </table>

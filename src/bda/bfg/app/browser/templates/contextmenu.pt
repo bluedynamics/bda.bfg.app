@@ -1,0 +1,11 @@
+<tal:ajax xmlns:ajax="http://namesspaces.bluedynamics.eu/ajax" omit-tag="True">
+  <div class="contextmenu">
+    <tal:add_dropdown replace="structure tile('add_dropdown')" />
+    <div class="edit">
+      <a href="${context.nodeurl}/edit"
+         ajax:bind="click"
+         ajax:target="${context.nodeurl}"
+         ajax:action="edit:#content:inner">&nbsp;</a>
+    </div>
+  </div>
+</tal:ajax>
