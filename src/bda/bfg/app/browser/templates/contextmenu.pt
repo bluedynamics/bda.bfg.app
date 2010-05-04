@@ -1,11 +1,21 @@
 <tal:ajax xmlns:ajax="http://namesspaces.bluedynamics.eu/ajax" omit-tag="True">
   <div class="contextmenu">
     <tal:add_dropdown replace="structure tile('add_dropdown')" />
-    <div class="edit">
+    <div>
       <a href="${context.nodeurl}/edit"
+         class="edit16_16"
+         title="Edit"
          ajax:bind="click"
          ajax:target="${context.nodeurl}"
          ajax:action="edit:#content:inner">&nbsp;</a>
+    </div>
+    <div>
+      <a href="${context.nodeurl[:context.nodeurl.rfind('/')]}"
+         class="up16_16"
+         title="One level up"
+         ajax:bind="click"
+         ajax:target="${context.nodeurl[:context.nodeurl.rfind('/')]}"
+         ajax:action="content:#content:inner">&nbsp;</a>
     </div>
   </div>
 </tal:ajax>

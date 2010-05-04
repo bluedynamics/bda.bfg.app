@@ -336,7 +336,7 @@ table.contents td {
 	border-bottom: 1px solid #ccc;
 	border-right: 1px solid #ccc;
 }
-/* Authoring */
+/* Icons */
 a.view16_16 {
 	text-decoration: none;
 	padding-left: 16px;
@@ -348,4 +348,49 @@ a.edit16_16 {
     padding-left: 16px;
 	width:16px;
     background:url('/static/images/edit16_16.png') 50% 50% no-repeat;
+}
+a.add16_16 {
+    text-decoration: none;
+    padding-left: 16px;
+    width:16px;
+    background:url('/static/images/add16_16.png') 50% 50% no-repeat;
+}
+a.up16_16 {
+    text-decoration: none;
+    padding-left: 16px;
+    width:16px;
+    background:url('/static/images/up16_16.png') 50% 50% no-repeat;
+}
+/* Dropdown */
+.dropdown_items {
+    display:none;
+    position:absolute;
+    margin-top:0px;
+    padding:3px;
+    z-index:10000;
+    width:200px;
+    list-style-type:none;
+    list-style-image:none;
+    border:#000 1px solid;
+    background-color:#eee;
+    -moz-border-radius:2px;
+    -webkit-border-radius:2px;
+}
+.dropdown_items li {
+    margin:0;
+}
+.dropdown_items li a {
+    padding-left:18px;
+    text-decoration:none;
+    border:none;
+}
+/* Contextmenu */
+div.contextmenu {
+	border-bottom:#aaa 1px solid;
+	height: 20px;
+	padding: 2px;
+}
+div.contextmenu div {
+    float:left;
+	margin-top:2px;
 }
