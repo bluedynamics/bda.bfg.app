@@ -26,12 +26,18 @@ def add(model, request):
 class AddTile(ProtectedContentTile):
     
     @property
-    def addform(self):
+    def info(self):
         factory = self.request.params.get('factory')
         allowed = self.model.properties.addables
         if not factory or not allowed or not factory in allowed:
+            return None
+        return getNodeInfo(factory)
+    
+    @property
+    def addform(self):
+        nodeinfo = self.info
+        if not nodeinfo:
             return u'Unknown factory'
-        nodeinfo = getNodeInfo(factory)
         if AdapterNode in nodeinfo.node.__bases__:
             addmodel = nodeinfo.node(BaseNode(), None, None)
         else:

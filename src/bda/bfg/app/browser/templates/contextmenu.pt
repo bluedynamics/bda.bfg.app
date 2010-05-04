@@ -18,4 +18,5 @@
          ajax:action="content:#content:inner">&nbsp;</a>
     </div>
   </div>
+  <div style="clear:both;"></div>
 </tal:ajax>

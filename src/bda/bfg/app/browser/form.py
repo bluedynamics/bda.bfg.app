@@ -39,5 +39,5 @@ class AddForm(Form):
         self.model = model
         self.request = request
         form = self.form
-        form['factory'] = factory('hidden', value=request.params.get('factory'))
+        form['factory'] = factory('loop', value=request.params.get('factory'))
         return self._process_form(form)
