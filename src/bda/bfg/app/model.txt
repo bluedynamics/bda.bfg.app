@@ -59,11 +59,11 @@ Default permissions.
     ('Deny', 'system.Everyone', 
     <repoze.bfg.security.AllPermissionsList object at ...>)]
 
-Base implementation does not define any properties.
+BaseNode.properties returns BaseNodeInfo with BaseNode.attrs as data properties.
 ::
 
     >>> root.properties
-    {}
+    <bda.bfg.app.model.BaseNodeInfo object at ...>
 
 Metadata of base implementation maps to base implementation's ``attr`` property.
 ::
@@ -295,3 +295,56 @@ Check ``INodeAdapter`` interface.
 
     >>> metadata.get('creator')
     'john doe'
+
+NodeInfo
+--------
+
+The ``INodeInfo`` providing object holds information about the application node
+
+The default implementation accepts a dict like object on ``__init__``.
+::
+
+    >>> from bda.bfg.app.model import BaseNodeInfo
+    >>> nodeinfo = BaseNodeInfo()
+    >>> nodeinfo.node = BaseNode
+    >>> nodeinfo.addables = ['basenode']
+    >>> nodeinfo.title = 'Base Node'
+
+Register node info.
+::
+
+    >>> from bda.bfg.app.model import registerNodeInfo, getNodeInfo
+    >>> registerNodeInfo('basenode', nodeinfo)
+
+Lookup Node info.
+::
+
+    >>> nodeinfo = getNodeInfo('basenode')
+    >>> nodeinfo.title
+    'Base Node'
+
+``__getattr__``. No AttributeError is raised if attribute is inexistent.
+::
+
+    >>> nodeinfo.addables
+    ['basenode']
+    
+    >>> nodeinfo.inexistent
+
+``__getitem__``
+::
+
+    >>> nodeinfo['addables']
+    ['basenode']
+
+``__contains__``
+::
+
+    >>> 'node' in nodeinfo
+    True
+
+``get``
+::
+
+    >>> nodeinfo.get('node')
+    <class 'bda.bfg.app.model.BaseNode'>

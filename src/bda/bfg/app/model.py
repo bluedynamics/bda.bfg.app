@@ -10,7 +10,9 @@ from bda.bfg.app.interfaces import (
     IApplicationNode,
     IFactoryNode,
     IAdapterNode,
+    IProperties,
     IMetadata,
+    INodeInfo,
 )
 
 class BaseNode(AttributedNode):
@@ -23,7 +25,9 @@ class BaseNode(AttributedNode):
         (Deny, Everyone, ALL_PERMISSIONS),
     ]
     
-    properties = dict()
+    @property
+    def properties(self):
+        return BaseNodeInfo(self.attrs)
     
     @property
     def metadata(self):
@@ -110,10 +114,10 @@ class AdapterNode(BaseNode):
     def attrs(self):
         return self.model.attrs
 
-class BaseMetadata(object):
-    implements(IMetadata)
+class Properties(object):
+    implements(IProperties)
     
-    def __init__(self, data):
+    def __init__(self, data={}):
         object.__setattr__(self, 'data', data)
     
     def __getitem__(self, key):
@@ -133,3 +137,19 @@ class BaseMetadata(object):
     
     def _data(self):
         return object.__getattribute__(self, 'data')
+
+class BaseMetadata(Properties):
+    implements(IMetadata)
+
+class BaseNodeInfo(Properties):
+    implements(INodeInfo)
+
+_node_info_registry = dict()
+
+def registerNodeInfo(name, info):
+    _node_info_registry[name] = info
+
+def getNodeInfo(name):
+    if name in _node_info_registry:
+        return _node_info_registry[name]
+    return BaseNodeInfo()

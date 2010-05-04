@@ -8,7 +8,7 @@ class IApplicationNode(IAttributedNode):
     
     __acl__ = Attribute(u"ACL")
 
-    properties = Attribute(u"Properties for this application Node")
+    properties = Attribute(u"INodeInfo providing object")
     
     metadata = Attribute(u"IMetadata implementation")
     
@@ -64,8 +64,8 @@ class IAdapterNode(IApplicationNode):
         """Call and return adapted objects's ``get``.
         """
 
-class IMetadata(IReadMapping):
-    """Interface for providing metadata for application nodes.
+class IProperties(IReadMapping):
+    """Interface for providing any kind of properties.
     """
     
     def __getattr__(name):
@@ -78,3 +78,11 @@ class IMetadata(IReadMapping):
     def __setattr__(name, value):
         """Set metadata by attribute access.
         """
+
+class IMetadata(IProperties):
+    """Interface for providing metadata for application nodes.
+    """
+
+class INodeInfo(IProperties):
+    """Interface for providing node information.
+    """

@@ -207,10 +207,13 @@ Empty navtree, no items are marked to be displayed.
     <h2>Navigation</h2>\n      \n  <ul>\n    \n  </ul>\n\n    
     </li>\n  </ul>\n'
 
-Set node property ``in_navtree`` defining the contract with the navtree tile.
+Set node property ``in_navtree``.
+
+The property is read from ``BaseNode.properties`` and defines the contract with
+the navtree tile.
 ::
 
-    >>> root['1'].properties['in_navtree'] = True
+    >>> root['1'].attrs.in_navtree = True
     >>> res = render_tile(root, request, 'navtree')
     >>> res.find('href="http://example.com/1"') > -1
     True

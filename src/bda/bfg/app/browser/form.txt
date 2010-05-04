@@ -11,10 +11,12 @@ on a deriving object returning a yafowil widget tree.
 
     >>> from yafowil import loader
     >>> from yafowil.base import factory
+    >>> from bda.bfg.tile import tile
     >>> from bda.bfg.app.browser.utils import make_url
     >>> from bda.bfg.app.browser.form import Form
     
-    >>> class SubscriptionForm(Form):
+    >>> @tile('subscriptionform')
+    ... class SubscriptionForm(Form):
     ...     
     ...     @property
     ...     def form(self):
@@ -46,12 +48,6 @@ on a deriving object returning a yafowil widget tree.
     ...     def next(self, request):
     ...         return '<div>Result</div>'
 
-Register form tile.
-::
-
-    >>> from bda.bfg.tile import registerTile, render_tile
-    >>> registerTile('subscriptionform', class_=SubscriptionForm)
-
 Create dummy model and request.
 ::
 
@@ -64,6 +60,7 @@ Create dummy model and request.
 Render form. no action is triggered and no input is given.
 ::
     
+    >>> from bda.bfg.tile import render_tile
     >>> render_tile(model, request, 'subscriptionform')
     u'<form action="http://example.com/dummymodel" 
     enctype="multipart/form-data" id="form-subscriptionform" 

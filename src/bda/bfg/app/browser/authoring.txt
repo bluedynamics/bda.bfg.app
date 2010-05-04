@@ -1,0 +1,152 @@
+Authoring
+=========
+
+The Application provides some widgets and entry hooks for authoring.
+
+There are two bfg views registered, ``add`` and ``edit``. These views render the
+main template with the ``add`` respective ``edit`` tile as content tile which
+render the ``addform`` or ``editform`` tile.
+
+
+Adding
+------
+
+Using the build-in adding mechanism.
+
+Create dummy node.
+::
+
+    >>> from bda.bfg.app.model import BaseNode
+    >>> from bda.bfg.app.model import getNodeInfo
+    >>> class MyNode(BaseNode):
+    ... 
+    ...     @property
+    ...     def properties(self):
+    ...         return getNodeInfo('mynode')
+
+Now, if we want to use the build-in adding mechanism, we need to
+provide NodeInfo for our application nodes.
+::
+
+    >>> from bda.bfg.app.model import BaseNodeInfo, registerNodeInfo
+    >>> mynodeinfo = BaseNodeInfo()
+    >>> mynodeinfo.title = 'My Node'
+    >>> mynodeinfo.description = 'This is My node.'
+    >>> mynodeinfo.node = MyNode
+    >>> mynodeinfo.addables = ['mynode']
+    >>> registerNodeInfo('mynode', mynodeinfo)
+
+Create and register an addform tile for MyNode.
+::
+
+    >>> from yafowil import loader
+    >>> from yafowil.base import factory
+    >>> from bda.bfg.tile import tile
+    >>> from bda.bfg.app.browser.utils import make_url
+    >>> from bda.bfg.app.browser.form import Form
+    
+    >>> @tile('addform', interface=MyNode)
+    ... class MyAddForm(Form):
+    ...     
+    ...     @property
+    ...     def form(self):
+    ...         form = factory(u'form',
+    ...                        name='addform',
+    ...                        props={'action': self.nodeurl})
+    ...         # you must loop the parameter 'factory'
+    ...         # XXX: better solution maybe with traversal
+    ...         #      like 'add/factoryname'
+    ...         form['factory'] = factory(
+    ...             'hidden',
+    ...             value=self.request.params.get('factory'))
+    ...         form['id'] = factory(
+    ...             'field:label:text',
+    ...             props = {
+    ...                 'label': 'Id',
+    ...             })
+    ...         form['title'] = factory(
+    ...             'field:label:text',
+    ...             props = {
+    ...                 'label': 'Title',
+    ...             })
+    ...         form['add'] = factory(
+    ...             'submit',
+    ...             props = {
+    ...                 'action': 'add',
+    ...                 'expression': True,
+    ...                 'handler': self.add,
+    ...                 'next': self.next,
+    ...                 'label': 'Add',
+    ...             })
+    ...         return form
+    ...     
+    ...     def add(self, widget, data):
+    ...         fetch = self.request.params.get
+    ...         child = MyNode()
+    ...         child.attrs.title = fetch('addform.title')
+    ...         self.model.__parent__[fetch('addform.id')] = child
+    ...         
+    ...     def next(self, request):
+    ...         return '<div>Added</div>'
+
+A small patch to make tests work with test request.
+::
+
+    >>> def authenticated(request):
+    ...     return True
+    >>> import bda.bfg.app.browser.layout
+    >>> bda.bfg.app.browser.layout.authenticated = authenticated
+
+Now create dummy root and render ``add`` tile.
+::
+
+    >>> import bda.bfg.app.browser.authoring
+    >>> from repoze.bfg.testing import DummyRequest
+    >>> from bda.bfg.tile import render_tile
+    >>> request = DummyRequest()
+    >>> root = MyNode()
+
+Render without factory.
+::
+
+    >>> render_tile(root, request, 'add')
+    u'<div>\n  \n  <h1>Add My Node</h1>\n  \n  <div>\n    
+    Unknown factory\n  </div>\n\n</div>'
+
+Render with valid factory.
+::
+
+    >>> request.params['factory'] = 'mynode'
+
+    >>> render_tile(root, request, 'add')
+    u'<div>\n  \n  <h1>Add My Node</h1>\n  \n  <div>\n    
+    <form action="http://example.com" enctype="multipart/form-data" 
+    id="form-addform" method="post"><input id="input-addform-factory" 
+    name="addform.factory" type="hidden" value="mynode" /><div class="field" 
+    id="field-addform-id"><label for="input-addform-id">Id</label><input 
+    id="input-addform-id" name="addform.id" type="text" /></div><div 
+    class="field" id="field-addform-title"><label 
+    for="input-addform-title">Title</label><input id="input-addform-title" 
+    name="addform.title" type="text" /></div><input id="input-addform-add" 
+    name="action.addform.add" type="submit" value="Add" /></form>\n  
+    </div>\n\n</div>'
+
+Render with submitted data.
+::
+    
+    >>> request.params['action.addform.add'] = '1'
+    >>> request.params['addform.id'] = 'somechild'
+    >>> request.params['addform.title'] = 'Some Child'
+
+    >>> render_tile(root, request, 'add')
+    u'<div>\n  \n  <h1>Add My Node</h1>\n  \n  <div>\n    
+    <div>Added</div>\n  </div>\n\n</div>'
+
+Check the modified model.
+::
+
+    >>> root.keys()
+    ['somechild']
+    
+    >>> root['somechild'].attrs.title
+    'Some Child'

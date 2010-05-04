@@ -1,7 +1,9 @@
 <div>
   
-  <h1>Add</h1>
+  <h1>Add <tal:type replace="model.properties.title" /></h1>
   
-  <tal:add replace="structure tile('addform')" />
+  <div>
+    <tal:addform replace="structure context.addform" />
+  </div>
 
 </div>
