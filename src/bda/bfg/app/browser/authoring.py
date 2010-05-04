@@ -54,7 +54,6 @@ class AddDropdown(Tile):
     
     @property
     def items(self):
-        #import pdb;pdb.set_trace()
         ret = list()
         addables = self.model.properties.addables
         if not addables:
