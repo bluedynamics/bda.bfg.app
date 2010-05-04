@@ -13,7 +13,6 @@ TESTFILES = [
     '../browser/layout.txt',
     '../browser/utils.txt',
     '../browser/authoring.txt',
-    '../browser/contents.txt',
     '../browser/form.txt',
     '../browser/batch.txt',
 ]
