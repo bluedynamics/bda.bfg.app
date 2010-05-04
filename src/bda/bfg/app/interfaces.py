@@ -7,6 +7,9 @@ class IApplicationNode(IAttributedNode):
     """
     
     __acl__ = Attribute(u"ACL")
+    
+    node_info_name = Attribute(u"Registered name of node corresponding "
+                               u"INodeInfo providing object")
 
     properties = Attribute(u"INodeInfo providing object")
     

@@ -15,6 +15,15 @@ from bda.bfg.app.interfaces import (
     INodeInfo,
 )
 
+_node_info_registry = dict()
+
+def registerNodeInfo(name, info):
+    _node_info_registry[name] = info
+
+def getNodeInfo(name):
+    if name in _node_info_registry:
+        return _node_info_registry[name]
+
 class BaseNode(AttributedNode):
 #class BaseNode(LifecycleNode):
     implements(IApplicationNode)
@@ -25,9 +34,14 @@ class BaseNode(AttributedNode):
         (Deny, Everyone, ALL_PERMISSIONS),
     ]
     
+    node_info_name = ''
+    
     @property
     def properties(self):
-        return BaseNodeInfo(self.attrs)
+        info = getNodeInfo(self.node_info_name)
+        if not info:
+            info = BaseNodeInfo(self.attrs)
+        return info
     
     @property
     def metadata(self):
@@ -38,7 +52,7 @@ class BaseNode(AttributedNode):
         if self.metadata.get('title'):
             return self.metadata.title
         return self.__name__
-    
+
 class FactoryNode(BaseNode):
     implements(IFactoryNode)
     
@@ -143,13 +157,3 @@ class BaseMetadata(Properties):
 
 class BaseNodeInfo(Properties):
     implements(INodeInfo)
-
-_node_info_registry = dict()
-
-def registerNodeInfo(name, info):
-    _node_info_registry[name] = info
-
-def getNodeInfo(name):
-    if name in _node_info_registry:
-        return _node_info_registry[name]
-    return BaseNodeInfo()

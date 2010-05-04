@@ -299,9 +299,7 @@ Check ``INodeAdapter`` interface.
 NodeInfo
 --------
 
-The ``INodeInfo`` providing object holds information about the application node
-
-The default implementation accepts a dict like object on ``__init__``.
+The ``INodeInfo`` providing object holds information about the application node.
 ::
 
     >>> from bda.bfg.app.model import BaseNodeInfo
