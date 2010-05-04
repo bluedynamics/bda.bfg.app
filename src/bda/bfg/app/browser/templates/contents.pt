@@ -17,11 +17,11 @@
              ajax:action="content:#content:inner">
               &nbsp;
           </a>
-          <a href="${context.nodeurl}/${item.__name__}/edit"
+          <a href="${context.nodeurl}/${item.__name__}/edit?from=parent"
              class="edit16_16"
              title="Edit"
              ajax:bind="click"
-             ajax:target="${context.nodeurl}/${item.__name__}"
+             ajax:target="${context.nodeurl}/${item.__name__}?from=parent"
              ajax:action="edit:#content:inner">
               &nbsp;
           </a>

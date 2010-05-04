@@ -2,6 +2,7 @@ from yafowil.base import factory
 from yafowil.controller import Controller
 from paste.httpexceptions import HTTPFound
 from bda.bfg.tile import Tile
+from bda.bfg.app.browser.utils import make_url
 
 class Form(Tile):
     
@@ -39,5 +40,26 @@ class AddForm(Form):
         self.model = model
         self.request = request
         form = self.form
-        form['factory'] = factory('loop', value=request.params.get('factory'))
+        form['factory'] = factory('proxy', value=request.params.get('factory'))
         return self._process_form(form)
+    
+    def next(self, request):
+        return HTTPFound(make_url(request.request, node=self.model.__parent__))
+
+class EditForm(Form):
+    """form hooking the hidden value 'from' to self.form on __call__
+    """
+    
+    def __call__(self, model, request):
+        self.model = model
+        self.request = request
+        form = self.form
+        form['from'] = factory('proxy', value=request.params.get('from'))
+        return self._process_form(form)
+    
+    def next(self, request):
+        if request.get('from') == 'parent':
+            url = make_url(request.request, node=self.model.__parent__)
+        else:
+            url = make_url(request.request, node=self.model)
+        return HTTPFound(url)
