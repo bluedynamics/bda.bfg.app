@@ -26,16 +26,8 @@ def add(model, request):
 class AddTile(ProtectedContentTile):
     
     @property
-    def info(self):
-        factory = self.request.params.get('factory')
-        allowed = self.model.properties.addables
-        if not factory or not allowed or not factory in allowed:
-            return None
-        return getNodeInfo(factory)
-    
-    @property
     def addform(self):
-        nodeinfo = self.info
+        nodeinfo = self._info
         if not nodeinfo:
             return u'Unknown factory'
         if AdapterNode in nodeinfo.node.__bases__:
@@ -44,6 +36,22 @@ class AddTile(ProtectedContentTile):
             addmodel = nodeinfo.node()
         addmodel.__parent__ = self.model
         return render_tile(addmodel, self.request, 'addform')
+    
+    @property
+    def title(self):
+        if self._info:
+            if self._info.title:
+                return self._info.title
+            return 'Unnamed'
+        return 'Unknown'
+    
+    @property
+    def _info(self):
+        factory = self.request.params.get('factory')
+        allowed = self.model.properties.addables
+        if not factory or not allowed or not factory in allowed:
+            return None
+        return getNodeInfo(factory)
 
 @bfg_view('edit', permission='login')
 def edit(model, request):

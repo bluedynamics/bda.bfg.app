@@ -101,7 +101,7 @@ Render without factory.
 ::
 
     >>> render_tile(root, request, 'add')
-    u'<div>\n  \n  <h1>Add My Node</h1>\n  \n  <div>\n    
+    u'<div>\n  \n  <h1>Add Unknown</h1>\n  \n  <div>\n    
     Unknown factory\n  </div>\n\n</div>'
 
 Render with valid factory.
@@ -119,7 +119,7 @@ Render with valid factory.
     for="input-addform-title">Title</label><input id="input-addform-title" 
     name="addform.title" type="text" /></div><input id="input-addform-add" 
     name="action.addform.add" type="submit" value="Add" /><input 
-    id="input-addform-factory" name="addform.factory" type="hidden" 
+    id="input-addform-factory" name="factory" type="hidden" 
     value="mynode" /></form>\n  </div>\n\n</div>'
 
 Render with submitted data.
@@ -150,10 +150,10 @@ Providing edit forms is easy, just bind a form tile named 'editform' for your
 application node.
 ::
 
-    >>> from bda.bfg.app.browser.form import Form
+    >>> from bda.bfg.app.browser.form import EditForm
 
     >>> @tile('editform', interface=MyNode)
-    ... class MyEditForm(Form):
+    ... class MyEditForm(EditForm):
     ...     
     ...     @property
     ...     def form(self):
@@ -197,7 +197,8 @@ Render form with values from model.
     id="input-editform-title" name="editform.title" type="text" 
     value="Some Child" /></div><input id="input-editform-update" 
     name="action.editform.update" type="submit" 
-    value="Update" /></form>\n  </div>\n\n</div>'
+    value="Update" /><input id="input-editform-from" name="from" 
+    type="hidden" /></form>\n  </div>\n\n</div>'
 
 Trigger update action and provide new title.
 ::
@@ -225,14 +226,16 @@ menu containing links to the addforms of allowed child nodes.
 
     >>> request = DummyRequest()
     >>> render_tile(root['somechild'], request, 'add_dropdown')
-    u'\n  <div class="add_dropdown">\n    <div class="add_icon">\n      
-    <a href="http://example.com/somechild/adding">&nbsp;</a>\n    </div>\n    
-    <ul class="add_dropdown">\n      <li>\n        
+    u'\n  <div class="dropdown">\n    <div class="icon">\n      
+    <a href="http://example.com/somechild/adding" 
+    class="add16_16" 
+    title="Add Item">&nbsp;</a>\n    </div>\n    
+    <ul class="dropdown_items" style="display:none;">\n      <li>\n        
     <a href="http://example.com/somechild/add?factory=mynode" 
     ajax:bind="click" 
     ajax:target="http://example.com/somechild?factory=mynode" 
-    ajax:action="add:#content:inner">My Node</a>\n      </li>\n    
-    </ul>\n  </div>\n'
+    ajax:action="add:#content:inner">My Node</a>\n      
+    </li>\n    </ul>\n  </div>\n'
 
 Allow another node type as child.
 ::
@@ -246,9 +249,11 @@ Allow another node type as child.
     >>> getNodeInfo('mynode').addables = ['mynode', 'anothernode']
     
     >>> render_tile(root['somechild'], request, 'add_dropdown')
-    u'\n  <div class="add_dropdown">\n    <div class="add_icon">\n      
-    <a href="http://example.com/somechild/adding">&nbsp;</a>\n    </div>\n    
-    <ul class="add_dropdown">\n      <li>\n        
+    u'\n  <div class="dropdown">\n    <div class="icon">\n      
+    <a href="http://example.com/somechild/adding" 
+    class="add16_16" 
+    title="Add Item">&nbsp;</a>\n    </div>\n    
+    <ul class="dropdown_items" style="display:none;">\n      <li>\n        
     <a href="http://example.com/somechild/add?factory=mynode" 
     ajax:bind="click" 
     ajax:target="http://example.com/somechild?factory=mynode" 
@@ -256,5 +261,5 @@ Allow another node type as child.
     <a href="http://example.com/somechild/add?factory=anothernode" 
     ajax:bind="click" 
     ajax:target="http://example.com/somechild?factory=anothernode" 
-    ajax:action="add:#content:inner">Another Node</a>\n      
-    </li>\n    </ul>\n  </div>\n'
+    ajax:action="add:#content:inner">Another Node</a>\n      </li>\n    
+    </ul>\n  </div>\n'
