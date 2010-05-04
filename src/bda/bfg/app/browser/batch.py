@@ -19,7 +19,7 @@ class Batch(Tile):
     ellipsis = u'...'
     
     def render(self):
-        return render_template('bda.bfg.app.views:templates/batch.pt',
+        return render_template('bda.bfg.app.browser:templates/batch.pt',
                                request=self.request,
                                model=self.model, context=self)
     
