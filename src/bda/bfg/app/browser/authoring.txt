@@ -43,22 +43,16 @@ Create and register an addform tile for MyNode.
     >>> from yafowil.base import factory
     >>> from bda.bfg.tile import tile
     >>> from bda.bfg.app.browser.utils import make_url
-    >>> from bda.bfg.app.browser.form import Form
+    >>> from bda.bfg.app.browser.form import AddForm
     
     >>> @tile('addform', interface=MyNode)
-    ... class MyAddForm(Form):
+    ... class MyAddForm(AddForm):
     ...     
     ...     @property
     ...     def form(self):
     ...         form = factory(u'form',
     ...                        name='addform',
     ...                        props={'action': self.nodeurl})
-    ...         # you must loop the parameter 'factory'
-    ...         # XXX: better solution maybe with traversal
-    ...         #      like 'add/factoryname'
-    ...         form['factory'] = factory(
-    ...             'hidden',
-    ...             value=self.request.params.get('factory'))
     ...         form['id'] = factory(
     ...             'field:label:text',
     ...             props = {
@@ -121,15 +115,15 @@ Render with valid factory.
     >>> render_tile(root, request, 'add')
     u'<div>\n  \n  <h1>Add My Node</h1>\n  \n  <div>\n    
     <form action="http://example.com" enctype="multipart/form-data" 
-    id="form-addform" method="post"><input id="input-addform-factory" 
-    name="addform.factory" type="hidden" value="mynode" /><div class="field" 
+    id="form-addform" method="post"><div class="field" 
     id="field-addform-id"><label for="input-addform-id">Id</label><input 
     id="input-addform-id" name="addform.id" type="text" /></div><div 
     class="field" id="field-addform-title"><label 
     for="input-addform-title">Title</label><input id="input-addform-title" 
     name="addform.title" type="text" /></div><input id="input-addform-add" 
-    name="action.addform.add" type="submit" value="Add" /></form>\n  
-    </div>\n\n</div>'
+    name="action.addform.add" type="submit" value="Add" /><input 
+    id="input-addform-factory" name="addform.factory" type="hidden" 
+    value="mynode" /></form>\n  </div>\n\n</div>'
 
 Render with submitted data.
 ::
@@ -150,3 +144,82 @@ Check the modified model.
     
     >>> root['somechild'].attrs.title
     'Some Child'
+
+
+Editing
+-------
+
+Providing edit forms is easy, just bind a form tile named 'editform' for your
+application node.
+::
+
+    >>> from bda.bfg.app.browser.form import Form
+
+    >>> @tile('editform', interface=MyNode)
+    ... class MyEditForm(Form):
+    ...     
+    ...     @property
+    ...     def form(self):
+    ...         form = factory(u'form',
+    ...                        name='editform',
+    ...                        props={'action': self.nodeurl})
+    ...         form['title'] = factory(
+    ...             'field:label:text',
+    ...             value = self.model.attrs.title,
+    ...             props = {
+    ...                 'label': 'Title',
+    ...             })
+    ...         form['update'] = factory(
+    ...             'submit',
+    ...             props = {
+    ...                 'action': 'update',
+    ...                 'expression': True,
+    ...                 'handler': self.update,
+    ...                 'next': self.next,
+    ...                 'label': 'Update',
+    ...             })
+    ...         return form
+    ...     
+    ...     def update(self, widget, data):
+    ...         fetch = self.request.params.get
+    ...         self.model.attrs.title = fetch('addform.title')
+    ...         
+    ...     def next(self, request):
+    ...         return '<div>Updated</div>'
+
+Render form with values from model.
+::
+
+    >>> request = DummyRequest()
+    >>> render_tile(root['somechild'], request, 'edit')
+    u'<div>\n  \n  <h1>Edit</h1>\n  \n  <div>\n    <form 
+    action="http://example.com/somechild" enctype="multipart/form-data" 
+    id="form-editform" method="post"><div class="field" 
+    id="field-editform-title"><label 
+    for="input-editform-title">Title</label><input 
+    id="input-editform-title" name="editform.title" type="text" 
+    value="Some Child" /></div><input id="input-editform-update" 
+    name="action.editform.update" type="submit" 
+    value="Update" /></form>\n  </div>\n\n</div>'
+
+Trigger update action and provide new title.
+::
+
+    >>> request.params['action.editform.update'] = '1'
+    >>> request.params['addform.title'] = 'Changed title'
+
+Check the results.
+::
+
+    >>> render_tile(root['somechild'], request, 'edit')
+    u'<div>\n  \n  <h1>Edit</h1>\n  \n  <div>\n    
+    <div>Updated</div>\n  </div>\n\n</div>'
+    
+    >>> root['somechild'].attrs.title
+    'Changed title'
+
+
+Add Items Widget
+----------------
+
+XXX

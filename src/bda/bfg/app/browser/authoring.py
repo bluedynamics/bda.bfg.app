@@ -17,7 +17,6 @@ class AddTile(ProtectedContentTile):
     
     @property
     def addform(self):
-        # XXX: better solution maybe with traversal like 'add/factoryname'
         factory = self.request.params.get('factory')
         allowed = self.model.properties.addables
         if not factory or not allowed or not factory in allowed:
