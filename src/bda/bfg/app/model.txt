@@ -20,8 +20,7 @@ has some advantages:
       manipulation or trigger those events ourself, i.e. on cache timeouts.
     
     - Nodes have an index holding references to all contained Nodes in the tree
-      by uid. This makes it easy to access information from other Nodes in the
-      tree.
+      by uid. This makes it easy to access information from other Nodes.
 
 ``bda.bfg.app.interfaces.IApplicationNode`` extend this interface by:
 
@@ -57,6 +56,12 @@ Properties.
     >>> root.properties
     <bda.bfg.app.model.Properties object at ...>
 
+``IProperties`` implementations do not raise AttributeErrors if requested
+attribute not exists.
+::
+
+    root.properties.inexistent
+
 Metadata.
 ::
 
@@ -65,10 +70,6 @@ Metadata.
     
     >>> root.metadata.title
     'No Title'
-
-``IMetadata`` implementations do not raise AttributeErrors if requested metadata
-not exists.
-::
 
     >>> root.metadata.inexistent
 
@@ -83,6 +84,8 @@ Nodeinfo.
     
     >>> root.nodeinfo.title
     "<class 'bda.bfg.app.model.BaseNode'>"
+    
+    >>> root.nodeinfo.inexistent
 
 
 FactoryNode

@@ -28,6 +28,7 @@ setup(name='bda.bfg.app',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'lxml',
           'zodict',
           'repoze.bfg',
           'repoze.bfg.xmlrpc',
