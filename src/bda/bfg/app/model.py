@@ -1,3 +1,6 @@
+import os
+import types
+from lxml import etree
 from zope.interface import implements
 from zodict.node import LifecycleNode, AttributedNode
 from repoze.bfg.threadlocal import get_current_request
@@ -164,3 +167,70 @@ class BaseMetadata(Properties):
 
 class BaseNodeInfo(Properties):
     implements(INodeInfo)
+
+class XMLProperties(Properties):
+    
+    def __init__(self, path, data=None):
+        object.__setattr__(self, '_path', path)
+        object.__setattr__(self, '_data', dict())
+        if data:
+            object.__getattribute__(self, '_data').update(data)
+        self._init()
+    
+    def __call__(self):
+        file = open(object.__getattribute__(self, '_path'), 'w')
+        file.write(self._xml_repr())
+        file.close()
+    
+    def __setattr__(self, name, value):
+        object.__getattribute__(self, '_data')[name] = value
+    
+    def __getattr__(self, name):
+        return object.__getattribute__(self, '_data')[name]
+    
+    def __delitem__(self, name):
+        data = object.__getattribute__(self, '_data')
+        if name in data:
+            del data[name]
+        else:
+            raise KeyError(u"property %s does not exist" % name)
+    
+    def _init(self):
+        path = object.__getattribute__(self, '_path')
+        if not path or not os.path.exists(path):
+            return
+        file = open(path, 'r')
+        tree = etree.parse(file)
+        file.close()
+        root = tree.getroot()
+        data = object.__getattribute__(self, '_data')
+        for elem in root.getchildren():
+            children = elem.getchildren()
+            if children:
+                val = list()
+                for subelem in children:
+                    val.append(subelem.text.strip())
+                data[elem.tag] = val
+            else:
+                data[elem.tag] = elem.text.strip()
+        file.close()
+    
+    def _xml_repr(self):
+        root = etree.Element('properties')
+        data = object.__getattribute__(self, '_data')
+        for key, value in data.items():
+            sub = etree.SubElement(root, key)
+            if type(value) in [types.ListType, types.TupleType]:
+                for item in value:
+                    subsub = etree.SubElement(sub, 'item')
+                    subsub.text = item
+            else:
+                sub.text = unicode(value)
+        return etree.tostring(root, pretty_print=True)
+    
+    # testing
+    def _keys(self):
+        return object.__getattribute__(self, '_data').keys()
+    
+    def _values(self):
+        return object.__getattribute__(self, '_data').values()

@@ -352,3 +352,94 @@ You can use the ``Properties`` object for any kind of mapping.
     
     >>> p1.prop, p2.prop
     ('Foo', 'Bar')
+
+XML Properties
+--------------
+
+There's a convenience object to read and write properties to a XML file.
+
+Dummy environment.
+::
+
+    >>> import os
+    >>> import tempfile
+    >>> tempdir = tempfile.mkdtemp()
+    >>> from bda.bfg.app.model import XMLProperties
+    
+Create XML properties with path and optional data.
+::
+
+    >>> props = XMLProperties(os.path.join(tempdir, 'props.xml'),
+    ...                       data={'foo': 1})
+
+Testing helper functions.
+::
+    
+    >>> props._keys()
+    ['foo']
+    
+    >>> props._values()
+    [1]
+
+Nothing added yet.
+::
+
+    >>> os.listdir(tempdir)
+    []
+
+Call props, file is now written to disk.
+::
+
+    >>> props()
+    >>> os.listdir(tempdir)
+    ['props.xml']
+
+Check file contents.
+::
+
+    >>> with open(os.path.join(tempdir, 'props.xml')) as file:
+    ...     file.read()
+    '<properties>\n  <foo>1</foo>\n</properties>\n'
+
+Overwrite ``foo`` and add ``bar`` properties.
+::
+
+    >>> props.foo = 'foo'
+    >>> props.bar = '<bar>lala</bar>'
+    
+Call props and check result.
+::
+    
+    >>> props()
+    >>> with open(os.path.join(tempdir, 'props.xml')) as file:
+    ...     file.read()
+    '<properties>\n  <foo>foo</foo>\n  
+    <bar>&lt;bar&gt;lala&lt;/bar&gt;</bar>\n</properties>\n'
+
+Create XML properties from existing file.
+::
+
+    >>> props = XMLProperties(os.path.join(tempdir, 'props.xml'))
+    >>> props._keys()
+    ['foo', 'bar']
+    
+    >>> props._values()
+    ['foo', '<bar>lala</bar>']
+
+Delete property.
+::
+
+    >>> del props['foo']
+    >>> props._keys()
+    ['bar']
+
+Call and check results.
+::
+
+    >>> props()
+    >>> with open(os.path.join(tempdir, 'props.xml')) as file:
+    ...     file.read()
+    '<properties>\n  <bar>&lt;bar&gt;lala&lt;/bar&gt;</bar>\n</properties>\n'
+
+    >>> import shutil
+    >>> shutil.rmtree(tempdir)
