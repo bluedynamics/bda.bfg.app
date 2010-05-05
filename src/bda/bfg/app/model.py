@@ -34,24 +34,32 @@ class BaseNode(AttributedNode):
         (Deny, Everyone, ALL_PERMISSIONS),
     ]
     
+    # set this to name of registered node info on deriving class
     node_info_name = ''
     
     @property
     def properties(self):
-        info = getNodeInfo(self.node_info_name)
-        if not info:
-            info = BaseNodeInfo(self.attrs)
-        return info
+        props = Properties()
+        props.in_navtree = False
+        return props
     
     @property
     def metadata(self):
-        return BaseMetadata(self.attrs)
+        name = self.__name__
+        if not name:
+            name = 'No Title'
+        metadata = BaseMetadata()
+        metadata.title = name
+        return metadata
     
     @property
-    def title(self):
-        if self.metadata.get('title'):
-            return self.metadata.title
-        return self.__name__
+    def nodeinfo(self):
+        info = getNodeInfo(self.node_info_name)
+        if not info:
+            info = BaseNodeInfo(self.attrs)
+            info.title = str(self.__class__)
+            info.node = self.__class__
+        return info
 
 class FactoryNode(BaseNode):
     implements(IFactoryNode)

@@ -1,6 +1,6 @@
 <div>
   
-  <h1>Edit</h1>
+  <h1>Edit <tal:type replace="model.nodeinfo.title" /></h1>
   
   <div>
     <tal:add replace="structure tile('editform')" />

@@ -81,7 +81,7 @@ class NavTree(Tile):
                 continue
             if not node.properties.get('in_navtree'):
                 continue
-            title = node.title
+            title = node.metadata.title
             url = make_url(self.request, node=node)
             curnode = curpath == key and True or False
             child = self.navtreeitem(title, url, nodepath(node))

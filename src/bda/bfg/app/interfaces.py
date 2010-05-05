@@ -8,14 +8,11 @@ class IApplicationNode(IAttributedNode):
     
     __acl__ = Attribute(u"ACL")
     
-    node_info_name = Attribute(u"Registered name of node corresponding "
-                               u"INodeInfo providing object")
-
-    properties = Attribute(u"INodeInfo providing object")
+    properties = Attribute(u"IProperties providing object")
     
     metadata = Attribute(u"IMetadata implementation")
     
-    title = Attribute(u"Node Title")
+    nodeinfo = Attribute(u"INodeInfo providing object")
 
 class IFactoryNode(IApplicationNode):
     """Application node for static children.

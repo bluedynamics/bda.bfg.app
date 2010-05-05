@@ -27,7 +27,7 @@ class AddTile(ProtectedContentTile):
     
     @property
     def addform(self):
-        nodeinfo = self._info
+        nodeinfo = self.info
         if not nodeinfo:
             return u'Unknown factory'
         if AdapterNode in nodeinfo.node.__bases__:
@@ -38,17 +38,9 @@ class AddTile(ProtectedContentTile):
         return render_tile(addmodel, self.request, 'addform')
     
     @property
-    def title(self):
-        if self._info:
-            if self._info.title:
-                return self._info.title
-            return 'Unnamed'
-        return 'Unknown'
-    
-    @property
-    def _info(self):
+    def info(self):
         factory = self.request.params.get('factory')
-        allowed = self.model.properties.addables
+        allowed = self.model.nodeinfo.addables
         if not factory or not allowed or not factory in allowed:
             return None
         return getNodeInfo(factory)
@@ -69,7 +61,7 @@ class AddDropdown(Tile):
     @property
     def items(self):
         ret = list()
-        addables = self.model.properties.addables
+        addables = self.model.nodeinfo.addables
         if not addables:
             return ret
         for addable in addables:

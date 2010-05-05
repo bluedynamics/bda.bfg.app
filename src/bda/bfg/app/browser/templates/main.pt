@@ -15,7 +15,7 @@ Released   : 20090622
   <head>
 
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title tal:content="model.root.title"></title>
+    <title tal:content="model.root.metadata.title"></title>
     <meta name="keywords" content="" />
     <meta name="description" content="" />
     
@@ -41,7 +41,7 @@ Released   : 20090622
              ajax:bind="click"
              ajax:target="${request.application_url}"
              ajax:event="contextchanged:.contextsensitiv"
-             tal:content="model.root.title">Title</a>
+             tal:content="model.root.metadata.title">Title</a>
         </h1>
         <p>
           <em> by BlueDynamics Alliance</em>

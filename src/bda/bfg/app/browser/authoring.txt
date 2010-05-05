@@ -101,7 +101,7 @@ Render without factory.
 ::
 
     >>> render_tile(root, request, 'add')
-    u'<div>\n  \n  <h1>Add Unknown</h1>\n  \n  <div>\n    
+    u'<div>\n  \n  <h1>Add </h1>\n  \n  <div>\n    
     Unknown factory\n  </div>\n\n</div>'
 
 Render with valid factory.
@@ -189,7 +189,7 @@ Render form with values from model.
 
     >>> request = DummyRequest()
     >>> render_tile(root['somechild'], request, 'edit')
-    u'<div>\n  \n  <h1>Edit</h1>\n  \n  <div>\n    <form 
+    u'<div>\n  \n  <h1>Edit My Node</h1>\n  \n  <div>\n    <form 
     action="http://example.com/somechild" enctype="multipart/form-data" 
     id="form-editform" method="post"><div class="field" 
     id="field-editform-title"><label 
@@ -210,7 +210,7 @@ Check the results.
 ::
 
     >>> render_tile(root['somechild'], request, 'edit')
-    u'<div>\n  \n  <h1>Edit</h1>\n  \n  <div>\n    
+    u'<div>\n  \n  <h1>Edit My Node</h1>\n  \n  <div>\n    
     <div>Updated</div>\n  </div>\n\n</div>'
     
     >>> root['somechild'].attrs.title

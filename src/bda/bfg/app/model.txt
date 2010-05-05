@@ -63,31 +63,13 @@ BaseNode.properties returns BaseNodeInfo with BaseNode.attrs as data properties.
 ::
 
     >>> root.properties
-    <bda.bfg.app.model.BaseNodeInfo object at ...>
+    <bda.bfg.app.model.Properties object at ...>
 
-Metadata of base implementation maps to base implementation's ``attr`` property.
-::
-
-    >>> root.metadata._data is root.attrs
-    True
-    
-``title`` property returns either ``properties['title']`` or ``Node.__name__``.
-::
-
-    >>> root.__name__ = 'foo'
-    >>> root.title
-    'foo'
-    
-    >>> root.attrs.title = 'Foo Title'
-    >>> root.title
-    'Foo Title'
-
-Now ``metadata.title`` is available as well since ``BaseNode.metadata`` just
-wraps ``BaseNode.attrs``.
+Metadata.
 ::
 
     >>> root.metadata.title
-    'Foo Title'
+    'No Title'
 
 ``IMetadata`` implementations do not raise AttributeErrors if requested metadata
 not exists.

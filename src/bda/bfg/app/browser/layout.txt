@@ -209,7 +209,16 @@ Empty navtree, no items are marked to be displayed.
     <h2>Navigation</h2>\n      \n  <ul>\n    \n  </ul>\n\n    
     </li>\n  </ul>\n'
 
-Set node property ``in_navtree``.
+Node's which are in navtree.
+
+    >>> from bda.bfg.app.model import Properties
+    >>> class NavNode(BaseNode):
+    ...     @property
+    ...     def properties(self):
+    ...         return Properties({'in_navtree': True})
+    >>> root = NavNode()
+    >>> root['1'] = NavNode()
+    >>> root['2'] = NavNode()
 
 The property is read from ``BaseNode.properties`` and defines the contract with
 the navtree tile.
