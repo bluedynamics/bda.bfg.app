@@ -23,14 +23,18 @@ bdapp = {
 //      </li>
 //    </ul>
 //  </div>
-jQuery.fn.dropdownmenu = function () {
+jQuery.fn.dropdownmenu = function (options) {
+	var selector = this.selector;
+	var trigger = options ? (options.trigger ? options.trigger : '.icon a')
+	                      : '.icon a';
+	var menu = options ? (options.menu ? options.menu : '.dropdown_items')
+                       : '.dropdown_items';
 	jQuery(this).unbind('click');
-    jQuery('.icon a', this).bind('click', function(event) {
+    jQuery(trigger, this).bind('click', function(event) {
 		event.preventDefault();
-		var container = jQuery('.dropdown_items',
-		                       jQuery(this).parent().parent());
+		var container = jQuery(menu, jQuery(this).parents(selector + ':first'));
 		jQuery(document).bind('mousedown', function(event) {
-            if (jQuery(event.target).parents('.dropdown:first').length) {
+            if (jQuery(event.target).parents(selector + ':first').length) {
                 return true;
             }
             container.css('display', 'none');
