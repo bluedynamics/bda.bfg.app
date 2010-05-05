@@ -1,5 +1,6 @@
 import os
 import types
+import ConfigParser
 from lxml import etree
 from zope.interface import implements
 from zodict.node import LifecycleNode, AttributedNode
@@ -182,12 +183,6 @@ class XMLProperties(Properties):
         file.write(self._xml_repr())
         file.close()
     
-    def __setattr__(self, name, value):
-        object.__getattribute__(self, '_data')[name] = value
-    
-    def __getattr__(self, name):
-        return object.__getattribute__(self, '_data')[name]
-    
     def __delitem__(self, name):
         data = object.__getattribute__(self, '_data')
         if name in data:
@@ -234,3 +229,74 @@ class XMLProperties(Properties):
     
     def _values(self):
         return object.__getattribute__(self, '_data').values()
+
+class ConfigProperties(Properties):
+    
+    def __init__(self, path, data=None):
+        object.__setattr__(self, '_path', path)
+        object.__setattr__(self, '_data', dict())
+        if data:
+            object.__getattribute__(self, '_data').update(data)
+        self._init()
+    
+    def __call__(self):
+        path = object.__getattribute__(self, '_path')
+        config = self.config()
+        with open(path, 'wb') as configfile:
+            config.write(configfile)
+    
+    def __getitem__(self, key):
+        try:
+            return self.config().get('properties', key)
+        except ConfigParser.NoOptionError:
+            raise KeyError(key)
+    
+    def get(self, key, default=None):
+        try:
+            return self.config().get('properties', key)
+        except ConfigParser.NoOptionError:
+            return default
+    
+    def __contains__(self, key):
+        try:
+            value = self.config().get('properties', key)
+            return True
+        except ConfigParser.NoOptionError:
+            return False
+    
+    def __getattr__(self, name):
+        try:
+            return self.config().get('properties', name)
+        except ConfigParser.NoOptionError:
+            return
+    
+    def __setattr__(self, name, value):
+        self.config().set('properties', name, value)
+    
+    def __delitem__(self, name):
+        config = self.config()
+        try:
+            value = config.get('properties', name)
+        except ConfigParser.NoOptionError:
+            raise KeyError(u"property %s does not exist" % name)
+        config.remove_option('properties', name)
+    
+    def config(self):
+        try:
+            return object.__getattribute__(self, '_config')
+        except AttributeError:
+            pass
+        config = ConfigParser.ConfigParser()
+        path = object.__getattribute__(self, '_path')
+        if os.path.exists(path):
+            config.read(path)
+        else:
+            config.add_section('properties')
+        object.__setattr__(self, '_config', config)
+        return object.__getattribute__(self, '_config')
+    
+    def _init(self):
+        data = object.__getattribute__(self, '_data')
+        config = self.config()
+        for key, value in data.items():
+            config.set('properties', key, value)

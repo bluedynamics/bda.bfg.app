@@ -367,11 +367,11 @@ Dummy environment.
     >>> import os
     >>> import tempfile
     >>> tempdir = tempfile.mkdtemp()
-    >>> from bda.bfg.app.model import XMLProperties
     
 Create XML properties with path and optional data.
 ::
 
+    >>> from bda.bfg.app.model import XMLProperties
     >>> props = XMLProperties(os.path.join(tempdir, 'props.xml'),
     ...                       data={'foo': 1})
 
@@ -443,6 +443,76 @@ Call and check results.
     >>> with open(os.path.join(tempdir, 'props.xml')) as file:
     ...     file.read()
     '<properties>\n  <bar>&lt;bar&gt;lala&lt;/bar&gt;</bar>\n</properties>\n'
+
+    >>> os.remove(os.path.join(tempdir, 'props.xml'))
+
+ConfigProperties
+----------------
+
+A Properties implementation exists for Config files used by python configparser.
+:: 
+
+    >>> from bda.bfg.app.model import ConfigProperties
+    >>> props = ConfigProperties(os.path.join(tempdir, 'props.xml'),
+    ...                          data={'foo': 1})
+
+Nothing added yet.
+::
+
+    >>> os.listdir(tempdir)
+    []
+
+Call props, file is now written to disk.
+::
+
+    >>> props()
+    >>> os.listdir(tempdir)
+    ['props.xml']
+
+Check file contents.
+::
+
+    >>> with open(os.path.join(tempdir, 'props.xml')) as file:
+    ...     file.read()
+    '[properties]\nfoo = 1\n\n'
+
+Overwrite ``foo`` and add ``bar`` properties.
+::
+
+    >>> props.foo = 'foo'
+    >>> props.bar = 'bar'
+    
+Call props and check result.
+::
+    
+    >>> props()
+    >>> with open(os.path.join(tempdir, 'props.xml')) as file:
+    ...     file.read()
+    '[properties]\nfoo = foo\nbar = bar\n\n'
+
+Create config properties from existing file.
+::
+
+    >>> props = ConfigProperties(os.path.join(tempdir, 'props.xml'))
+    >>> props.foo
+    'foo'
+    
+    >>> props.bar
+    'bar'
+
+Delete property.
+::
+
+    >>> del props['foo']
+    >>> props.foo
+
+Call and check results.
+::
+
+    >>> props()
+    >>> with open(os.path.join(tempdir, 'props.xml')) as file:
+    ...     file.read()
+    '[properties]\nbar = bar\n\n'
 
     >>> import shutil
     >>> shutil.rmtree(tempdir)
