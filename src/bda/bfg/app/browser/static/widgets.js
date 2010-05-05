@@ -1,10 +1,14 @@
 jQuery(document).ready(function() {
-	dropdownmenubinder();
-	bdajax.binders.dropdownmenubinder = dropdownmenubinder;
+	bdapp.dropdownmenubinder();
+	bdajax.binders.dropdownmenubinder = bdapp.dropdownmenubinder;
 });
 
-dropdownmenubinder = function(context) {
-	jQuery('.dropdown').dropdownmenu();
+bdapp = {
+	
+	dropdownmenubinder: function(context) {
+	    jQuery('.dropdown').dropdownmenu();
+	}
+	
 }
 
 // <div class="dropdown">
