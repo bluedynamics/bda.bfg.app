@@ -288,6 +288,7 @@ Check ``INodeAdapter`` interface.
     >>> metadata.get('creator')
     'john doe'
 
+
 NodeInfo
 --------
 
@@ -355,6 +356,7 @@ You can use the ``Properties`` object for any kind of mapping.
     
     >>> p1.prop, p2.prop
     ('Foo', 'Bar')
+
 
 XML Properties
 --------------
@@ -445,6 +447,7 @@ Call and check results.
     '<properties>\n  <bar>&lt;bar&gt;lala&lt;/bar&gt;</bar>\n</properties>\n'
 
     >>> os.remove(os.path.join(tempdir, 'props.xml'))
+
 
 ConfigProperties
 ----------------
