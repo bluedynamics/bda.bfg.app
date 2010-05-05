@@ -28,19 +28,11 @@ has some advantages:
     - An ``__acl__`` property defining security. See documentation of
       ``repoze.bfg.security`` for details.
     
-    - A ``properties`` property, holding app specific information, i.e.
-      'in_navtree', which is used by ``navtree`` tile to determine wether this
-      node should be displayed in navigation tree or not. Use this property
-      if you need 'by-node' configuration in your application.
+    - A ``properties`` property, containing IProperties implementing object.
     
-    - A ``metadata`` property, containing an IMetadata implementation.
-      ``bda.bfg.app.model.BaseNode`` returns by default, a
-      ``bda.bfg.app.model.BaseMetadata`` instance. This
-      base implementation is an adapter like object wrapping any dict like
-      object, is case of ``BaseNode`` the data for metadata is
-      ``BaseNode.attrs``.
+    - A ``metadata`` property, containing IMetadata implementing object.
     
-    - A ``title`` property as convenience. This might get removed in future.
+    - A ``nodeinfo`` property containing INodeInfo implementing object.
 
 
 BaseNode
@@ -59,7 +51,7 @@ Default permissions.
     ('Deny', 'system.Everyone', 
     <repoze.bfg.security.AllPermissionsList object at ...>)]
 
-BaseNode.properties returns BaseNodeInfo with BaseNode.attrs as data properties.
+Properties.
 ::
 
     >>> root.properties
@@ -68,6 +60,9 @@ BaseNode.properties returns BaseNodeInfo with BaseNode.attrs as data properties.
 Metadata.
 ::
 
+    >>> root.metadata
+    <bda.bfg.app.model.BaseMetadata object at ...>
+    
     >>> root.metadata.title
     'No Title'
 
@@ -76,6 +71,18 @@ not exists.
 ::
 
     >>> root.metadata.inexistent
+
+Nodeinfo.
+::
+
+    >>> root.nodeinfo
+    <bda.bfg.app.model.BaseNodeInfo object at ...>
+    
+    >>> root.nodeinfo.node
+    <class 'bda.bfg.app.model.BaseNode'>
+    
+    >>> root.nodeinfo.title
+    "<class 'bda.bfg.app.model.BaseNode'>"
 
 
 FactoryNode
