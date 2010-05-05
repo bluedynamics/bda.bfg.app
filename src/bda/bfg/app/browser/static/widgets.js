@@ -1,6 +1,11 @@
 jQuery(document).ready(function() {
-	jQuery('.dropdown').dropdownmenu();
+	dropdownmenubinder();
+	bdajax.binders.dropdownmenubinder = dropdownmenubinder;
 });
+
+dropdownmenubinder = function(context) {
+	jQuery('.dropdown').dropdownmenu();
+}
 
 // <div class="dropdown">
 //    <div class="icon">
