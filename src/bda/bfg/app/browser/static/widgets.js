@@ -30,17 +30,9 @@ jQuery.fn.dropdownmenu = function () {
 		var container = jQuery('.dropdown_items',
 		                       jQuery(this).parent().parent());
 		jQuery(document).bind('mousedown', function(event) {
-            if (!event) {
-                var event = window.event;
+            if (jQuery(event.target).parents('.dropdown:first').length) {
+                return true;
             }
-            if (event.target) {
-                var target = event.target;
-            } else if (event.srcElement) {
-                var target = event.srcElement;
-            }
-			if (!jQuery('.dropdown', jQuery(target)).get(0)) {
-				return true;
-			}
             container.css('display', 'none');
         });
 		container.css('display', 'block');
