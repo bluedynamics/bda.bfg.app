@@ -144,57 +144,10 @@ Adapt created node structure.
 
     >>> adapter = AdapterNode(toadapt, 'name', None)
 
-Check ``AdapterNode`` interface.
+Check ``AdapterNode``.
 
-``__getitem__``
-::
-
-    >>> adapter['foo']
+    >>> adapter.model['foo']
     <AttributedNode object 'foo' at ...>
-
-``__contains__``
-::
-
-    >>> 'bar' in adapter
-    True
-
-``__len__``
-::
-
-    >>> len(adapter)
-    2
-
-``__iter__``
-::
-
-    >>> [key for key in adapter]
-    ['foo', 'bar']
-
-``keys``
-::
-
-    >>> adapter.keys()
-    ['foo', 'bar']
-
-``values``
-::
-
-    >>> adapter.values()
-    [<AttributedNode object 'foo' at ...>, 
-    <AttributedNode object 'bar' at ...>]
-
-``items``
-::
-
-    >>> adapter.items()
-    [('foo', <AttributedNode object 'foo' at ...>), 
-    ('bar', <AttributedNode object 'bar' at ...>)]
-
-``get``
-::
-
-    >>> adapter.get('bar')
-    <AttributedNode object 'bar' at ...>
 
 ``attrs``
 ::

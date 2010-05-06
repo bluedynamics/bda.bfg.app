@@ -31,38 +31,6 @@ class IAdapterNode(IApplicationNode):
     def __init__(model, name, parent):
         """Name and parent are used to hook the correct application hierarchy.
         """
-    
-    def __getitem__(key):
-        """Call and return adapted objects's ``__getitem__``.
-        """
-    
-    def __contains__(key):
-        """Call and return adapted objects's ``__contains__``.
-        """
-    
-    def __len__():
-        """Call and return adapted objects's ``__len__``.
-        """
-    
-    def __iter__():
-        """Call and yields values returned by adapted objects's ``__iter__``.
-        """
-    
-    def keys():
-        """Call and return adapted objects's ``__keys__``.
-        """
-    
-    def values():
-        """Call and return adapted objects's ``__values__``.
-        """
-    
-    def items():
-        """Call and return adapted objects's ``__items__``.
-        """
-    
-    def get(key, default=None):
-        """Call and return adapted objects's ``get``.
-        """
 
 class IProperties(IReadMapping):
     """Interface for providing any kind of properties.

@@ -103,41 +103,6 @@ class AdapterNode(BaseNode):
         self.__name__ = name
         self.__parent__ = parent
     
-    def __getitem__(self, key):
-        return self.model[key]
-    
-    def __contains__(self, key):
-        return key in self.model.keys()
-    
-    def __len__(self):
-        return len(self.model)
-    
-    def __iter__(self):
-        for key in self.model:
-            yield key
-    
-    iterkeys = __iter__
-    
-    def keys(self):
-        return self.model.keys()
-    
-    def itervalues(self):
-        for value in self.model.itervalues():
-            yield value
-    
-    def values(self):
-        return list(self.itervalues())
-    
-    def iteritems(self):
-        for item in self.model.iteritems():
-            yield item
-    
-    def items(self):
-        return list(self.iteritems())
-    
-    def get(self, key, default=None):
-        return self.model.get(key, default)
-    
     @property
     def attrs(self):
         return self.model.attrs
