@@ -5,6 +5,7 @@
       <th>Title</th>
       <th>Creator</th>
       <th>Created</th>
+      <th>Modified</th>
     </tr>
     <tal:row repeat="item context.items">
       <tr>
@@ -38,6 +39,7 @@
         </td>
         <td tal:content="item.metadata.get('creator', 'unknown')">Creator</td>
         <td tal:content="item.metadata.get('created', 'unknown')">Created</td>
+        <td tal:content="item.metadata.get('modified', 'unknown')">Modified</td>
       </tr>
     </tal:row>
   </table>
