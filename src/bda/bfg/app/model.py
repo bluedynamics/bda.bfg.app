@@ -98,6 +98,7 @@ class AdapterNode(BaseNode):
     implements(IAdapterNode)
     
     def __init__(self, model, name, parent):
+        BaseNode.__init__(self, name)
         self.model = model
         self.__name__ = name
         self.__parent__ = parent
