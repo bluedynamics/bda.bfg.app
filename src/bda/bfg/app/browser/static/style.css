@@ -394,6 +394,7 @@ a.up16_16 {
 div.contextmenu {
 	border-top:#ccc 1px solid;
 	padding: 2px;
+	height: 20px;
 }
 div.contextmenu div {
     float:left;
