@@ -103,6 +103,12 @@ class AdapterNode(BaseNode):
         self.__name__ = name
         self.__parent__ = parent
     
+    def __iter__(self):
+        for key in self.model:
+            yield key
+    
+    iterkeys = __iter__
+    
     @property
     def attrs(self):
         return self.model.attrs
