@@ -22,7 +22,8 @@
              title="Edit"
              ajax:bind="click"
              ajax:target="${context.nodeurl}/${item.__name__}?from=parent"
-             ajax:action="edit:#content:inner">
+             ajax:action="edit:#content:inner"
+             tal:condition="item.properties.editable">
               &nbsp;
           </a>
         </td>

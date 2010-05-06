@@ -45,6 +45,7 @@ class BaseNode(AttributedNode):
     def properties(self):
         props = Properties()
         props.in_navtree = False
+        props.editable = False
         return props
     
     @property

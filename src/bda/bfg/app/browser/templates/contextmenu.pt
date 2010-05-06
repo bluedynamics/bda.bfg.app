@@ -7,7 +7,8 @@
          title="Edit"
          ajax:bind="click"
          ajax:target="${context.nodeurl}"
-         ajax:action="edit:#content:inner">&nbsp;</a>
+         ajax:action="edit:#content:inner"
+         tal:condition="model.properties.editable">&nbsp;</a>
     </div>
     <div>
       <a href="${context.nodeurl[:context.nodeurl.rfind('/')]}"
