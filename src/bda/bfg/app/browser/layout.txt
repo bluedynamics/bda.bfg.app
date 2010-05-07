@@ -35,6 +35,8 @@ Views and widgets:
 
     - ``mainmenu`` - Render ``model.root.values``
     
+    - ``pathbar`` - Render breadcrumbs for model
+    
     - ``navtree`` - Render Navigation tree for model
     
     - ``personaltools`` - Render personal tools for model
