@@ -3,7 +3,7 @@
       ajax:bind="contextchanged"
       ajax:action="pathbar:#pathbar:inner">
     <li>
-      You are here
+      You are here:
     </li>
     <li>
       <a href="${request.application_url}"

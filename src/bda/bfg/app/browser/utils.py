@@ -25,3 +25,19 @@ def make_url(request, path=[], node=None, resource=None, query=None):
     if not query:
         return '%s/%s' % (request.application_url, '/'.join(path))
     return '%s/%s%s' % (request.application_url, '/'.join(path), query)
+
+class AppUtil(object):
+    """Instance of this object gets Passed to main template when rendering.
+    """
+    
+    def authenticated(self, request):
+        return authenticated(request)
+    
+    def nodepath(self, node):
+        return nodepath(node)
+    
+    def make_url(self, request, path=[], node=None, resource=None, query=None):
+        return make_url(request, path, node, resource, query)
+    
+    def make_query(self):
+        return make_query(**kw)

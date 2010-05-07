@@ -148,7 +148,7 @@ label { display: block; }
 	background: url(/static/images/img04.jpg) repeat-y left top;
 }
 #page-bgtop {
-	padding-top: 30px;
+	padding-top: 20px;
 	background: url(/static/images/img03.jpg) no-repeat left top;
 }
 /* Logo */

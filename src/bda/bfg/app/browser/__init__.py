@@ -5,13 +5,18 @@ from webob.exc import HTTPUnauthorized
 from zope.interface import Interface
 from zope.component import queryUtility, getUtilitiesFor
 from repoze.bfg.interfaces import IResponseFactory
-from repoze.bfg.view import static
-from repoze.bfg.view import bfg_view
+from repoze.bfg.view import (
+    static,
+    bfg_view,
+)
 from bda.bfg.tile import (
     render_template_to_response,
     render_tile,
 )
-from bda.bfg.app.browser.utils import authenticated
+from bda.bfg.app.browser.utils import (
+    authenticated,
+    AppUtil,
+)
 
 # main template. Overwrite to customize
 MAIN_TEMPLATE = 'bda.bfg.app.browser:templates/main.pt'
@@ -36,6 +41,7 @@ def render_main_template(model, request, contenttilename='content'):
     return render_template_to_response(MAIN_TEMPLATE,
                                        request=request,
                                        model=model,
+                                       util=AppUtil(),
                                        contenttilename=contenttilename,
                                        project='BDA DB Backend')
 
