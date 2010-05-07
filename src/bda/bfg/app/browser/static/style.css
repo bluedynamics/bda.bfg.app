@@ -154,7 +154,7 @@ label { display: block; }
 /* Logo */
 #logo {
 	width: 960px;
-	height: 80px;
+	height: 60px;
 	margin: 0 auto;
 }
 #logo h1, #logo p {
@@ -185,6 +185,7 @@ label { display: block; }
 	list-style-type: none;
 	list-style-image none;
 	margin: 0;
+	padding-left: 30px;
 }
 #pathbar ul li {
 	display: inline;

@@ -48,9 +48,6 @@ Released   : 20090622
              ajax:event="contextchanged:.contextsensitiv"
              tal:content="model.root.metadata.title">Title</a>
         </h1>
-        <p>
-          <em> by BlueDynamics Alliance</em>
-        </p>
       </div>
       
       <hr />
