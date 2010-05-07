@@ -1,6 +1,8 @@
 <tal:ajax xmlns:ajax="http://namesspaces.bluedynamics.eu/ajax" omit-tag="True">
   <div class="contextmenu">
-    <tal:add_dropdown replace="structure tile('add_dropdown')" />
+    <tal:addables condition="model.nodeinfo.addables">
+      <tal:add_dropdown replace="structure tile('add_dropdown')" />
+    </tal:addables>
     <div>
       <a href="${context.nodeurl}/edit"
          class="edit16_16"
