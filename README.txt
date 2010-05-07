@@ -56,10 +56,10 @@ Configure ``repoze.who`` and ``repoze.what`` by providing the
 corresponding configuration files.
 
 We configure ``repoze.who`` to use HTTP basic auth via a ``htaccess`` file.
-A Plugin that fit our needs for form authentication is shipped with the
+A Plugin that fits our needs for form authentication is shipped with the
 ``bda.bfg.app`` package.
 
-This is how our ``who.ini`` looks like.
+This is what our ``who.ini`` looks like.
 ::
 
     [plugin:loginform]
@@ -123,7 +123,7 @@ Configure the WSGI pipeline
 
 Here we use ``Paster`` to server our application.
 
-We have to provide a configuration for it which wires all the things together.
+We have to provide a configuration which ties all things together.
 
 Create a file like ``yourapplication.ini`` which looks similar to this.
 ::
@@ -232,7 +232,7 @@ content tile in ``__init__.py`` of browser package.
     ...              permission='login',
     ...              strict=False)
 
-Also create a page template named ``root.pt`` at the pointed location.
+Also create a page template named ``root.pt`` at the indicated location.
 ::
 
     <div>
@@ -272,6 +272,8 @@ Credits
     - written by Robert Niederreiter <rnix@squarewave.at>
     
     - Jens Klein <jens@bluedynamics.com>
+    
+    - Documentation contributions by Georg Gogo. BERNHARD <gogo@bluedynamics.com>
 
 
 Changes
