@@ -4,7 +4,7 @@ Forms
 ``bda.bfg.app`` uses ``yafowil`` as form engine. See Documentation of
 ``yafowil`` for details how to use it.
 
-We provide an abstract form tile, which renders the form, does form processing
+We provide an abstract form tile, which renders forms, does form processing
 and renders or redirects to a result. You have to provide the ``form`` property
 on a deriving object returning a yafowil widget tree.
 ::
