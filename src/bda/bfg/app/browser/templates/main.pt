@@ -66,6 +66,10 @@ Released   : 20090622
         </div>
       </div>
 
+      <div id="pathbar">
+        <tal:mainmenu replace="structure tile('pathbar')" />
+      </div>
+
       <div id="page">
         
         <div id="page-bgtop">

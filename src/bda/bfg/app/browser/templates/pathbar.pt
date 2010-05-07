@@ -1,0 +1,24 @@
+<tal:ajax xmlns:ajax="http://namesspaces.bluedynamics.eu/ajax" omit-tag="True">
+  <ul class="contextsensitiv"
+      ajax:bind="contextchanged"
+      ajax:action="pathbar:#pathbar:inner">
+    <li>
+      You are here
+    </li>
+    <li>
+      <a href="${request.application_url}"
+         ajax:bind="click"
+         ajax:target="${request.application_url}"
+         ajax:event="contextchanged:.contextsensitiv">Home</a>
+    </li>
+    <li tal:repeat="item context.items">
+      <a href=""
+         ajax:bind="click"
+         ajax:target="${item['url']}"
+         ajax:event="contextchanged:.contextsensitiv"
+         tal:attributes="href item['url'];
+                         class item['selected'] and 'selected' or ''"
+         tal:content="item['title']">Title</a>
+    </li>
+  </ul>
+</tal:ajax>

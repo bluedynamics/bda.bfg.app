@@ -175,6 +175,24 @@ label { display: block; }
 	text-decoration: none;
 	color: #FFFFFF;
 }
+/* Pathbar */
+#pathbar {
+    width: 1000px;
+	margin-left: auto;
+	margin-right: auto;
+}
+#pathbar ul {
+	list-style-type: none;
+	list-style-image none;
+	margin: 0;
+}
+#pathbar ul li {
+	display: inline;
+}
+#pathbar ul li a {
+	padding-left: 10px;
+}
+
 /* Content */
 #content_wrapper {
 	float: right;

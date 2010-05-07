@@ -55,6 +55,24 @@ class MainMenu(Tile):
             count += 1
         return ret
 
+@tile('pathbar', 'templates/pathbar.pt', strict=False)
+class PathBar(Tile):
+    
+    @property
+    def items(self):
+        model = self.model
+        ret = list()
+        model = model.__parent__
+        while model is not None:
+            ret.append({
+                'title': model.metadata.title,
+                'url': make_url(self.request, node=model),
+                'selected': False,
+            })
+            model = model.__parent__
+        ret.reverse()
+        return ret
+
 @tile('navtree', 'templates/navtree.pt', strict=False)
 class NavTree(Tile):
     """Navigation tree tile.
