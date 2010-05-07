@@ -1,5 +1,6 @@
 import yafowil.webob
 import yafowil.loader
+import yafowil.widget.datetime
 from webob import Response
 from webob.exc import HTTPUnauthorized
 from zope.interface import Interface
