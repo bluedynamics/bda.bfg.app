@@ -121,7 +121,7 @@ AdapterNode
 An AdapterNode is intended to be used if you want to publish some kind of dict
 like object or other node implementations.
 
-Since other node implementations depend on its own internal hierarchy and
+Since other node implementations depend on their own internal hierarchy and
 do not provide the extensions described in
 ``bda.bfg.app.interfaces.IApplicationNode``, we have to wrap it inside a
 adapter node in order to use it inside the application.
@@ -155,7 +155,7 @@ Check ``AdapterNode``.
     >>> adapter.attrs.title
     'Some title'
     
-The adapter node is responsible to return other adapters nodes or application
+The adapter node is responsible to return other adapter node or application
 nodes on ``__getitem__`` if application hierarchy continues.
 
 You can do key aliasing as well at this place.
@@ -314,7 +314,7 @@ You can use the ``Properties`` object for any kind of mapping.
 XML Properties
 --------------
 
-There's a convenience object to read and write properties to a XML file.
+There's a convenience object for XML input and output.
 
 Dummy environment.
 ::
@@ -359,7 +359,8 @@ Check file contents.
     ...     file.read()
     '<properties>\n  <foo>1</foo>\n</properties>\n'
 
-Overwrite ``foo`` and add ``bar`` properties.
+Overwrite ``foo`` and add ``bar`` properties; Note that even markup can be 
+used safely.
 ::
 
     >>> props.foo = 'foo'
