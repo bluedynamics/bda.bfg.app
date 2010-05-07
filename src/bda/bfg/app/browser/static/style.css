@@ -189,6 +189,10 @@ label { display: block; }
 #pathbar ul li {
 	display: inline;
 }
+#pathbar ul li.pathbaritem {
+	border-left: #ccc 1px solid;
+	margin-left: 10px;
+}
 #pathbar ul li a,
 #pathbar ul li strong {
 	padding-left: 10px;
