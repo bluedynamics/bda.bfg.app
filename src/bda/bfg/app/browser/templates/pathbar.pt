@@ -10,7 +10,9 @@
          ajax:bind="click"
          ajax:target="${request.application_url}"
          ajax:event="contextchanged:.contextsensitiv
-                     contextchanged:#content">Home</a>
+                     contextchanged:#content"
+         tal:condition="model.__parent__">Home</a>
+      <strong tal:condition="not model.__parent__">Home</strong>
     </li>
     <li tal:repeat="item context.items">
       <a href=""
