@@ -7,6 +7,7 @@
          title="Edit"
          ajax:bind="click"
          ajax:target="${context.nodeurl}"
+         ajax:event="contextchanged:.contextsensitiv"
          ajax:action="edit:#content:inner"
          tal:condition="model.properties.editable">&nbsp;</a>
     </div>
@@ -16,6 +17,7 @@
          title="One level up"
          ajax:bind="click"
          ajax:target="${context.nodeurl[:context.nodeurl.rfind('/')]}"
+         ajax:event="contextchanged:.contextsensitiv"
          ajax:action="content:#content:inner">&nbsp;</a>
     </div>
   </div>

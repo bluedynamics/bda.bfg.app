@@ -15,6 +15,7 @@
              title="View"
              ajax:bind="click"
              ajax:target="${context.nodeurl}/${item.__name__}"
+             ajax:event="contextchanged:.contextsensitiv"
              ajax:action="content:#content:inner">
               &nbsp;
           </a>
@@ -23,6 +24,7 @@
              title="Edit"
              ajax:bind="click"
              ajax:target="${context.nodeurl}/${item.__name__}?from=parent"
+             ajax:event="contextchanged:.contextsensitiv"
              ajax:action="edit:#content:inner"
              tal:condition="item.properties.editable">
               &nbsp;
@@ -32,6 +34,7 @@
           <a href="${context.nodeurl}/${item.__name__}"
              ajax:bind="click"
              ajax:target="${context.nodeurl}/${item.__name__}"
+             ajax:event="contextchanged:.contextsensitiv"
              ajax:action="content:#content:inner"
              tal:content="item.metadata.get('title', item.__name__)">
               Media
