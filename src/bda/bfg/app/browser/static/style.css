@@ -1,7 +1,7 @@
 body {
 	margin: 0;
 	padding: 0;
-	background: #FFFFFF url(/static/images/img01.jpg) repeat-x left top;
+	background: #FFFFFF url('/static/images/img01.jpg') repeat-x left top;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 12px;
 	color: #66665E;
@@ -65,7 +65,7 @@ label { display: block; }
 	width: 1000px;
 	height: 64px;
 	margin: 0 auto;
-	background: url(/static/images/img02.jpg) no-repeat left top;
+	background: url('/static/images/img02.jpg') no-repeat left top;
 }
 /* Menu */
 #menu {
@@ -89,7 +89,7 @@ label { display: block; }
 	height: 20px;
 	margin-right: 3px;
 	padding: 28px 25px 15px 25px;
-	background: url(/static/images/img07.jpg) no-repeat left 32px;
+	background: url('/static/images/img07.jpg') no-repeat left 32px;
 	text-decoration: none;
 	text-transform: uppercase;
 	font-family: Arial, Helvetica, sans-serif;
@@ -145,11 +145,11 @@ label { display: block; }
 #page {
 	width: 1000px;
 	margin: 0 auto;
-	background: url(/static/images/img04.jpg) repeat-y left top;
+	background: url('/static/images/img04.jpg') repeat-y left top;
 }
 #page-bgtop {
 	padding-top: 20px;
-	background: url(/static/images/img03.jpg) no-repeat left top;
+	background: url('/static/images/img03.jpg') no-repeat left top;
 }
 /* Logo */
 #logo {
@@ -226,7 +226,7 @@ label { display: block; }
 .post .meta {
 	margin-top: -10px;
 	padding: 2px 30px 2px 16px;
-	background: url(/static/images/img08.jpg) no-repeat left 10px;
+	background: url('/static/images/img08.jpg') no-repeat left 10px;
 	border-bottom: 1px #BDBDBB dotted;
 	font-family: Arial, Helvetica, sans-serif;
 	font-weight: normal;
@@ -273,7 +273,7 @@ label { display: block; }
 #sidebar li li {
 	margin: 0 0 0 5px;
 	padding-left: 10px;
-	background: url(/static/images/img09.jpg) no-repeat left 4px;
+	background: url('/static/images/img09.jpg') no-repeat left 4px;
 }
 #sidebar p {
 	margin: 0;
@@ -283,7 +283,7 @@ label { display: block; }
 	height: 26px;
 	margin: 0 0 10px 0px;
 	padding: 8px 0 2px 10px;
-	background: url(/static/images/img06.jpg) no-repeat left top;
+	background: url('/static/images/img06.jpg') no-repeat left top;
 	text-transform: capitalize;
 	font-size: 11px;
 	font-weight: bold;
@@ -308,7 +308,7 @@ label { display: block; }
     height: 95px;
     margin: 0 auto;
     padding: 0;
-    background: url(/static/images/img05.jpg) no-repeat left top;
+    background: url('/static/images/img05.jpg') no-repeat left top;
 }
 #footer p {
     margin: 0;

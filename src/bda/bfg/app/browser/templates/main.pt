@@ -45,7 +45,8 @@ Released   : 20090622
              href="${request.application_url}"
              ajax:bind="click"
              ajax:target="${request.application_url}"
-             ajax:event="contextchanged:.contextsensitiv"
+             ajax:event="contextchanged:.contextsensitiv
+                         contextchanged:#content"
              tal:content="model.root.metadata.title">Title</a>
         </h1>
       </div>
