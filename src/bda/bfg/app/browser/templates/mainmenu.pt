@@ -7,7 +7,8 @@
       <a href=""
          ajax:bind="click"
          ajax:target="${item['url']}"
-         ajax:event="contextchanged:.contextsensitiv"
+         ajax:event="contextchanged:.contextsensitiv
+                     contextchanged:#content"
          tal:define="css item['first'] and 'first' or '';
                      css item['selected']
                          and ' '.join([css, 'current_page_item'])

@@ -61,15 +61,19 @@ class PathBar(Tile):
     @property
     def items(self):
         model = self.model
-        ret = list()
-        model = model.__parent__
-        while model is not None:
+        ret = [{
+            'title': model.metadata.title,
+            'url': make_url(self.request, node=model),
+            'selected': True,
+        }]
+        while model.__parent__ is not None:
+            model = model.__parent__
             ret.append({
                 'title': model.metadata.title,
                 'url': make_url(self.request, node=model),
                 'selected': False,
             })
-            model = model.__parent__
+        ret.pop()
         ret.reverse()
         return ret
 

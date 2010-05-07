@@ -4,7 +4,8 @@
       <a href=""
          ajax:bind="click"
          ajax:target="${item['url']}"
-         ajax:event="contextchanged:.contextsensitiv"
+         ajax:event="contextchanged:.contextsensitiv
+                     contextchanged:#content"
          tal:define="css item['selected'] and 'selected' or '';
                      css ' '.join([css, 'navtreelevel_%i' % level])"
          tal:attributes="href item['url'];

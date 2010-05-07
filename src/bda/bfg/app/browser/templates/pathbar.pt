@@ -9,16 +9,21 @@
       <a href="${request.application_url}"
          ajax:bind="click"
          ajax:target="${request.application_url}"
-         ajax:event="contextchanged:.contextsensitiv">Home</a>
+         ajax:event="contextchanged:.contextsensitiv
+                     contextchanged:#content">Home</a>
     </li>
     <li tal:repeat="item context.items">
       <a href=""
          ajax:bind="click"
          ajax:target="${item['url']}"
-         ajax:event="contextchanged:.contextsensitiv"
+         ajax:event="contextchanged:.contextsensitiv
+                     contextchanged:#content"
          tal:attributes="href item['url'];
                          class item['selected'] and 'selected' or ''"
-         tal:content="item['title']">Title</a>
+         tal:content="item['title']"
+         tal:condition="not item['selected']">Title</a>
+      <strong tal:content="item['title']"
+              tal:condition="item['selected']">Title</strong>
     </li>
   </ul>
 </tal:ajax>

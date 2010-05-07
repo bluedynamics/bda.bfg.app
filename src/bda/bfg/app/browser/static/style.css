@@ -189,7 +189,8 @@ label { display: block; }
 #pathbar ul li {
 	display: inline;
 }
-#pathbar ul li a {
+#pathbar ul li a,
+#pathbar ul li strong {
 	padding-left: 10px;
 }
 
