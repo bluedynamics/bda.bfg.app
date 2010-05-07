@@ -36,7 +36,7 @@ Views and widgets:
     - ``mainmenu`` - Render ``model.root.values``
     
     - ``pathbar`` - Render breadcrumbs for model
-    
+   
     - ``navtree`` - Render Navigation tree for model
     
     - ``personaltools`` - Render personal tools for model
@@ -141,8 +141,7 @@ Switch back to origin main template.
 Protected content tile
 ----------------------
 
-There's the situation where a login form should be rendered instead of the
-content for anonymous users.
+A login form should be rendered instead of the content for anonymous users.
 
 The class ``bda.bfg.app.browser.layout.ProtectedContentTile`` provides this
 behavior.
