@@ -5,7 +5,7 @@
     <li>
       You are here:
     </li>
-    <li class="pathbaritem">
+    <li>
       <a href="${request.application_url}"
          ajax:bind="click"
          ajax:target="${request.application_url}"

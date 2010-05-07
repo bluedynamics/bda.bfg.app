@@ -191,20 +191,24 @@ label { display: block; }
 	display: inline;
 }
 #pathbar ul li.pathbaritem {
-	border-left: #ccc 1px solid;
-	margin-left: 10px;
+	margin-left: 7px;
+	background: url('/static/images/img10.jpg') no-repeat left 5px;
 }
 #pathbar ul li a,
 #pathbar ul li strong {
 	padding-left: 10px;
 }
+#pathbar ul li strong {
+	color: #4B8749;
+	font-weight: normal;
+}
 
 /* Content */
 #content_wrapper {
 	float: right;
-	width: 738px;
-	padding-top: 20px;
-	padding-right: 40px;
+	width: 768px;
+	padding-top: 0px;
+	padding-right: 25px;
 }
 /* Post */
 .ost {
