@@ -6,7 +6,7 @@ class DatetimeHelper(object):
         if isinstance(val, datetime):
             return self.dt_to_iso(val)
         if not isinstance(val, unicode):
-            return val.decode('utf-8')
+            val = str(val).decode('utf-8')
         return val
     
     def r_value(self, val):
@@ -14,7 +14,7 @@ class DatetimeHelper(object):
             return self.dt_from_iso(val)
         except ValueError:
             if not isinstance(val, unicode):
-                return val.decode('utf-8')
+                val = str(val).decode('utf-8')
             return val
     
     def dt_from_iso(self, str):
