@@ -2,6 +2,7 @@ import os
 import types
 import ConfigParser
 from lxml import etree
+from datetime import datetime
 from zope.interface import implements
 from zodict.node import LifecycleNode, AttributedNode
 from repoze.bfg.threadlocal import get_current_request
@@ -177,10 +178,10 @@ class XMLProperties(Properties):
             if children:
                 val = list()
                 for subelem in children:
-                    val.append(subelem.text.strip())
+                    val.append(self._r_value(subelem.text.strip()))
                 data[elem.tag] = val
             else:
-                data[elem.tag] = elem.text.strip()
+                data[elem.tag] = self._r_value(elem.text.strip())
         file.close()
     
     def _xml_repr(self):
@@ -191,10 +192,30 @@ class XMLProperties(Properties):
             if type(value) in [types.ListType, types.TupleType]:
                 for item in value:
                     subsub = etree.SubElement(sub, 'item')
-                    subsub.text = item
+                    subsub.text = self._w_value(item)
             else:
-                sub.text = unicode(value)
+                sub.text = self._w_value(value)
         return etree.tostring(root, pretty_print=True)
+    
+    def _w_value(self, val):
+        if isinstance(val, datetime):
+            return self._dt_to_iso(val)
+        return unicode(val)
+    
+    def _r_value(self, val):
+        try:
+            return self._dt_from_iso(val)
+        except ValueError:
+            return unicode(val)
+    
+    def _dt_from_iso(self, str):
+        return datetime.strptime(str, '%Y-%m-%dT%H:%M:%S')
+    
+    def _dt_to_iso(self, dt):
+        iso = dt.isoformat()
+        if iso.find('.') != -1:
+            iso = iso[:iso.rfind('.')]
+        return iso
     
     # testing
     def _keys(self):
