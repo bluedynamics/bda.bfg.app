@@ -328,7 +328,7 @@ Create XML properties with path and optional data.
 
     >>> from bda.bfg.app.model import XMLProperties
     >>> props = XMLProperties(os.path.join(tempdir, 'props.xml'),
-    ...                       data={'foo': 1})
+    ...                       data={'foo': u'äöüß'})
 
 Testing helper functions.
 ::
@@ -337,43 +337,12 @@ Testing helper functions.
     ['foo']
     
     >>> props._values()
-    [1]
+    [u'\xc3\xa4\xc3\xb6\xc3\xbc\xc3\x9f']
 
 XML properties could be datetime objects.
-
-Test underlying helper functions.
 ::
 
     >>> from datetime import datetime
-    >>> dt = datetime(2010, 1, 1, 10, 15)
-    >>> dt
-    datetime.datetime(2010, 1, 1, 10, 15)
-    
-    >>> props._dt_to_iso(dt)
-    '2010-01-01T10:15:00'
-    
-    >>> props._dt_from_iso('2010-01-01T10:15:00')
-    datetime.datetime(2010, 1, 1, 10, 15)
-
-XML properties try to convert to iso format when writing and tries to parse 
-datetime from string when reading.
-::
-
-    >>> props._r_value('abc')
-    u'abc'
-    
-    >>> props._r_value('2010-01-01T10:15:00')
-    datetime.datetime(2010, 1, 1, 10, 15)
-    
-    >>> props._w_value('abc')
-    u'abc'
-    
-    >>> props._w_value(datetime(2010, 1, 1, 10, 15))
-    '2010-01-01T10:15:00'
-
-Set datetime attributes on metadata.
-::
-
     >>> props.effective = datetime(2010, 1, 1, 10, 15)
 
 XML properties could be multi valued.
@@ -404,9 +373,9 @@ Check file contents.
     '    <item>a</item>', 
     '    <item>2010-01-01T10:15:00</item>', 
     '  </keywords>', 
-    '  <foo>1</foo>', 
+    '  <foo>&#195;&#164;&#195;&#182;&#195;&#188;&#195;&#159;</foo>', 
     '  <effective>2010-01-01T10:15:00</effective>', 
-    '</properties>', 
+    '</properties>',
     '']
 
 Overwrite ``foo`` and add ``bar`` properties; Note that even markup can be 
@@ -414,7 +383,7 @@ used safely.
 ::
 
     >>> props.foo = 'foo'
-    >>> props.bar = '<bar>lala</bar>'
+    >>> props.bar = '<bar>äöü</bar>'
     
 Call props and check result.
 ::
@@ -428,7 +397,7 @@ Call props and check result.
     '    <item>2010-01-01T10:15:00</item>', 
     '  </keywords>', 
     '  <foo>foo</foo>', 
-    '  <bar>&lt;bar&gt;lala&lt;/bar&gt;</bar>', 
+    '  <bar>&lt;bar&gt;&#228;&#246;&#252;&lt;/bar&gt;</bar>', 
     '  <effective>2010-01-01T10:15:00</effective>', 
     '</properties>', 
     '']
@@ -443,7 +412,7 @@ Create XML properties from existing file.
     >>> props._values()
     [[u'a', datetime.datetime(2010, 1, 1, 10, 15)], 
     u'foo', 
-    u'<bar>lala</bar>', 
+    u'<bar>\xe4\xf6\xfc</bar>', 
     datetime.datetime(2010, 1, 1, 10, 15)]
 
 Delete property.
@@ -464,7 +433,7 @@ Call and check results.
     '    <item>a</item>', 
     '    <item>2010-01-01T10:15:00</item>', 
     '  </keywords>', 
-    '  <bar>&lt;bar&gt;lala&lt;/bar&gt;</bar>', 
+    '  <bar>&lt;bar&gt;&#228;&#246;&#252;&lt;/bar&gt;</bar>', 
     '  <effective>2010-01-01T10:15:00</effective>', 
     '</properties>', 
     '']

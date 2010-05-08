@@ -9,6 +9,7 @@ optionflags = doctest.NORMALIZE_WHITESPACE | \
 
 TESTFILES = [
     '../authentication.txt',
+    '../utils.txt',
     '../model.txt',
     '../browser/layout.txt',
     '../browser/utils.txt',

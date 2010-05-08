@@ -19,6 +19,7 @@ from bda.bfg.app.interfaces import (
     IMetadata,
     INodeInfo,
 )
+from bda.bfg.app.utils import DatetimeHelper
 
 _node_info_registry = dict()
 
@@ -165,6 +166,7 @@ class XMLProperties(Properties):
             raise KeyError(u"property %s does not exist" % name)
     
     def _init(self):
+        dth = DatetimeHelper()
         path = object.__getattribute__(self, '_path')
         if not path or not os.path.exists(path):
             return
@@ -178,13 +180,14 @@ class XMLProperties(Properties):
             if children:
                 val = list()
                 for subelem in children:
-                    val.append(self._r_value(subelem.text.strip()))
+                    val.append(dth.r_value(subelem.text.strip()))
                 data[elem.tag] = val
             else:
-                data[elem.tag] = self._r_value(elem.text.strip())
+                data[elem.tag] = dth.r_value(elem.text.strip())
         file.close()
     
     def _xml_repr(self):
+        dth = DatetimeHelper()
         root = etree.Element('properties')
         data = object.__getattribute__(self, '_data')
         for key, value in data.items():
@@ -192,30 +195,10 @@ class XMLProperties(Properties):
             if type(value) in [types.ListType, types.TupleType]:
                 for item in value:
                     subsub = etree.SubElement(sub, 'item')
-                    subsub.text = self._w_value(item)
+                    subsub.text = dth.w_value(item)
             else:
-                sub.text = self._w_value(value)
+                sub.text = dth.w_value(value)
         return etree.tostring(root, pretty_print=True)
-    
-    def _w_value(self, val):
-        if isinstance(val, datetime):
-            return self._dt_to_iso(val)
-        return unicode(val)
-    
-    def _r_value(self, val):
-        try:
-            return self._dt_from_iso(val)
-        except ValueError:
-            return unicode(val)
-    
-    def _dt_from_iso(self, str):
-        return datetime.strptime(str, '%Y-%m-%dT%H:%M:%S')
-    
-    def _dt_to_iso(self, dt):
-        iso = dt.isoformat()
-        if iso.find('.') != -1:
-            iso = iso[:iso.rfind('.')]
-        return iso
     
     # testing
     def _keys(self):
