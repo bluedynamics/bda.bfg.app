@@ -375,25 +375,25 @@ a.view16_16 {
 	text-decoration: none;
 	padding-left: 16px;
 	width:16px;
-	background:url('/static/images/view16_16.png') 50% 50% no-repeat;
+	background:url('/static/icons/view16_16.png') 50% 50% no-repeat;
 }
 a.edit16_16 {
 	text-decoration: none;
     padding-left: 16px;
 	width:16px;
-    background:url('/static/images/edit16_16.png') 50% 50% no-repeat;
+    background:url('/static/icons/edit16_16.png') 50% 50% no-repeat;
 }
 a.add16_16 {
     text-decoration: none;
     padding-left: 16px;
     width:16px;
-    background:url('/static/images/add16_16.png') 50% 50% no-repeat;
+    background:url('/static/icons/add16_16.png') 50% 50% no-repeat;
 }
 a.up16_16 {
     text-decoration: none;
     padding-left: 16px;
     width:16px;
-    background:url('/static/images/up16_16.png') 50% 50% no-repeat;
+    background:url('/static/icons/up16_16.png') 50% 50% no-repeat;
 }
 /* Dropdown */
 .dropdown_items {

@@ -24,7 +24,7 @@ Released   : 20090622
     <script src="http://cdn.jquerytools.org/1.1.2/tiny/jquery.tools.min.js"></script>
     
     <tal:authendicated condition="util.authenticated(request)">
-      <script src="${request.application_url}/static/jquery-ui-1.8.1.custom.min.js"></script>
+      <script src="${request.application_url}/static/jquery-ui/jquery-ui-1.8.1.custom.min.js"></script>
     </tal:authendicated>
     
     <script src="${request.application_url}/++resource++bdajax/bdajax.js"></script>
@@ -34,6 +34,9 @@ Released   : 20090622
     <link href="${request.application_url}/static/style.css" rel="stylesheet" type="text/css" media="screen" />
     <link href="${request.application_url}/++resource++bdajax/bdajax.css" rel="stylesheet" type="text/css" media="screen" />
     <link href="${request.application_url}/bda.bfg.app.css" rel="stylesheet" type="text/css" media="screen" />
+    <tal:authendicated condition="util.authenticated(request)">
+      <link href="${request.application_url}/static/jquery-ui/jquery-ui-1.8.1.custom.css" rel="stylesheet" type="text/css" media="screen" />
+    </tal:authendicated>
 
   </head>
   <body>
