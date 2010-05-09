@@ -20,9 +20,13 @@ Released   : 20090622
     <meta name="description" content="" />
     
     <!-- javascripts -->
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script> 
-    <script src="http://cdn.jquerytools.org/1.1.2/tiny/jquery.tools.min.js"></script>
-    
+    <tal:cdn condition="None">
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script> 
+      <script src="http://cdn.jquerytools.org/1.1.2/tiny/jquery.tools.min.js"></script>
+    </tal:cdn>
+    <script src="${request.application_url}/static/cdn/jquery.min.js"></script> 
+    <script src="${request.application_url}/static/cdn/jquery.tools.min.js"></script>
+      
     <tal:authendicated condition="util.authenticated(request)">
       <script src="${request.application_url}/static/jquery-ui/jquery-ui-1.8.1.custom.min.js"></script>
     </tal:authendicated>

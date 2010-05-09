@@ -15,7 +15,7 @@ bdapp = {
         jQuery('input.datepicker').datepicker({
             showOn: 'button',
             buttonImage: '/static/icons/calendar16_16.gif',
-            buttonImageOnly: true,
+            buttonImageOnly: true
         });
     }
 }
