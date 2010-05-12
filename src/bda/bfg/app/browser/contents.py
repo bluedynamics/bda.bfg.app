@@ -55,6 +55,8 @@ class Contents(object):
         items = [self.model[key] for key in self.model.keys()]
         if self.sort in self.sortkeys:
             items = sorted(items, key=self.sortkeys[self.sort])
+            if self.request.params.get('order') == 'asc':
+                items.reverse()
         return items
     
     @property

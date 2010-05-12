@@ -11,42 +11,64 @@
     <table class="contents">
       <tr class="head"
           tal:define="b_page request.params.get('b_page', '0');
-                      sorturl '%s?b_page=%s&amp;sort=' % (context.nodeurl, b_page);">
+                      cur_sort request.params.get('sort');
+                      cur_order request.params.get('order', 'desc');
+                      base_url '%s?b_page=%s' % (context.nodeurl, b_page);">
         <th>
           Actions
         </th>
-        <th>
-          <a href="${sorturl}title"
+        <th tal:define="selected cur_sort == 'title';
+                        alter selected and cur_order == 'desc';
+                        order alter and 'asc' or 'desc';
+                        sorturl '%s&amp;sort=%s&amp;order=%s' % (base_url, 'title', order);
+                        sorted = selected and order or '';"
+            tal:attributes="class sorted and sorted or None">
+          <a href="${sorturl}"
              title="Sort on title"
              ajax:bind="click"
-             ajax:target="${sorturl}title"
+             ajax:target="${sorturl}"
              ajax:event="sortclicked:.sortingheadsensitiv">
               Title
           </a>
         </th>
-        <th>
-          <a href="${sorturl}creator"
+        <th tal:define="selected cur_sort == 'creator';
+                        alter selected and cur_order == 'desc';
+                        order alter and 'asc' or 'desc';
+                        sorturl '%s&amp;sort=%s&amp;order=%s' % (base_url, 'creator', order);
+                        sorted = selected and order or '';"
+            tal:attributes="class sorted and sorted or None">
+          <a href="${sorturl}"
              title="Sort on cretor"
              ajax:bind="click"
-             ajax:target="${sorturl}creator"
+             ajax:target="${sorturl}"
              ajax:event="sortclicked:.sortingheadsensitiv">
               Creator
           </a>
         </th>
-        <th>
-          <a href="${sorturl}created"
+        <th tal:define="selected cur_sort == 'created';
+                        alter selected and cur_order == 'desc';
+                        order alter and 'asc' or 'desc';
+                        sorturl '%s&amp;sort=%s&amp;order=%s' % (base_url, 'created', order);
+                        sorted = selected and order or '';"
+            tal:attributes="class sorted and sorted or None">
+          <a href="${sorturl}"
              title="Sort on created"
              ajax:bind="click"
-             ajax:target="${sorturl}created"
+             ajax:target="${sorturl}"
              ajax:event="sortclicked:.sortingheadsensitiv">
               Created
           </a>
         </th>
-        <th>
-          <a href="${sorturl}modified"
+        <th tal:define="selected cur_sort == 'modified';
+                        alter selected and cur_order == 'desc';
+                        order alter and 'asc' or 'desc';
+                        sorturl '%s&amp;sort=%s&amp;order=%s' % (base_url, 'modified', order);
+                        sorted = selected and order or '';"
+            tal:attributes="class sorted and sorted or None">
+          <a href="${sorturl}"
              title="Sort on modified"
              ajax:bind="click"
-             ajax:target="${sorturl}modified"
+             ajax:target="${sorturl}"
              ajax:event="sortclicked:.sortingheadsensitiv">
               Modified
           </a>

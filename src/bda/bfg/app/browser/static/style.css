@@ -371,6 +371,12 @@ table.contents th {
 	background-color: #eee;
 	text-align: left;
 }
+table.contents th.asc {
+	background:#ddd url('/static/icons/up9_6.gif') right 50% no-repeat;
+}
+table.contents th.desc {
+    background:#ddd url('/static/icons/down9_6.gif') right 50% no-repeat;
+}
 table.contents td {
 	padding: 4px;
 	border-bottom: 1px solid #ccc;
