@@ -180,10 +180,16 @@ class XMLProperties(Properties):
             if children:
                 val = list()
                 for subelem in children:
-                    val.append(dth.r_value(subelem.text.strip()))
+                    value = subelem.text
+                    if not value:
+                        value = ''
+                    val.append(dth.r_value(value.strip()))
                 data[elem.tag] = val
             else:
-                data[elem.tag] = dth.r_value(elem.text.strip())
+                value = elem.text
+                if not value:
+                    value = ''
+                data[elem.tag] = dth.r_value(value.strip())
         file.close()
     
     def _xml_repr(self):
