@@ -26,7 +26,7 @@
         </th>
         <th>
           <a href="${sorturl}creator"
-             title="Sort on title"
+             title="Sort on cretor"
              ajax:bind="click"
              ajax:target="${sorturl}creator"
              ajax:event="sortclicked:.sortingheadsensitiv">
@@ -35,7 +35,7 @@
         </th>
         <th>
           <a href="${sorturl}created"
-             title="Sort on title"
+             title="Sort on created"
              ajax:bind="click"
              ajax:target="${sorturl}created"
              ajax:event="sortclicked:.sortingheadsensitiv">
@@ -44,7 +44,7 @@
         </th>
         <th>
           <a href="${sorturl}modified"
-             title="Sort on title"
+             title="Sort on modified"
              ajax:bind="click"
              ajax:target="${sorturl}modified"
              ajax:event="sortclicked:.sortingheadsensitiv">
