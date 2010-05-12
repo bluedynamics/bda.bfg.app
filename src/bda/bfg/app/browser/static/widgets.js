@@ -1,4 +1,5 @@
 jQuery(document).ready(function() {
+	bdapp.livesearchbinder();
 	bdapp.dropdownmenubinder();
 	bdapp.datepickerbinder();
 	bdajax.binders.dropdownmenubinder = bdapp.dropdownmenubinder;
@@ -6,6 +7,15 @@ jQuery(document).ready(function() {
 });
 
 bdapp = {
+	
+	livesearchbinder: function(context) {
+		// XXX:
+		jQuery("input#search-text").autocomplete({
+            source: [
+			    "c++", "java", "php", "coldfusion", "javascript", "asp", "ruby"
+			]
+        });
+	},
 	
 	dropdownmenubinder: function(context) {
 	    jQuery('.dropdown').dropdownmenu();
