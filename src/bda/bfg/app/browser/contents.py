@@ -25,6 +25,18 @@ class ContentsTile(Tile):
     
     def format_date(self, dt):
         return format_date(dt)
+    
+    def th_defs(self, sortkey):
+        b_page = self.request.params.get('b_page', '0')
+        cur_sort = self.request.params.get('sort')
+        cur_order = self.request.params.get('order', 'desc')
+        base_url = '%s?b_page=%s' % (self.nodeurl, b_page)
+        selected = cur_sort == sortkey
+        alter = selected and cur_order == 'desc'
+        order = alter and 'asc' or 'desc'
+        sorturl = '%s&amp;sort=%s&amp;order=%s' % (base_url, sortkey, order)
+        css = selected and order or ''
+        return css, sorturl
 
 FAR_PAST = datetime.datetime(2000, 1, 1)
 

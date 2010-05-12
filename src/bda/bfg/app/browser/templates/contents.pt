@@ -9,66 +9,46 @@
     <tal:batch replace="structure context.batch" />
   
     <table class="contents">
-      <tr class="head"
-          tal:define="b_page request.params.get('b_page', '0');
-                      cur_sort request.params.get('sort');
-                      cur_order request.params.get('order', 'desc');
-                      base_url '%s?b_page=%s' % (context.nodeurl, b_page);">
+      <tr class="head">
         <th>
           Actions
         </th>
-        <th tal:define="selected cur_sort == 'title';
-                        alter selected and cur_order == 'desc';
-                        order alter and 'asc' or 'desc';
-                        sorturl '%s&amp;sort=%s&amp;order=%s' % (base_url, 'title', order);
-                        sorted = selected and order or '';"
-            tal:attributes="class sorted and sorted or None">
-          <a href="${sorturl}"
+        <th tal:define="defs context.th_defs('title')"
+            tal:attributes="class defs[0] and defs[0] or None">
+          <a href="${defs[1]}"
              title="Sort on title"
              ajax:bind="click"
-             ajax:target="${sorturl}"
+             ajax:target="${defs[1]}"
              ajax:event="sortclicked:.sortingheadsensitiv">
               Title
           </a>
         </th>
-        <th tal:define="selected cur_sort == 'creator';
-                        alter selected and cur_order == 'desc';
-                        order alter and 'asc' or 'desc';
-                        sorturl '%s&amp;sort=%s&amp;order=%s' % (base_url, 'creator', order);
-                        sorted = selected and order or '';"
-            tal:attributes="class sorted and sorted or None">
-          <a href="${sorturl}"
+        <th tal:define="defs context.th_defs('creator')"
+            tal:attributes="class defs[0] and defs[0] or None">
+          <a href="${defs[1]}"
              title="Sort on cretor"
              ajax:bind="click"
-             ajax:target="${sorturl}"
+             ajax:target="${defs[1]}"
              ajax:event="sortclicked:.sortingheadsensitiv">
               Creator
           </a>
         </th>
-        <th tal:define="selected cur_sort == 'created';
-                        alter selected and cur_order == 'desc';
-                        order alter and 'asc' or 'desc';
-                        sorturl '%s&amp;sort=%s&amp;order=%s' % (base_url, 'created', order);
-                        sorted = selected and order or '';"
-            tal:attributes="class sorted and sorted or None">
-          <a href="${sorturl}"
+        <th tal:define="defs context.th_defs('created')"
+            tal:attributes="class defs[0] and defs[0] or None">
+          <a href="${defs[1]}"
              title="Sort on created"
              ajax:bind="click"
-             ajax:target="${sorturl}"
+             ajax:target="${defs[1]}"
              ajax:event="sortclicked:.sortingheadsensitiv">
               Created
           </a>
         </th>
-        <th tal:define="selected cur_sort == 'modified';
-                        alter selected and cur_order == 'desc';
-                        order alter and 'asc' or 'desc';
-                        sorturl '%s&amp;sort=%s&amp;order=%s' % (base_url, 'modified', order);
-                        sorted = selected and order or '';"
-            tal:attributes="class sorted and sorted or None">
-          <a href="${sorturl}"
+        <th tal:define="defs context.th_defs('modified')"
+            tal:attributes="class defs[0] and defs[0] or None">
+          <a href="${defs[1]}"
              title="Sort on modified"
              ajax:bind="click"
-             ajax:target="${sorturl}"
+             ajax:target="${defs[1]}"
              ajax:event="sortclicked:.sortingheadsensitiv">
               Modified
           </a>
