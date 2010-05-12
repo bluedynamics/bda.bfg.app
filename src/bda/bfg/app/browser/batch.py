@@ -99,11 +99,11 @@ class Batch(Tile):
 
     @property
     def leftellipsis(self):
-        return self._leftOverDiff < 0 and self.ellipsis or None
+        return self._leftOverDiff < 0 and self.ellipsis or ''
 
     @property
     def rightellipsis(self):
-        return self._rightOverDiff < 0 and self.ellipsis or None
+        return self._rightOverDiff < 0 and self.ellipsis or ''
 
     @property
     def pages(self):

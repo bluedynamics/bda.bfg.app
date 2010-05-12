@@ -325,7 +325,8 @@ label { display: block; }
 /* batch */
 .batch {
 	width: 100%;
-	text-align: center;
+	text-align: left;
+	padding: 3px;
 }
 .leftellipsis {
 	margin-left: 1em;
