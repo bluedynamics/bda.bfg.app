@@ -1,3 +1,4 @@
+import datetime
 from repoze.bfg.security import authenticated_userid
 
 def authenticated(request):
@@ -26,6 +27,16 @@ def make_url(request, path=[], node=None, resource=None, query=None):
         return '%s/%s' % (request.application_url, '/'.join(path))
     return '%s/%s%s' % (request.application_url, '/'.join(path), query)
 
+def format_date(dt, long=True):
+    """XXX
+    """
+    if not isinstance(dt, datetime.datetime):
+        return 'unknown'
+    if not long:
+        return '%i.%i.%i' % (dt.day, dt.month, dt.year)
+    return '%i.%i.%i %02i:%02i' % (dt.day, dt.month, dt.year,
+                                   dt.hour, dt.minute)
+
 class AppUtil(object):
     """Instance of this object gets Passed to main template when rendering.
     """
@@ -41,3 +52,6 @@ class AppUtil(object):
     
     def make_query(self):
         return make_query(**kw)
+    
+    def format_date(self, dt, long=True):
+        return format_date(dt, long)

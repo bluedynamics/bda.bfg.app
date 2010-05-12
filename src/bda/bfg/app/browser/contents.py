@@ -1,3 +1,4 @@
+import datetime
 from bda.bfg.tile import (
     tile,
     Tile,
@@ -8,6 +9,7 @@ from bda.bfg.app.browser.utils import (
     nodepath, 
     make_query, 
     make_url,
+    format_date,
 )
 
 @tile('contents', 'templates/contents.pt', strict=False)
@@ -20,14 +22,23 @@ class ContentsTile(Tile):
     @property
     def batch(self):
         return ContentsBatch(self.contents)(self.model, self.request)
+    
+    def format_date(self, dt):
+        return format_date(dt)
+
+FAR_PAST = datetime.datetime(2000, 1, 1)
 
 class Contents(object):
+    
+    farpast = datetime.datetime(2000, 1, 1)
     
     sortkeys = {
         'title': lambda x: x.metadata.title.lower(),
         'creator': lambda x: x.metadata.creator.lower(),
-        'created': lambda x: x.metadata.created,
-        'modified': lambda x: x.metadata.modified,
+        'created': lambda x: x.metadata.created \
+                      and x.metadata.created or FAR_PAST,
+        'modified': lambda x: x.metadata.modified \
+                      and x.metadata.modified or FAR_PAST,
     }
     
     def __init__(self, model, request):

@@ -86,8 +86,8 @@
             </a>
           </td>
           <td tal:content="item.metadata.get('creator', 'unknown')">Creator</td>
-          <td tal:content="item.metadata.get('created', 'unknown')">Created</td>
-          <td tal:content="item.metadata.get('modified', 'unknown')">Modified</td>
+          <td tal:content="context.format_date(item.metadata.get('created'))">Created</td>
+          <td tal:content="context.format_date(item.metadata.get('modified'))">Modified</td>
         </tr>
       </tal:row>
     </table>
