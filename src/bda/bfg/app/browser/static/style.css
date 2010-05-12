@@ -29,6 +29,9 @@ p, ul, ol {
 	line-height: 240%;
 	text-align: justify;
 }
+p {
+	margin-bottom: 3px;
+}
 ul, ol {}
 blockquote {}
 a { color: #41ACE7; }
@@ -206,9 +209,9 @@ label { display: block; }
 /* Content */
 #content_wrapper {
 	float: right;
-	width: 768px;
-	padding-top: 0px;
-	padding-right: 25px;
+	width: 758px;
+	padding-top: 5px;
+	padding-right: 30px;
 }
 /* Post */
 .ost {
