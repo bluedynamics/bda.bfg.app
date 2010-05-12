@@ -81,8 +81,9 @@ class ContentsBatch(Batch):
         if count % self.contents.slicesize != 0:
             pages += 1
         current = self.request.params.get('b_page', '0')
+        sort = self.request.params.get('sort', '')
         for i in range(pages):
-            query = make_query(b_page=str(i))
+            query = make_query(b_page=str(i), sort=sort)
             url = make_url(self.request, path=path, query=query)
             ret.append({
                 'page': '%i' % (i + 1),

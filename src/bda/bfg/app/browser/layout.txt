@@ -41,8 +41,7 @@ Views and widgets:
     
     - ``personaltools`` - Render personal tools for model
     
-    - ``contents`` - Render model contents as batched (XXX), sortable (XXX)
-      listing
+    - ``contents`` - Render model contents as batched, sortable listing
     
     - ``byline`` - Render byline for model.metadata XXX
     

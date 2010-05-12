@@ -1,19 +1,56 @@
 <tal:ajax xmlns:ajax="http://namesspaces.bluedynamics.eu/ajax" omit-tag="True">
   <div id="contentslisting"
-       class="contentsbatchsensitiv"
-       ajax:bind="batchclicked"
+       class="contentsbatchsensitiv
+              sortingheadsensitiv"
+       ajax:bind="batchclicked sortclicked"
        ajax:target="${context.nodeurl}"
        ajax:action="contents:#contentslisting:replace">
   
     <tal:batch replace="structure context.batch" />
   
     <table class="contents">
-      <tr class="head">
-        <th>Actions</th>
-        <th>Title</th>
-        <th>Creator</th>
-        <th>Created</th>
-        <th>Modified</th>
+      <tr class="head"
+          tal:define="b_page request.params.get('b_page', '0');
+                      sorturl '%s?b_page=%s&amp;sort=' % (context.nodeurl, b_page);">
+        <th>
+          Actions
+        </th>
+        <th>
+          <a href="${sorturl}title"
+             title="Sort on title"
+             ajax:bind="click"
+             ajax:target="${sorturl}title"
+             ajax:event="sortclicked:.sortingheadsensitiv">
+              Title
+          </a>
+        </th>
+        <th>
+          <a href="${sorturl}creator"
+             title="Sort on title"
+             ajax:bind="click"
+             ajax:target="${sorturl}creator"
+             ajax:event="sortclicked:.sortingheadsensitiv">
+              Creator
+          </a>
+        </th>
+        <th>
+          <a href="${sorturl}created"
+             title="Sort on title"
+             ajax:bind="click"
+             ajax:target="${sorturl}created"
+             ajax:event="sortclicked:.sortingheadsensitiv">
+              Created
+          </a>
+        </th>
+        <th>
+          <a href="${sorturl}modified"
+             title="Sort on title"
+             ajax:bind="click"
+             ajax:target="${sorturl}modified"
+             ajax:event="sortclicked:.sortingheadsensitiv">
+              Modified
+          </a>
+        </th>
       </tr>
       <tal:row repeat="item context.contents.items">
         <tr>
