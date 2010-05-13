@@ -21,6 +21,11 @@ bdapp = {
                     url: ui.item.target,
 					params: {}
 				});
+				var elem = new Object()
+				elem['ajax:target'] = ui.item.target;
+				var evt = jQuery.Event('contextchanged');
+                evt.ajaxtarget = bdajax.parsetarget(elem);
+                jQuery('.contextsensitiv').trigger(evt);
                 return false;
             }
         });
