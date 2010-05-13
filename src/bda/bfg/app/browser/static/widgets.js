@@ -14,7 +14,7 @@ bdapp = {
 			minLength: 3,
 			select: function(event, ui) {
 				jQuery('input#search-text').val('');
-				bdajax.do_action({
+				bdajax.action({
 					name: 'content',
                     selector: '#content',
                     mode: 'inner',
