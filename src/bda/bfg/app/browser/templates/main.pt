@@ -26,13 +26,12 @@ Released   : 20090622
     </tal:cdn>
     <script src="${request.application_url}/static/cdn/jquery.min.js"></script> 
     <script src="${request.application_url}/static/cdn/jquery.tools.min.js"></script>
-      
+    <script src="${request.application_url}/++resource++bdajax/bdajax.js"></script>
+    
     <tal:authendicated condition="util.authenticated(request)">
       <script src="${request.application_url}/static/jquery-ui/jquery-ui-1.8.1.custom.min.js"></script>
+      <script src="${request.application_url}/static/widgets.js"></script>
     </tal:authendicated>
-    
-    <script src="${request.application_url}/++resource++bdajax/bdajax.js"></script>
-    <script src="${request.application_url}/static/widgets.js"></script>
 
     <!-- stylesheets -->
     <link href="${request.application_url}/static/style.css" rel="stylesheet" type="text/css" media="screen" />
