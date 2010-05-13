@@ -9,11 +9,20 @@ jQuery(document).ready(function() {
 bdapp = {
 	
 	livesearchbinder: function(context) {
-		// XXX:
-		jQuery("input#search-text").autocomplete({
-            source: [
-			    "c++", "java", "php", "coldfusion", "javascript", "asp", "ruby"
-			]
+		jQuery('input#search-text').autocomplete({
+            source: 'livesearch',
+			minLength: 3,
+			select: function(event, ui) {
+				jQuery('input#search-text').val('');
+				bdajax._ajax({
+					name: 'content',
+                    selector: '#content',
+                    mode: 'inner',
+                    url: ui.item.target,
+					params: {}
+				});
+                return false;
+            }
         });
 	},
 	

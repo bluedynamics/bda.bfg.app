@@ -66,7 +66,7 @@ Released   : 20090622
           <tal:mainmenu replace="structure tile('mainmenu')" />
         </div>
 
-        <div id="search">
+        <div id="search" tal:condition="util.authenticated(request)">
           <form method="get" action="">
             <fieldset>
               <input type="text" name="s" id="search-text" size="15" />
