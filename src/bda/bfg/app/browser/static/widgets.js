@@ -14,18 +14,16 @@ bdapp = {
 			minLength: 3,
 			select: function(event, ui) {
 				jQuery('input#search-text').val('');
-				bdajax._ajax({
+				bdajax.do_action({
 					name: 'content',
                     selector: '#content',
                     mode: 'inner',
                     url: ui.item.target,
 					params: {}
 				});
-				var elem = new Object()
-				elem['ajax:target'] = ui.item.target;
-				var evt = jQuery.Event('contextchanged');
-                evt.ajaxtarget = bdajax.parsetarget(elem);
-                jQuery('.contextsensitiv').trigger(evt);
+				bdajax.trigger('contextchanged',
+				               '.contextsensitiv',
+							   ui.item.target);
                 return false;
             }
         });
