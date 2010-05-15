@@ -1,7 +1,9 @@
 jQuery(document).ready(function() {
 	bdapp.livesearchbinder();
+	bdapp.contenttabsbinder();
 	bdapp.dropdownmenubinder();
 	bdapp.datepickerbinder();
+	bdajax.binders.contenttabsbinder = bdapp.contenttabsbinder;
 	bdajax.binders.dropdownmenubinder = bdapp.dropdownmenubinder;
 	bdajax.binders.datepickerbinder = bdapp.datepickerbinder;
 });
@@ -29,6 +31,29 @@ bdapp = {
         });
 	},
 	
+	/*
+	 * Content Tabs
+	 * ============
+	 * 
+	 * Markup
+	 * ------
+	 * 
+	 * <ul class="contenttabs">
+	 *   <li><a href="#">Default width tab</a></li>
+	 *   <li><a class="w1" href="#">w1 width tab</a></li>
+	 *   <li><a class="w2" href="#">w2 width tab</a></li>
+	 *   <li><a class="w3" href="#">w3 width tab</a></li>
+	 * </ul>
+	 * 
+	 * Script
+	 * ------
+	 * 
+	 * XXX: make it possible to bind ajax tabs by indicating ajax via css class.
+	 */
+	contenttabsbinder: function() {
+		jQuery("ul.contenttabs").tabs("div.contenttabpanes > div");
+	},
+	
 	dropdownmenubinder: function(context) {
 	    jQuery('.dropdown').dropdownmenu();
 	},
@@ -46,8 +71,8 @@ bdapp = {
  * Dropdown menu
  * =============
  * 
- * Example markup:
- * ---------------
+ * Markup
+ * ------
  * 
  *     <div class="dropdown">
  *       <div class="icon">
@@ -62,8 +87,8 @@ bdapp = {
  *       </ul>
  *     </div>
  * 
- * Example JS:
- * -----------
+ * Script
+ * ------
  * 
  *     jQuery('.dropdown').dropdownmenu({
  *         menu: '.dropdown_items',
