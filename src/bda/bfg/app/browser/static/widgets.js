@@ -95,10 +95,14 @@ bdapp = {
 			}
 			// select input for multi valued
             if (tag == 'SELECT') {
-				if (jQuery('option [id=ref-' + uid + ']', trigger).length()) {
+				if (jQuery('[value=' + uid + ']', trigger.parent()).length) {
 					return;
 				}
-				var option = jQuery('<option></option>').val(uid).html(label);
+				var option = jQuery('<option></option>')
+				    .val(uid)
+					.html(label)
+					.attr('selected', 'selected')
+				;
 				trigger.append(option);
 			}
 		}
