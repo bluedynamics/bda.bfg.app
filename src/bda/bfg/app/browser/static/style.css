@@ -529,3 +529,7 @@ div.contextmenu div {
 .tabpanes .pane {
     display:none;
 }
+/* Reference Browser */
+.referencebrowser .pathbar ul {
+	padding-left:0px;
+}
