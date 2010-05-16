@@ -1,0 +1,14 @@
+<tal:ajax xmlns:ajax="http://namesspaces.bluedynamics.eu/ajax" omit-tag="True">
+
+  <tal:batch replace="structure context.batch" />
+  
+  <ul class="referencelisting">
+    <li>
+      foo
+    </li>
+    <li>
+      bar
+    </li>
+  </ul>
+
+</tal:ajax>

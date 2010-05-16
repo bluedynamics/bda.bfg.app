@@ -1,11 +1,13 @@
 jQuery(document).ready(function() {
 	bdapp.livesearchbinder();
-	bdapp.contenttabsbinder();
+	bdapp.tabsbinder();
 	bdapp.dropdownmenubinder();
 	bdapp.datepickerbinder();
-	bdajax.binders.contenttabsbinder = bdapp.contenttabsbinder;
+	bdapp.referencebrowserbinder();
+	bdajax.binders.tabsbinder = bdapp.tabsbinder;
 	bdajax.binders.dropdownmenubinder = bdapp.dropdownmenubinder;
 	bdajax.binders.datepickerbinder = bdapp.datepickerbinder;
+	bdajax.binders.referencebrowserbinder = bdapp.referencebrowserbinder;
 });
 
 bdapp = {
@@ -31,27 +33,10 @@ bdapp = {
         });
 	},
 	
-	/*
-	 * Content Tabs
-	 * ============
-	 * 
-	 * Markup
-	 * ------
-	 * 
-	 * <ul class="contenttabs">
-	 *   <li><a href="#">Default width tab</a></li>
-	 *   <li><a class="w1" href="#">w1 width tab</a></li>
-	 *   <li><a class="w2" href="#">w2 width tab</a></li>
-	 *   <li><a class="w3" href="#">w3 width tab</a></li>
-	 * </ul>
-	 * 
-	 * Script
-	 * ------
-	 * 
-	 * XXX: make it possible to bind ajax tabs by indicating ajax via css class.
-	 */
-	contenttabsbinder: function() {
-		jQuery("ul.contenttabs").tabs("div.contenttabpanes > div");
+	tabsbinder: function(context) {
+		// XXX: make it possible to bind ajax tabs by indicating ajax via 
+		//      css class.
+		jQuery("ul.tabs").tabs("div.tabpanes > div");
 	},
 	
 	dropdownmenubinder: function(context) {
@@ -64,7 +49,44 @@ bdapp = {
             buttonImage: '/static/icons/calendar16_16.gif',
             buttonImageOnly: true
         });
-    }
+    },
+	
+	referencebrowserbinder: function(context) {
+		jQuery('.referencebrowser').referencebrowser({
+            multiple: false
+        });
+		jQuery('.referencebrowser-multiple').referencebrowser({
+            multiple: true
+        });
+	}
+}
+
+/*
+ * Reference Browser
+ * =================
+ * 
+ * Markup
+ * ------
+ * 
+ *     <input type="text" name="foo" class="referencebrowser" />
+ *     
+ *     <input type="text" name="foo" class="referencebrowser-multiple" />
+ * 
+ * Script
+ * ------
+ * 
+ *     jQuery('.referencebrowser').dropdownmenu({
+ *         multiple: false
+ *     });
+ */
+jQuery.fn.referencebrowser = function(options) {
+	this.unbind('focus');
+	this.bind('focus', function() {
+		var overlay_api = bdajax.overlay({
+	        action: 'referencebrowser',
+			target: ''
+	    });
+	});
 }
 
 /* 

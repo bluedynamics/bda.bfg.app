@@ -1,0 +1,18 @@
+<tal:ajax xmlns:ajax="http://namesspaces.bluedynamics.eu/ajax" omit-tag="True">
+
+  <div class="referencebrowser">
+          
+    <form method="get" action="">
+      <fieldset>
+        <input type="text" name="term" id="reference-search" size="15" />
+        <input type="submit" id="reference-search-submit" value="Search" />
+      </fieldset>
+    </form>
+        
+    <tal:mainmenu replace="structure tile('pathbar')" />
+    
+    <tal:referencelisting replace="structure tile('referencelisting')" />
+  
+  </div>
+
+</tal:ajax>

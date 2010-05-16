@@ -60,7 +60,7 @@ class Contents(object):
     
     @property
     def sort(self):
-        return self.request.params.get('sort')
+        return self.request.params.get('sort', 'created')
     
     @property
     def sorted(self):
@@ -81,8 +81,8 @@ class Contents(object):
     @property
     def items(self):
         start, end = self.slice
-        if not self.sort:
-            return [self.model[key] for key in self.model.keys()[start:end]]
+        #if not self.sort:
+        #    return [self.model[key] for key in self.model.keys()[start:end]]
         return self.sorted[start:end]
 
 class ContentsBatch(Batch):

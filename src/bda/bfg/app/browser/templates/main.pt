@@ -68,7 +68,7 @@ Released   : 20090622
         <div id="search" tal:condition="util.authenticated(request)">
           <form method="get" action="">
             <fieldset>
-              <input type="text" name="s" id="search-text" size="15" />
+              <input type="text" name="term" id="search-text" size="15" />
               <input type="submit" id="search-submit" value="GO" />
             </fieldset>
           </form>
