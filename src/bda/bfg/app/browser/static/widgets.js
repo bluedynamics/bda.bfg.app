@@ -67,45 +67,8 @@ bdapp = {
 	referenceaddlinkbinder: function(context) {
 		jQuery('a.addreference').bind('click', function(event) {
 			event.preventDefault();
-			bdapp.referencebrowser.addreference(this);
+			referencebrowser.addreference(this);
 		});
-	},
-	
-	referencebrowser: {
-		overlay: null,
-		trigger: null,
-		addreference: function(elem) {
-			elem = jQuery(elem);
-			var uid = elem.attr('id');
-			uid = uid.substring(4, uid.length);
-			if (!uid) {
-				return;
-			}
-			var label = jQuery('.reftitle', elem.parent()).html();
-			var trigger = bdapp.referencebrowser.trigger;
-			var tag = trigger.tagName;
-			trigger = jQuery(trigger);
-			// text input for single valued
-			if (tag == 'INPUT') {
-				trigger.attr('value', label);
-				var sel = '[name=' + trigger.attr('name') + '.uid]';
-				jQuery(sel).attr('value', uid);
-				bdapp.referencebrowser.overlay.close();
-				return;
-			}
-			// select input for multi valued
-            if (tag == 'SELECT') {
-				if (jQuery('[value=' + uid + ']', trigger.parent()).length) {
-					return;
-				}
-				var option = jQuery('<option></option>')
-				    .val(uid)
-					.html(label)
-					.attr('selected', 'selected')
-				;
-				trigger.append(option);
-			}
-		}
 	}
 }
 
@@ -131,14 +94,54 @@ bdapp = {
  *     jQuery('.referencebrowser').dropdownmenu();
  */
 jQuery.fn.referencebrowser = function(options) {
-	this.unbind('focus');
-	this.bind('focus', function() {
-		bdapp.referencebrowser.trigger = this;
-		bdapp.referencebrowser.overlay = bdajax.overlay({
-	        action: 'referencebrowser',
-			target: ''
-	    });
-	});
+    this.unbind('focus');
+    this.bind('focus', function() {
+        referencebrowser.trigger = this;
+        referencebrowser.overlay = bdajax.overlay({
+            action: 'referencebrowser',
+            target: ''
+        });
+    });
+}
+
+referencebrowser = {
+	
+    overlay: null,
+	
+    trigger: null,
+	
+    addreference: function(elem) {
+        elem = jQuery(elem);
+        var uid = elem.attr('id');
+        uid = uid.substring(4, uid.length);
+        if (!uid) {
+            return;
+        }
+        var label = jQuery('.reftitle', elem.parent()).html();
+        var trigger = referencebrowser.trigger;
+        var tag = trigger.tagName;
+        trigger = jQuery(trigger);
+        // text input for single valued
+        if (tag == 'INPUT') {
+            trigger.attr('value', label);
+            var sel = '[name=' + trigger.attr('name') + '.uid]';
+            jQuery(sel).attr('value', uid);
+            referencebrowser.overlay.close();
+            return;
+        }
+        // select input for multi valued
+        if (tag == 'SELECT') {
+            if (jQuery('[value=' + uid + ']', trigger.parent()).length) {
+                return;
+            }
+            var option = jQuery('<option></option>')
+                .val(uid)
+                .html(label)
+                .attr('selected', 'selected')
+            ;
+            trigger.append(option);
+        }
+    }
 }
 
 /* 
