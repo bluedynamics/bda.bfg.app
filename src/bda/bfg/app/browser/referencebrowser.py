@@ -1,11 +1,10 @@
 from bda.bfg.tile import (
     tile,
     registerTile,
-    Tile,
 )
 from bda.bfg.app.browser.layout import PathBar
 from bda.bfg.app.browser.contents import (
-    Contents,
+    ContentsTile,
     ContentsBatch,
 )
 
@@ -21,11 +20,7 @@ registerTile('referencebrowser_pathbar',
              strict=False)
 
 @tile('referencelisting', 'templates/referencelisting.pt', strict=False)
-class ReferenceListing(Tile):
-    
-    @property
-    def contents(self):
-        return Contents(self.model, self.request)
+class ReferenceListing(ContentsTile):
     
     @property
     def batch(self):

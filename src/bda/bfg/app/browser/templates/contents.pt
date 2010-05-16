@@ -84,7 +84,7 @@
                ajax:event="contextchanged:.contextsensitiv"
                ajax:action="content:#content:inner"
                tal:content="item.metadata.get('title', item.__name__)">
-                Media
+                Title
             </a>
           </td>
           <td tal:content="item.metadata.get('creator', 'unknown')">Creator</td>
