@@ -49,10 +49,17 @@
         <tr>
           <td>
             <a href="${context.nodeurl}/${item.__name__}"
-               class="add16_16"
-               title="Add reference">
+               class="add16_16
+                      addreference"
+               title="Add reference"
+               tal:attributes="id 'ref-%s' % item.metadata.get('uid', '')">
                 &nbsp;
             </a>
+            <span class="reftitle"
+                  style="display:none;"
+                  tal:content="item.metadata.get('title', item.__name__)">
+              Title
+            </span>
           </td>
           <td>
             <a href="${context.nodeurl}/${item.__name__}"

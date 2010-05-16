@@ -1,13 +1,17 @@
 jQuery(document).ready(function() {
+	// initial binding
 	bdapp.livesearchbinder();
 	bdapp.tabsbinder();
 	bdapp.dropdownmenubinder();
 	bdapp.datepickerbinder();
 	bdapp.referencebrowserbinder();
+	
+	// add binders to bdajax binding callbacks
 	bdajax.binders.tabsbinder = bdapp.tabsbinder;
 	bdajax.binders.dropdownmenubinder = bdapp.dropdownmenubinder;
 	bdajax.binders.datepickerbinder = bdapp.datepickerbinder;
 	bdajax.binders.referencebrowserbinder = bdapp.referencebrowserbinder;
+	bdajax.binders.referenceaddlinkbinder = bdapp.referenceaddlinkbinder;
 });
 
 bdapp = {
@@ -52,12 +56,52 @@ bdapp = {
     },
 	
 	referencebrowserbinder: function(context) {
-		jQuery('.referencebrowser').referencebrowser({
+		jQuery('.referencebrowser', context).referencebrowser({
             multiple: false
         });
-		jQuery('.referencebrowser-multiple').referencebrowser({
+		jQuery('.referencebrowser-multiple', context).referencebrowser({
             multiple: true
         });
+	},
+	
+	referenceaddlinkbinder: function(context) {
+		jQuery('a.addreference').bind('click', function(event) {
+			event.preventDefault();
+			bdapp.referencebrowser.addreference(this);
+		});
+	},
+	
+	referencebrowser: {
+		overlay: null,
+		trigger: null,
+		addreference: function(elem) {
+			elem = jQuery(elem);
+			var uid = elem.attr('id');
+			uid = uid.substring(4, uid.length);
+			if (!uid) {
+				return;
+			}
+			var label = jQuery('.reftitle', elem.parent()).html();
+			var trigger = bdapp.referencebrowser.trigger;
+			var tag = trigger.tagName;
+			trigger = jQuery(trigger);
+			// text input for single valued
+			if (tag == 'INPUT') {
+				trigger.attr('value', label);
+				var sel = '[name=' + trigger.attr('name') + '.uid]';
+				jQuery(sel).attr('value', uid);
+				bdapp.referencebrowser.overlay.close();
+				return;
+			}
+			// select input for multi valued
+            if (tag == 'SELECT') {
+				if (jQuery('option [id=ref-' + uid + ']', trigger).length()) {
+					return;
+				}
+				var option = jQuery('<option></option>').val(uid).html(label);
+				trigger.append(option);
+			}
+		}
 	}
 }
 
@@ -69,20 +113,24 @@ bdapp = {
  * ------
  * 
  *     <input type="text" name="foo" class="referencebrowser" />
- *     
- *     <input type="text" name="foo" class="referencebrowser-multiple" />
+ *     <input type="hidden" name="foo.uid" value="" />
+ * 
+ * for single value reference or
+ * 
+ *     <select name="foo" class="referencebrowser" />
+ * 
+ * for multi valued reference.
  * 
  * Script
  * ------
  * 
- *     jQuery('.referencebrowser').dropdownmenu({
- *         multiple: false
- *     });
+ *     jQuery('.referencebrowser').dropdownmenu();
  */
 jQuery.fn.referencebrowser = function(options) {
 	this.unbind('focus');
 	this.bind('focus', function() {
-		var overlay_api = bdajax.overlay({
+		bdapp.referencebrowser.trigger = this;
+		bdapp.referencebrowser.overlay = bdajax.overlay({
 	        action: 'referencebrowser',
 			target: ''
 	    });
