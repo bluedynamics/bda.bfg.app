@@ -16,6 +16,7 @@ TESTFILES = [
     '../browser/form.txt',
     '../browser/authoring.txt',
     '../browser/batch.txt',
+    '../browser/referencebrowser.txt',
 ]
 
 def test_suite():
