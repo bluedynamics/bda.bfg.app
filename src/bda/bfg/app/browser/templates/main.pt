@@ -75,7 +75,7 @@ Released   : 20090622
         </div>
       </div>
 
-      <div id="pathbar">
+      <div id="pathbar" class="pathbar">
         <tal:mainmenu replace="structure tile('pathbar')" />
       </div>
 

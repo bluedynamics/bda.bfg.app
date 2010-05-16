@@ -184,24 +184,24 @@ label { display: block; }
 	margin-left: auto;
 	margin-right: auto;
 }
-#pathbar ul {
+.pathbar ul {
 	list-style-type: none;
 	list-style-image none;
 	margin: 0;
 	padding-left: 30px;
 }
-#pathbar ul li {
+.pathbar ul li {
 	display: inline;
 }
-#pathbar ul li.pathbaritem {
+.pathbar ul li.pathbaritem {
 	margin-left: 7px;
 	background: url('/static/images/img10.jpg') no-repeat left 5px;
 }
-#pathbar ul li a,
-#pathbar ul li strong {
+.pathbar ul li a,
+.pathbar ul li strong {
 	padding-left: 10px;
 }
-#pathbar ul li strong {
+.pathbar ul li strong {
 	color: #4B8749;
 	font-weight: normal;
 }
