@@ -13,7 +13,6 @@ from yafowil.base import (
     ExtractionError,
 )
 from yafowil.common import (
-    _value,
     generic_extractor,
     generic_required_extractor,
     select_renderer,
@@ -56,16 +55,26 @@ def reference_renderer(widget, data):
     css = widget.attrs.get('css', list())
     if isinstance(css, basestring):
         css = [css]
+    value = ['', '']
+    if data.extracted is not UNSET:
+        value = [data.extracted, data.request.get(widget.dottedpath)]
+    elif data.request.get('%s.uid' % widget.dottedpath):
+        value = [
+            data.request.get('%s.uid' % widget.dottedpath),
+            data.request.get(widget.dottedpath),
+        ]
+    elif data.value is not UNSET and data.value is not None:
+        value = data.value
     text_attrs = {
         'type': 'text',
-        'value': _value(widget, data), # XXX get title for UID
+        'value': value[1],
         'name_': widget.dottedpath,
         'id': cssid(widget, 'input'),
         'class_': cssclasses(widget, data, *css),    
     }
     hidden_attrs = {
         'type': 'hidden',
-        'value': _value(widget, data),
+        'value': value[0],
         'name_': '%s.uid' % widget.dottedpath,
     }
     return tag('input', **text_attrs) + tag('input', **hidden_attrs)

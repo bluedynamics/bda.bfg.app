@@ -29,7 +29,7 @@ Render single valued.
     ...     })
     >>> widget()
     u'<input class="referencebrowser" id="input-ref" name="ref" 
-    type="text" /><input name="ref.uid" type="hidden" />'
+    type="text" value="" /><input name="ref.uid" type="hidden" value="" />'
     
     >>> widget = factory(
     ...     'reference',
@@ -60,3 +60,27 @@ Render single valued.
     >>> data.errors
     []
     
+    >>> widget = factory(
+    ...     'reference',
+    ...     'ref',
+    ...     value = ['uid', 'Label'],
+    ...     props = {
+    ...         'label': 'Reference',
+    ...         'multivalued': False,
+    ...         'required': 'Ref Required',
+    ...     })
+    >>> widget()
+    u'<input class="referencebrowser required" id="input-ref" name="ref" 
+    type="text" value="Label" /><input name="ref.uid" type="hidden" 
+    value="uid" />'
+    
+    >>> data = widget.extract(request)
+    >>> widget(data=data)
+    u'<input class="referencebrowser required" id="input-ref" name="ref" 
+    type="text" value="Title" /><input name="ref.uid" type="hidden" 
+    value="123" />'
+    
+    >>> widget(request=request)
+    u'<input class="referencebrowser required" id="input-ref" name="ref" 
+    type="text" value="Title" /><input name="ref.uid" type="hidden" 
+    value="123" />'
