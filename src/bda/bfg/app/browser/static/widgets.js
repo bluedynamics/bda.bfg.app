@@ -49,6 +49,7 @@ bdapp = {
 	
 	datepickerbinder: function(context) {
         jQuery('input.datepicker').datepicker({
+			showAnim: null,
             showOn: 'button',
             buttonImage: '/static/icons/calendar16_16.gif',
             buttonImageOnly: true
@@ -56,12 +57,8 @@ bdapp = {
     },
 	
 	referencebrowserbinder: function(context) {
-		jQuery('.referencebrowser', context).referencebrowser({
-            multiple: false
-        });
-		jQuery('.referencebrowser-multiple', context).referencebrowser({
-            multiple: true
-        });
+		jQuery('input.referencebrowser', context).referencebrowser();
+		jQuery('select.referencebrowser', context).referencebrowser();
 	},
 	
 	referenceaddlinkbinder: function(context) {
@@ -91,24 +88,27 @@ bdapp = {
  * Script
  * ------
  * 
- *     jQuery('.referencebrowser').dropdownmenu();
+ *     jQuery('input.referencebrowser').referencebrowser();
  */
-jQuery.fn.referencebrowser = function(options) {
-    this.unbind('focus');
-    this.bind('focus', function() {
-        referencebrowser.trigger = this;
+jQuery.fn.referencebrowser = function() {
+	var icon = jQuery('<a>&nbsp;</a>').attr('class', 'reference16_16');
+    jQuery(this).after(icon);
+	icon = jQuery(this).next();
+	icon.unbind('click');
+	icon.bind('click', function() {
+		referencebrowser.target = jQuery(this).prev().get(0);
         referencebrowser.overlay = bdajax.overlay({
             action: 'referencebrowser',
             target: ''
         });
-    });
+	});
 }
 
 referencebrowser = {
 	
     overlay: null,
 	
-    trigger: null,
+    target: null,
 	
     addreference: function(elem) {
         elem = jQuery(elem);
@@ -118,20 +118,20 @@ referencebrowser = {
             return;
         }
         var label = jQuery('.reftitle', elem.parent()).html();
-        var trigger = referencebrowser.trigger;
-        var tag = trigger.tagName;
-        trigger = jQuery(trigger);
+        var target = referencebrowser.target;
+        var tag = target.tagName;
+        target = jQuery(target);
         // text input for single valued
         if (tag == 'INPUT') {
-            trigger.attr('value', label);
-            var sel = '[name=' + trigger.attr('name') + '.uid]';
+            target.attr('value', label);
+            var sel = '[name=' + target.attr('name') + '.uid]';
             jQuery(sel).attr('value', uid);
             referencebrowser.overlay.close();
             return;
         }
         // select input for multi valued
         if (tag == 'SELECT') {
-            if (jQuery('[value=' + uid + ']', trigger.parent()).length) {
+            if (jQuery('[value=' + uid + ']', target.parent()).length) {
                 return;
             }
             var option = jQuery('<option></option>')
@@ -139,7 +139,7 @@ referencebrowser = {
                 .html(label)
                 .attr('selected', 'selected')
             ;
-            trigger.append(option);
+            target.append(option);
         }
     }
 }

@@ -126,7 +126,6 @@ label { display: block; }
 }
 #search input {
 	float: left;
-	font: 12px Georgia, "Times New Roman", Times, serif;
 	border: none;
 }
 #search-text {
@@ -134,7 +133,6 @@ label { display: block; }
 	height: 18px;
 	padding: 3px 0 0 5px;
 	border: 1px solid #333333;
-	background: #ECF9E4;
 	color: #000000;
 }
 #search-submit {
@@ -388,24 +386,35 @@ a.view16_16 {
 	padding-left: 16px;
 	width:16px;
 	background:url('/static/icons/view16_16.png') 50% 50% no-repeat;
+	cursor:pointer;
 }
 a.edit16_16 {
 	text-decoration: none;
     padding-left: 16px;
 	width:16px;
     background:url('/static/icons/edit16_16.png') 50% 50% no-repeat;
+	cursor:pointer;
 }
 a.add16_16 {
     text-decoration: none;
     padding-left: 16px;
     width:16px;
     background:url('/static/icons/add16_16.png') 50% 50% no-repeat;
+	cursor:pointer;
 }
 a.up16_16 {
     text-decoration: none;
     padding-left: 16px;
     width:16px;
     background:url('/static/icons/up16_16.png') 50% 50% no-repeat;
+	cursor:pointer;
+}
+a.reference16_16 {
+    text-decoration: none;
+    padding-left: 16px;
+    width:16px;
+    background:url('/static/icons/reference16_16.png') 50% 50% no-repeat;
+	cursor:pointer;
 }
 /* Dropdown */
 .dropdown_items {
@@ -417,10 +426,10 @@ a.up16_16 {
     width:200px;
     list-style-type:none;
     list-style-image:none;
-    border:#aaa 1px solid;
+    border:#ccc 4px solid;
     background-color:#fff;
-    -moz-border-radius:2px;
-    -webkit-border-radius:2px;
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
 }
 .dropdown_items li {
     margin:0;
@@ -429,6 +438,21 @@ a.up16_16 {
     padding-left:18px;
     text-decoration:none;
     border:none;
+}
+/*  Autocomplete */
+.ui-autocomplete {
+	border:#ccc 4px solid !important;
+	-moz-border-radius:3px;
+    -webkit-border-radius:3px;
+}
+/* Datepicker */
+#ui-datepicker-div {
+	border:#ccc 4px solid !important;
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+}
+.ui-datepicker-trigger {
+    cursor:pointer;
 }
 /* Contextmenu */
 div.contextmenu {
