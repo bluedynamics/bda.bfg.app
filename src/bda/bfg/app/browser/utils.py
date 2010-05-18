@@ -41,6 +41,9 @@ class AppUtil(object):
     """Instance of this object gets Passed to main template when rendering.
     """
     
+    def __init__(self):
+        self.additional_css = list()
+    
     def authenticated(self, request):
         return authenticated(request)
     

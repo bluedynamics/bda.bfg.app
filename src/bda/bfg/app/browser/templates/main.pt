@@ -36,10 +36,12 @@ Released   : 20090622
     <!-- stylesheets -->
     <link href="${request.application_url}/static/style.css" rel="stylesheet" type="text/css" media="screen" />
     <link href="${request.application_url}/++resource++bdajax/bdajax.css" rel="stylesheet" type="text/css" media="screen" />
-    <link href="${request.application_url}/bda.bfg.app.css" rel="stylesheet" type="text/css" media="screen" />
     <tal:authendicated condition="util.authenticated(request)">
       <link href="${request.application_url}/static/jquery-ui/jquery-ui-1.8.1.custom.css" rel="stylesheet" type="text/css" media="screen" />
     </tal:authendicated>
+    <tal:additional repeat="additional util.additional_css">
+      <link href="${request.application_url}/${additional}" rel="stylesheet" type="text/css" media="screen" />
+    </tal:additional>
 
   </head>
   <body>
