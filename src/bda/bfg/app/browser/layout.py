@@ -9,6 +9,7 @@ from bda.bfg.app.browser.utils import (
     authenticated,
     nodepath,
     make_url,
+    format_date,
 )
 
 class ProtectedContentTile(Tile):
@@ -131,3 +132,11 @@ class NavTree(Tile):
                                context=self,
                                children=children,
                                level=level)
+
+@tile('byline', 'templates/byline.pt', strict=False)
+class Byline(Tile):
+    """Byline tile.
+    """
+    
+    def format_date(self, dt):
+        return format_date(dt)
