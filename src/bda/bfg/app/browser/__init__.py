@@ -30,7 +30,6 @@ def render_main_template(model, request, contenttilename='content'):
     As main content the tile with name contenttilename is rendered.
     """
     apputil = AppUtil()
-    print ADDITIONAL_CSS
     apputil.additional_css = ADDITIONAL_CSS
     return render_template_to_response(MAIN_TEMPLATE,
                                        request=request,
