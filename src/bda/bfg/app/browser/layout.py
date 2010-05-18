@@ -4,6 +4,7 @@ from bda.bfg.tile import (
     Tile,
     render_tile,
     render_template,
+    registerTile,
 )
 from bda.bfg.app.browser.utils import (
     authenticated,
@@ -140,3 +141,9 @@ class Byline(Tile):
     
     def format_date(self, dt):
         return format_date(dt)
+
+registerTile('listing',
+             'bda.bfg.app:browser/templates/listing.pt',
+             class_=ProtectedContentTile,
+             permission='login',
+             strict=False)

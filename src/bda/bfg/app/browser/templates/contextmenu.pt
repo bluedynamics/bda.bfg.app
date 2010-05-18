@@ -1,5 +1,14 @@
 <tal:ajax xmlns:ajax="http://namesspaces.bluedynamics.eu/ajax" omit-tag="True">
   <div class="contextmenu">
+    <div>
+      <a href="${context.nodeurl[:context.nodeurl.rfind('/')]}"
+         class="up16_16"
+         title="One level up"
+         ajax:bind="click"
+         ajax:target="${context.nodeurl[:context.nodeurl.rfind('/')]}"
+         ajax:event="contextchanged:.contextsensitiv"
+         ajax:action="content:#content:inner">&nbsp;</a>
+    </div>
     <tal:addables condition="model.nodeinfo.addables">
       <tal:add_dropdown replace="structure tile('add_dropdown')" />
     </tal:addables>
@@ -14,13 +23,12 @@
          tal:condition="model.properties.editable">&nbsp;</a>
     </div>
     <div>
-      <a href="${context.nodeurl[:context.nodeurl.rfind('/')]}"
-         class="up16_16"
-         title="One level up"
+      <a href="${context.nodeurl}/listing"
+         class="listing16_16"
+         title="Listing"
          ajax:bind="click"
-         ajax:target="${context.nodeurl[:context.nodeurl.rfind('/')]}"
-         ajax:event="contextchanged:.contextsensitiv"
-         ajax:action="content:#content:inner">&nbsp;</a>
+         ajax:target="${context.nodeurl}"
+         ajax:action="listing:#content:inner">&nbsp;</a>
     </div>
   </div>
   <div style="clear:both;"></div>

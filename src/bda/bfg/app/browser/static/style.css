@@ -416,6 +416,13 @@ a.reference16_16 {
     background:url('/static/icons/reference16_16.png') 50% 50% no-repeat;
 	cursor:pointer;
 }
+a.listing16_16 {
+    text-decoration: none;
+    padding-left: 16px;
+    width:16px;
+    background:url('/static/icons/listing16_16.png') 50% 50% no-repeat;
+    cursor:pointer;
+}
 /* Dropdown */
 .dropdown_items {
     display:none;
