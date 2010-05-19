@@ -363,7 +363,7 @@ table.contents {
 	border-spacing: none;
 }
 table.contents th {
-	padding: 4px;
+	padding: 3px;
 	border-bottom: 1px solid #ccc;
 	border-right: 1px solid #ccc;
 	background-color: #eee;
@@ -376,54 +376,68 @@ table.contents th.desc {
     background:#ddd url('/static/icons/down9_6.gif') right 50% no-repeat;
 }
 table.contents td {
-	padding: 4px;
+	padding: 3px;
 	border-bottom: 1px solid #ccc;
 	border-right: 1px solid #ccc;
 }
 /* Icons */
 a.view16_16 {
 	text-decoration: none;
-	padding-left: 16px;
+	padding-left:16px;
 	width:16px;
-	background:url('/static/icons/view16_16.png') 50% 50% no-repeat;
+	font-size:16px;
+	background:url('/static/icons/view16_16.png') top left no-repeat;
 	cursor:pointer;
 }
 a.edit16_16 {
 	text-decoration: none;
-    padding-left: 16px;
+    padding-left:16px;
 	width:16px;
-    background:url('/static/icons/edit16_16.png') 50% 50% no-repeat;
+	font-size:16px;
+    background:url('/static/icons/edit16_16.png') top left no-repeat;
 	cursor:pointer;
 }
 a.add16_16 {
     text-decoration: none;
-    padding-left: 16px;
+    padding-left:16px;
     width:16px;
-    background:url('/static/icons/add16_16.png') 50% 50% no-repeat;
+	font-size:16px;
+    background:url('/static/icons/add16_16.png') top left no-repeat;
 	cursor:pointer;
 }
 a.up16_16 {
     text-decoration: none;
-    padding-left: 16px;
+    padding-left:16px;
     width:16px;
-    background:url('/static/icons/up16_16.png') 50% 50% no-repeat;
+	font-size:16px;
+    background:url('/static/icons/up16_16.png') top left no-repeat;
 	cursor:pointer;
 }
 a.reference16_16 {
     text-decoration: none;
-    padding-left: 16px;
+    padding-left:16px;
     width:16px;
-    background:url('/static/icons/reference16_16.png') 50% 50% no-repeat;
+	font-size:16px;
+    background:url('/static/icons/reference16_16.png') top left no-repeat;
 	cursor:pointer;
 }
 a.listing16_16 {
     text-decoration: none;
-    padding-left: 16px;
+    padding-left:16px;
     width:16px;
-    background:url('/static/icons/listing16_16.png') 50% 50% no-repeat;
+	font-size:16px;
+    background:url('/static/icons/listing16_16.png') top left no-repeat;
     cursor:pointer;
 }
 /* Dropdown */
+.dropdown {
+	padding:0;
+	margin:0;
+}
+.dropdown .icon {
+    padding:0;
+    margin:0;
+}
 .dropdown_items {
     display:none;
     position:absolute;
@@ -470,6 +484,7 @@ div.contextmenu {
 div.contextmenu div {
     float:left;
 	margin-top:2px;
+	margin:0;
 }
 /* Tabs */
 .tabs {

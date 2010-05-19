@@ -63,9 +63,7 @@
                ajax:bind="click"
                ajax:target="${context.nodeurl}/${item.__name__}"
                ajax:event="contextchanged:.contextsensitiv"
-               ajax:action="content:#content:inner">
-                &nbsp;
-            </a>
+               ajax:action="content:#content:inner">&nbsp;</a>
             <a href="${context.nodeurl}/${item.__name__}/edit?from=parent"
                class="edit16_16"
                title="Edit"
@@ -73,9 +71,7 @@
                ajax:target="${context.nodeurl}/${item.__name__}?from=parent"
                ajax:event="contextchanged:.contextsensitiv"
                ajax:action="edit:#content:inner"
-               tal:condition="item.properties.editable">
-                &nbsp;
-            </a>
+               tal:condition="item.properties.editable">&nbsp;</a>
           </td>
           <td>
             <a href="${context.nodeurl}/${item.__name__}"
