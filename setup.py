@@ -41,6 +41,7 @@ setup(name='bda.bfg.app',
           'yafowil.image',
           'yafowil.jq',
           'yafowil.widget.datetime',
+          'yafowil.widget.richtext',
       ],
       extras_require = dict(
           test=[
