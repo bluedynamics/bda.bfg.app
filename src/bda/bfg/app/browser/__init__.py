@@ -25,6 +25,9 @@ ADDITIONAL_CSS = []
 # static resources
 static_view = static('static')
 
+# tiny mce resources
+tiny_mce = static('yafowil.widget.richtext:tinymce/jscripts/tiny_mce')
+
 def render_main_template(model, request, contenttilename='content'):
     """Renders main template and return response object.
     

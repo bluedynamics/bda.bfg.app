@@ -11,6 +11,12 @@
     name="static"
   />
   
+  <view
+    for="*"
+    view=".browser.tiny_mce"
+    name="tiny_mce"
+  />
+  
   <authtktauthenticationpolicy
     secret="secret"
     cookie_name="__ac__"
