@@ -3,7 +3,7 @@ import sys, os
 
 version = '1.0'
 shortdesc = 'Application framework for repoze.bfg.'
-longdesc = open(os.path.join(os.path.dirname(__file__), 'README.txt')).read()
+longdesc = open(os.path.join(os.path.dirname(__file__), 'README.rst')).read()
 
 setup(name='bda.bfg.app',
       version=version,
