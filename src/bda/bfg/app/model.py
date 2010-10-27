@@ -63,7 +63,7 @@ class BaseNode(AttributedNode):
     def nodeinfo(self):
         info = getNodeInfo(self.node_info_name)
         if not info:
-            info = BaseNodeInfo(self.attrs)
+            info = BaseNodeInfo()
             info.title = str(self.__class__)
             info.node = self.__class__
         return info
@@ -90,7 +90,7 @@ class FactoryNode(BaseNode):
             child = AttributedNode.__getitem__(self, key)
             #child = LifecycleNode.__getitem__(self, key)
         except KeyError, e:
-            if not key in self:
+            if not key in self.iterkeys():
                 raise KeyError
             child = self.factories[key]()
             self[key] = child
