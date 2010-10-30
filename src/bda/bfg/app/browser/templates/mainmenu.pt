@@ -13,9 +13,11 @@
                      css item['selected']
                          and ' '.join([css, 'current_page_item'])
                          or css;
+                     css ' '.join([css, 'node-%s' % item['id']]);
                      css ' '.join([css, 'mainmenulink']);"
          tal:attributes="class css;
-                         href item['url']"
+                         href item['url'];
+                         title item['description'];"
          tal:content="item['title']">Title</a>
     </li>
   </ul>

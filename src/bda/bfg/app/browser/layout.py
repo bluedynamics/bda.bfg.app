@@ -44,13 +44,21 @@ class MainMenu(Tile):
             curpath = ''
         # work with ``self.model.root.keys()``, ``values()`` propably not works
         # due to the use of factory node.
-        for key in self.model.root.keys():
-            if not has_permission('view', self.model.root[key], self.request):
+        root = self.model.root
+        empty_title = root.properties.mainmenu_empty_title
+        for key in root.keys():
+            child = root[key]
+            if not has_permission('view', child, self.request):
                 continue
-            url = make_url(self.request, path=[key])
             item = dict()
-            item['title'] = key
-            item['url'] = url
+            item['id'] = key
+            if empty_title:
+                item['title'] = '&nbsp;'
+                item['description'] = child.metadata.title
+            else:
+                item['title'] = child.metadata.title
+                item['description'] = child.metadata.description
+            item['url'] = make_url(self.request, path=[key])
             item['selected'] = curpath == key
             item['first'] = count == 0
             ret.append(item)
