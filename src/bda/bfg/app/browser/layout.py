@@ -45,6 +45,10 @@ class MainMenu(Tile):
         # work with ``self.model.root.keys()``, ``values()`` propably not works
         # due to the use of factory node.
         root = self.model.root
+        # check for default child id if no curpath
+        if not curpath and root.properties.default_child:
+            curpath = root.properties.default_child
+        # check wether to render mainmenu item title
         empty_title = root.properties.mainmenu_empty_title
         for key in root.keys():
             child = root[key]
