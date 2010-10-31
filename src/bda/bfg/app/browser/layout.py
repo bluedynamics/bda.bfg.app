@@ -31,6 +31,13 @@ class PersonalTools(Tile):
 @tile('mainmenu', 'templates/mainmenu.pt', strict=False)
 class MainMenu(Tile):
     """Main Menu tile.
+    
+    * set ``mainmenu_empty_title`` on ``model.root.properties`` to ``True``
+      if you want to render empty links in mainmenu for setting icons via css.
+      Therefor 'node-nodeid' gets rendered as CSS class on ``li`` DOM element.
+    
+    * If ``default_child`` is set on ``model.root.properties``, it is marked
+      selected if not other current path could be found.
     """
     
     @property
