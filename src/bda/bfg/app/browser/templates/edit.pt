@@ -1,9 +1,9 @@
 <div>
   
-  <h1>Edit <tal:type replace="model.nodeinfo.title" /></h1>
+  <tal:xxx condition="False">
+    <h1>Edit <tal:type replace="model.metadata.title" /></h1>
+  </tal:xxx>
   
-  <div>
-    <tal:add replace="structure tile('editform')" />
-  </div>
+  <tal:add replace="structure tile('editform')" />
 
 </div>
