@@ -2,6 +2,7 @@ import yafowil.webob
 import yafowil.loader
 import yafowil.widget.datetime
 import yafowil.widget.richtext
+import yafowil.widget.dict
 from webob.exc import HTTPUnauthorized
 from repoze.bfg.view import (
     static,
