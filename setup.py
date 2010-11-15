@@ -40,6 +40,7 @@ setup(name='bda.bfg.app',
           'yafowil.webob',
           'yafowil.widget.datetime',
           'yafowil.widget.richtext',
+          'yafowil.widget.dict',
       ],
       extras_require = dict(
           test=[
