@@ -279,18 +279,7 @@ Contributors
 Changes
 =======
 
-Unreleased (svn)
-----------------
-
-    - Introduce model interfaces. authentication and model tests
-      [rnix, 2010-05-03]
-
-    - Code Cleanup [rnix]
-
-    - Update to repoze.bfg 1.3 [rnix]
-
-    - Remove KSS. Integrate bdajax [rnix]
-    
-    - Update to repoze.bfg 1.2 [jensens]
+1.0b1
+-----
 
     - Initial work [rnix]

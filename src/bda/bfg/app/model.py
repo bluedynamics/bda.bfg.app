@@ -3,6 +3,7 @@ import types
 import ConfigParser
 from lxml import etree
 from datetime import datetime
+from odict import odict
 from zope.interface import implements
 from zodict.node import LifecycleNode, AttributedNode
 from repoze.bfg.threadlocal import get_current_request
@@ -178,12 +179,21 @@ class XMLProperties(Properties):
         for elem in root.getchildren():
             children = elem.getchildren()
             if children:
-                val = list()
-                for subelem in children:
-                    value = subelem.text
-                    if not value:
-                        value = ''
-                    val.append(dth.r_value(value.strip()))
+                subchildren = children[0].getchildren()
+                # case dict like
+                if subchildren:
+                    val = odict()
+                    for subelem in children:
+                        entry_elems = subelem.getchildren()
+                        val[entry_elems[0].text] = entry_elems[1].text
+                # case list like
+                else:
+                    val = list()
+                    for subelem in children:
+                        value = subelem.text
+                        if not value:
+                            value = ''
+                        val.append(dth.r_value(value.strip()))
                 data[elem.tag] = val
             else:
                 value = elem.text
@@ -200,8 +210,15 @@ class XMLProperties(Properties):
             sub = etree.SubElement(root, key)
             if type(value) in [types.ListType, types.TupleType]:
                 for item in value:
-                    subsub = etree.SubElement(sub, 'item')
-                    subsub.text = dth.w_value(item)
+                    item_elem = etree.SubElement(sub, 'item')
+                    item_elem.text = dth.w_value(item)
+            elif type(value) is types.DictType or isinstance(value, odict):
+                for key, val in value.items():
+                    dict_entry_elem = etree.SubElement(sub, 'elem')
+                    key_elem = etree.SubElement(dict_entry_elem, 'key')
+                    value_elem = etree.SubElement(dict_entry_elem, 'value')
+                    key_elem.text = dth.w_value(key)
+                    value_elem.text = dth.w_value(val)
             else:
                 sub.text = dth.w_value(value)
         return etree.tostring(root, pretty_print=True)
