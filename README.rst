@@ -266,14 +266,14 @@ Copyright
     - Copyright (c) 2009-2010 BlueDynamics Alliance http://www.bluedynamics.com
 
 
-Credits
-=======
+Contributors
+============
 
-    - written by Robert Niederreiter <rnix@squarewave.at>
+    - Robert Niederreiter <rnix@squarewave.at>
     
     - Jens Klein <jens@bluedynamics.com>
     
-    - Documentation contributions by Georg Gogo. BERNHARD <gogo@bluedynamics.com>
+    - Georg Gogo. BERNHARD <gogo@bluedynamics.com>
 
 
 Changes
