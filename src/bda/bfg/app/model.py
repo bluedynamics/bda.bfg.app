@@ -149,7 +149,7 @@ class XMLProperties(Properties):
     
     def __init__(self, path, data=None):
         object.__setattr__(self, '_path', path)
-        object.__setattr__(self, '_data', dict())
+        object.__setattr__(self, '_data', odict())
         if data:
             object.__getattribute__(self, '_data').update(data)
         self._init()

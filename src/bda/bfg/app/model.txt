@@ -375,24 +375,24 @@ Check file contents.
     >>> with open(os.path.join(tempdir, 'props.xml')) as file:
     ...     file.read().split('\n')
     ['<properties>', 
+    '  <foo>&#195;&#164;&#195;&#182;&#195;&#188;&#195;&#159;</foo>', 
+    '  <effective>2010-01-01T10:15:00</effective>', 
     '  <keywords>', 
     '    <item>a</item>', 
     '    <item>2010-01-01T10:15:00</item>', 
     '  </keywords>', 
-    '  <dictlike>', 
-    '    <elem>', 
-    '      <key>a</key>', 
-    '      <value>foo</value>', 
-    '    </elem>', 
-    '    <elem>', 
-    '      <key>b</key>', 
-    '      <value>bar</value>', 
-    '    </elem>', 
-    '  </dictlike>', 
-    '  <foo>&#195;&#164;&#195;&#182;&#195;&#188;&#195;&#159;</foo>', 
-    '  <effective>2010-01-01T10:15:00</effective>', 
-    '</properties>', 
-    '']
+    '  <dictlike>',
+     '    <elem>', 
+     '      <key>a</key>', 
+     '      <value>foo</value>', 
+     '    </elem>', 
+     '    <elem>', 
+     '      <key>b</key>', 
+     '      <value>bar</value>', 
+     '    </elem>', 
+     '  </dictlike>', 
+     '</properties>', 
+     '']
 
 Overwrite ``foo`` and add ``bar`` properties; Note that even markup can be 
 used safely.
@@ -408,53 +408,8 @@ Call props and check result.
     >>> with open(os.path.join(tempdir, 'props.xml')) as file:
     ...     file.read().split('\n')
     ['<properties>', 
-    '  <keywords>', 
-    '    <item>a</item>', 
-    '    <item>2010-01-01T10:15:00</item>', 
-    '  </keywords>', 
-    '  <dictlike>', 
-    '    <elem>', 
-    '      <key>a</key>', 
-    '      <value>foo</value>', 
-    '    </elem>', 
-    '    <elem>', 
-    '      <key>b</key>', 
-    '      <value>bar</value>', 
-    '    </elem>', 
-    '  </dictlike>', 
     '  <foo>foo</foo>', 
-    '  <bar>&lt;bar&gt;&#228;&#246;&#252;&lt;/bar&gt;</bar>', 
     '  <effective>2010-01-01T10:15:00</effective>', 
-    '</properties>', '']
-
-Create XML properties from existing file.
-::
-
-    >>> props = XMLProperties(os.path.join(tempdir, 'props.xml'))
-    >>> props._keys()
-    ['keywords', 'dictlike', 'foo', 'bar', 'effective']
-    
-    >>> props._values()
-    [[u'a', datetime.datetime(2010, 1, 1, 10, 15)], 
-    odict([('a', 'foo'), ('b', 'bar')]), 
-    u'foo', 
-    u'<bar>\xe4\xf6\xfc</bar>', 
-    datetime.datetime(2010, 1, 1, 10, 15)]
-
-Delete property.
-::
-
-    >>> del props['foo']
-    >>> props._keys()
-    ['keywords', 'dictlike', 'bar', 'effective']
-
-Call and check results.
-::
-
-    >>> props()
-    >>> with open(os.path.join(tempdir, 'props.xml')) as file:
-    ...     file.read().split('\n')
-    ['<properties>', 
     '  <keywords>', 
     '    <item>a</item>', 
     '    <item>2010-01-01T10:15:00</item>', 
@@ -469,7 +424,53 @@ Call and check results.
     '      <value>bar</value>', 
     '    </elem>', '  </dictlike>', 
     '  <bar>&lt;bar&gt;&#228;&#246;&#252;&lt;/bar&gt;</bar>', 
+    '</properties>', 
+    '']
+
+Create XML properties from existing file.
+::
+
+    >>> props = XMLProperties(os.path.join(tempdir, 'props.xml'))
+    >>> props._keys()
+    ['foo', 'effective', 'keywords', 'dictlike', 'bar']
+    
+    >>> props._values()
+    [u'foo', 
+    datetime.datetime(2010, 1, 1, 10, 15), 
+    [u'a', datetime.datetime(2010, 1, 1, 10, 15)], 
+    odict([('a', 'foo'), ('b', 'bar')]), 
+    u'<bar>\xe4\xf6\xfc</bar>']
+
+Delete property.
+::
+
+    >>> del props['foo']
+    >>> props._keys()
+    ['effective', 'keywords', 'dictlike', 'bar']
+
+Call and check results.
+::
+
+    >>> props()
+    >>> with open(os.path.join(tempdir, 'props.xml')) as file:
+    ...     file.read().split('\n')
+    ['<properties>', 
     '  <effective>2010-01-01T10:15:00</effective>', 
+    '  <keywords>', 
+    '    <item>a</item>', 
+    '    <item>2010-01-01T10:15:00</item>', 
+    '  </keywords>', 
+    '  <dictlike>', 
+    '    <elem>', 
+    '      <key>a</key>', 
+    '      <value>foo</value>', 
+    '    </elem>', 
+    '    <elem>', 
+    '      <key>b</key>', 
+    '      <value>bar</value>', 
+    '    </elem>', 
+    '  </dictlike>', 
+    '  <bar>&lt;bar&gt;&#228;&#246;&#252;&lt;/bar&gt;</bar>', 
     '</properties>', 
     '']
 
@@ -481,6 +482,7 @@ Change order of odict and check results
     >>> with open(os.path.join(tempdir, 'props.xml')) as file:
     ...     file.read().split('\n')
     ['<properties>', 
+    '  <effective>2010-01-01T10:15:00</effective>', 
     '  <keywords>', 
     '    <item>a</item>', 
     '    <item>2010-01-01T10:15:00</item>', 
@@ -496,7 +498,6 @@ Change order of odict and check results
     '    </elem>', 
     '  </dictlike>', 
     '  <bar>&lt;bar&gt;&#228;&#246;&#252;&lt;/bar&gt;</bar>', 
-    '  <effective>2010-01-01T10:15:00</effective>', 
     '</properties>', 
     '']
     
