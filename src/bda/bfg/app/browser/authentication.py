@@ -6,7 +6,6 @@ from bda.bfg.tile import tile
 from bda.bfg.app.browser.utils import authenticated
 from bda.bfg.app.browser.form import Form
 
-@tile('loginform', permission="login")
 class LoginForm(Form):
     
     @property
@@ -44,3 +43,5 @@ class LoginForm(Form):
     def authenticated(self, widget, data):
         if not authenticated(self.request):
             raise ExtractionError(u'Invalid Credentials')
+
+LoginForm = tile('loginform', permission="login")(LoginForm)  # Python 2.5

@@ -12,7 +12,6 @@ from bda.bfg.app.browser.utils import (
     format_date,
 )
 
-@tile('contents', 'templates/contents.pt', strict=False)
 class ContentsTile(Tile):
     
     @property
@@ -37,6 +36,8 @@ class ContentsTile(Tile):
         sorturl = '%s&amp;sort=%s&amp;order=%s' % (base_url, sortkey, order)
         css = selected and order or ''
         return css, sorturl
+
+ContentsTile = tile('contents', 'templates/contents.pt', strict=False)(ContentsTile)
 
 FAR_PAST = datetime.datetime(2000, 1, 1)
 
