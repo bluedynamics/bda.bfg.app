@@ -1,0 +1,2 @@
+include *.rst
+include src/bda/bfg/app/*.zcml
