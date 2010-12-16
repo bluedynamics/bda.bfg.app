@@ -32,10 +32,7 @@ def format_date(dt, long=True):
     """
     if not isinstance(dt, datetime.datetime):
         return 'unknown'
-    if not long:
-        return '%i.%i.%i' % (dt.day, dt.month, dt.year)
-    return '%i.%i.%i %02i:%02i' % (dt.day, dt.month, dt.year,
-                                   dt.hour, dt.minute)
+    return long and dt.strftime('%d.%M.%Y %H:%m') or dt.strftime('%d.%M.%Y')
 
 class AppUtil(object):
     """Instance of this object gets Passed to main template when rendering.
