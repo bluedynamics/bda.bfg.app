@@ -53,7 +53,7 @@ class AppUtil(object):
     def make_url(self, request, path=[], node=None, resource=None, query=None):
         return make_url(request, path, node, resource, query)
     
-    def make_query(self):
+    def make_query(self, **kw):
         return make_query(**kw)
     
     def format_date(self, dt, long=True):
