@@ -35,6 +35,7 @@ registerTile('referencebrowser_pathbar',
              class_=PathBar,
              strict=False)
 
+@tile('referencelisting', 'templates/referencelisting.pt', strict=False)
 class ReferenceListing(ContentsTile):
     
     @property
@@ -42,8 +43,6 @@ class ReferenceListing(ContentsTile):
         batch = ContentsBatch(self.contents)
         batch.name = 'referencebatch'
         return batch(self.model, self.request)
-
-ReferenceListing = tile('referencelisting', 'templates/referencelisting.pt', strict=False)(ReferenceListing)
 
 def reference_extractor(widget, data):
     if widget.attrs.get('multivalued'):

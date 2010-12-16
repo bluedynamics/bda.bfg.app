@@ -23,12 +23,12 @@ class ProtectedContentTile(Tile):
             return render_tile(model, request, 'loginform')
         return Tile.__call__(self, model, request)
 
+@tile('personaltools', 'templates/personaltools.pt', strict=False)
 class PersonalTools(Tile):
     """Personal tool tile.
     """
 
-PersonalTools = tile('personaltools', 'templates/personaltools.pt', strict=False)(PersonalTools)
-
+@tile('mainmenu', 'templates/mainmenu.pt', strict=False)
 class MainMenu(Tile):
     """Main Menu tile.
     
@@ -76,8 +76,7 @@ class MainMenu(Tile):
             count += 1
         return ret
 
-MainMenu = tile('mainmenu', 'templates/mainmenu.pt', strict=False)(MainMenu)
-
+@tile('pathbar', 'templates/pathbar.pt', strict=False)
 class PathBar(Tile):
     
     @property
@@ -99,8 +98,7 @@ class PathBar(Tile):
         ret.reverse()
         return ret
 
-PathBar = tile('pathbar', 'templates/pathbar.pt', strict=False)(PathBar)
-
+@tile('navtree', 'templates/navtree.pt', strict=False)
 class NavTree(Tile):
     """Navigation tree tile.
     """
@@ -155,16 +153,13 @@ class NavTree(Tile):
                                children=children,
                                level=level)
 
-NavTree = tile('navtree', 'templates/navtree.pt', strict=False)(NavTree)
-
+@tile('byline', 'templates/byline.pt', strict=False)
 class Byline(Tile):
     """Byline tile.
     """
     
     def format_date(self, dt):
         return format_date(dt)
-
-Byline = tile('byline', 'templates/byline.pt', strict=False)(Byline)
 
 registerTile('listing',
              'bda.bfg.app:browser/templates/listing.pt',

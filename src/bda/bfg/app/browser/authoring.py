@@ -22,6 +22,7 @@ from bda.bfg.app.browser.utils import (
 def add(model, request):
     return render_main_template(model, request, contenttilename='add')
 
+@tile('add', 'templates/add.pt', permission='login', strict=False)
 class AddTile(ProtectedContentTile):
     
     @property
@@ -44,8 +45,6 @@ class AddTile(ProtectedContentTile):
             return None
         return getNodeInfo(factory)
 
-AddTile = tile('add', 'templates/add.pt', permission='login', strict=False)(AddTile)
-
 @bfg_view('edit', permission='login')
 def edit(model, request):
     return render_main_template(model, request, contenttilename='edit')
@@ -56,6 +55,7 @@ registerTile('edit',
              permission='login',
              strict=False)
 
+@tile('add_dropdown', 'templates/add_dropdown.pt', strict=False)
 class AddDropdown(Tile):
     
     @property
@@ -79,8 +79,6 @@ class AddDropdown(Tile):
             props.icon = info.icon
             ret.append(props)
         return ret
-
-AddDropdown = tile('add_dropdown', 'templates/add_dropdown.pt', strict=False)(AddDropdown)
 
 registerTile('contextmenu',
              'bda.bfg.app:browser/templates/contextmenu.pt',
