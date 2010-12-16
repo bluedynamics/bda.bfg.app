@@ -1,9 +1,16 @@
+/* 
+ * bda.bfg.app main JS
+ * 
+ * Requires:
+ *     bdajax
+ *     jquery ui autocomplete
+ */
+
 if (typeof(window['yafowil']) == "undefined") yafowil = {};
 
 (function($) {
 
     $(document).ready(function() {
-        
         // initial binding
         bdapp.livesearchbinder();
         bdapp.tabsbinder();
@@ -11,12 +18,13 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
         yafowil.referencebrowser.browser_binder();
         
         // add binders to bdajax binding callbacks
-        bdajax.binders.tabsbinder = bdapp.tabsbinder;
-        bdajax.binders.dropdownmenubinder = bdapp.dropdownmenubinder;
-        bdajax.binders.refbrowser_browser_binder = 
-            yafowil.referencebrowser.browser_binder;
-        bdajax.binders.refbrowser_add_reference_binder = 
-            yafowil.referencebrowser.add_reference_binder;
+        $.extend(bdajax.binders, {
+            tabsbinder: bdapp.tabsbinder,
+            dropdownmenubinder: bdapp.dropdownmenubinder,
+            refbrowser_browser_binder: yafowil.referencebrowser.browser_binder,
+            refbrowser_add_reference_binder: 
+                yafowil.referencebrowser.add_reference_binder
+        });
     });
     
     bdapp = {

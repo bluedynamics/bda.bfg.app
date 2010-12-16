@@ -4,6 +4,7 @@ import sys, os
 version = '1.0'
 shortdesc = 'Application framework for repoze.bfg.'
 longdesc = open(os.path.join(os.path.dirname(__file__), 'README.rst')).read()
+longdesc += open(os.path.join(os.path.dirname(__file__), 'LICENSE.rst')).read()
 
 setup(name='bda.bfg.app',
       version=version,
@@ -39,9 +40,6 @@ setup(name='bda.bfg.app',
           'bda.bfg.tile',
           'yafowil',
           'yafowil.webob',
-          'yafowil.widget.datetime',
-          'yafowil.widget.richtext',
-          'yafowil.widget.dict',
       ],
       extras_require = dict(
           test=[

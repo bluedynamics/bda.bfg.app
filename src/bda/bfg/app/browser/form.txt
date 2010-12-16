@@ -65,7 +65,7 @@ Render form. no action is triggered and no input is given.
     u'<form action="http://example.com/dummymodel" 
     enctype="multipart/form-data" id="form-subscriptionform" 
     method="post"><div class="field" id="field-subscriptionform-email"><label 
-    for="input-subscriptionform-email">E-Mail</label><input class="required" 
+    for="input-subscriptionform-email">E-Mail</label><input class="required text" 
     id="input-subscriptionform-email" name="subscriptionform.email" 
     type="text" /></div><input id="input-subscriptionform-subscribe" 
     name="action.subscriptionform.subscribe" type="submit" 
@@ -83,7 +83,7 @@ error message since email is required.
     enctype="multipart/form-data" id="form-subscriptionform" 
     method="post"><div class="field" id="field-subscriptionform-email"><label 
     for="input-subscriptionform-email">E-Mail</label><div class="error"><div 
-    class="errormessage">No email given</div><input class="required" 
+    class="errormessage">No email given</div><input class="required text" 
     id="input-subscriptionform-email" name="subscriptionform.email" type="text" 
     value="" /></div></div><input id="input-subscriptionform-subscribe" 
     name="action.subscriptionform.subscribe" type="submit" 
