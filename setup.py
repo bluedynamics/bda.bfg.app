@@ -40,6 +40,10 @@ setup(name='bda.bfg.app',
           'bda.bfg.tile',
           'yafowil.webob',
       ],
+      # XXX: why should this be set here?
+      #dependency_links = [
+      #    "http://dist.repoze.org/bfg/1.3/",
+      #],
       extras_require = dict(
           test=[
                 'interlude',
