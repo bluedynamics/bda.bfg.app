@@ -52,9 +52,6 @@ def reference_extractor(widget, data):
 def reference_renderer(widget, data):
     if widget.attrs.get('multivalued'):
         return select_renderer(widget, data)
-    css = widget.attrs.get('css', list())
-    if isinstance(css, basestring):
-        css = [css]
     value = ['', '']
     if data.extracted is not UNSET:
         value = [data.extracted, data.request.get(widget.dottedpath)]
@@ -70,7 +67,7 @@ def reference_renderer(widget, data):
         'value': value[1],
         'name_': widget.dottedpath,
         'id': cssid(widget, 'input'),
-        'class_': cssclasses(widget, data, *css),    
+        'class_': cssclasses(widget, data),    
     }
     hidden_attrs = {
         'type': 'hidden',
@@ -82,7 +79,7 @@ def reference_renderer(widget, data):
 factory.defaults['reference.required_class'] = 'required'
 factory.defaults['reference.default'] = ''
 factory.defaults['reference.format'] = 'block'
-factory.defaults['reference.css'] = 'referencebrowser'
+factory.defaults['reference.class'] = 'referencebrowser'
 factory.register(
     'reference', 
     [
