@@ -18,10 +18,11 @@ class Form(Tile):
     def __call__(self, model, request):
         self.model = model
         self.request = request
-        return self._process_form(self.form)
+        return self._process_form()
     
-    def _process_form(self, form):
+    def _process_form(self, form=None):
         self.prepare()
+        form = form or self.form
         if not self.show:
             return ''
         controller = Controller(form, self.request)
