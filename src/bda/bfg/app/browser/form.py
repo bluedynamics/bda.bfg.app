@@ -20,12 +20,11 @@ class Form(Tile):
         self.request = request
         return self._process_form()
     
-    def _process_form(self, form=None):
+    def _process_form(self):
         self.prepare()
-        form = form or self.form
         if not self.show:
             return ''
-        controller = Controller(form, self.request)
+        controller = Controller(self.form, self.request)
         if not controller.next:
             return controller.rendered
         if isinstance(controller.next, HTTPFound):
@@ -42,7 +41,7 @@ class AddForm(Form):
         self.request = request
         form = self.form
         form['factory'] = factory('proxy', value=request.params.get('factory'))
-        return self._process_form(form)
+        return self._process_form()
     
     def next(self, request):
         return HTTPFound(make_url(request.request, node=self.model.__parent__))
@@ -56,7 +55,7 @@ class EditForm(Form):
         self.request = request
         form = self.form
         form['from'] = factory('proxy', value=request.params.get('from'))
-        return self._process_form(form)
+        return self._process_form()
     
     def next(self, request):
         if request.get('from') == 'parent':
