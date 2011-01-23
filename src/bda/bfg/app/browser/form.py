@@ -4,6 +4,7 @@ from paste.httpexceptions import HTTPFound
 from bda.bfg.tile import Tile
 from bda.bfg.app.browser.utils import make_url
 
+
 class Form(Tile):
     
     @property
@@ -31,7 +32,8 @@ class Form(Tile):
             self.redirect(controller.next.location())
             return
         return controller.next
-        
+
+
 class AddForm(Form):
     """form hooking the hidden value 'factory' to self.form on __call__
     """
@@ -45,6 +47,7 @@ class AddForm(Form):
     
     def next(self, request):
         return HTTPFound(make_url(request.request, node=self.model.__parent__))
+
 
 class EditForm(Form):
     """form hooking the hidden value 'from' to self.form on __call__
@@ -63,3 +66,4 @@ class EditForm(Form):
         else:
             url = make_url(request.request, node=self.model)
         return HTTPFound(url)
+
